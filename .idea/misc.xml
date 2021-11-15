@@ -5,9 +5,10 @@
       <map>
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2890625" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2890625" />
-        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_glavni_ekran.xml" value="0.14270833333333333" />
+        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_glavni_ekran.xml" value="0.25" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_main.xml" value="0.18" />
+        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_register.xml" value="0.25" />
       </map>
     </option>
   </component>

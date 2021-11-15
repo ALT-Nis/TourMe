@@ -23,5 +23,14 @@ public class Glavni_ekran extends AppCompatActivity {
             }
         });
 
+        Button dugmeRegister = findViewById(R.id.dugme_za_register);
+        dugmeRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),Register.class);
+                startActivity(i);
+            }
+        });
+
     }
 }
