@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:text="E-mail"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
+        app:layout_constraintBottom_toTopOf="@+id/email_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.27"
         app:layout_constraintStart_toStartOf="parent" />
@@ -32,7 +32,7 @@
         app:layout_constraintVertical_bias="0.162" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/email_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
@@ -44,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/password_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
@@ -52,17 +52,17 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/email_login" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/login_dugme"
         android:layout_width="153dp"
         android:layout_height="47dp"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3"
+        app:layout_constraintTop_toBottomOf="@+id/password_login"
         app:layout_constraintVertical_bias="0.572" />
 
     <TextView
@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:text="Password"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName3"
+        app:layout_constraintBottom_toTopOf="@+id/password_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.289"
         app:layout_constraintStart_toStartOf="parent" />
