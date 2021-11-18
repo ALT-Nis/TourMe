@@ -5,10 +5,18 @@
       <map>
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2890625" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2890625" />
-        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_glavni_ekran.xml" value="0.25" />
+        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/drawable/ic_settings.xml" value="0.15885416666666666" />
+        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_glavni_ekran.xml" value="0.16" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_main.xml" value="0.18" />
+        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_obavestenja.xml" value="0.25" />
+        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_poruke.xml" value="0.2" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_register.xml" value="0.25" />
+        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/fragment_obavestenja.xml" value="0.13677536231884058" />
+        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/fragment_pocetni.xml" value="0.21" />
+        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/fragment_podesavanja.xml" value="0.22" />
+        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/fragment_poruke.xml" value="0.2105978260869565" />
+        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/menu/bottom_menu.xml" value="0.25" />
       </map>
     </option>
   </component>
