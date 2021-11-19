@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,13 +62,26 @@ public class Podesavanja extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+    View view;
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        TextView textView = view.findViewById(R.id.loggedin_text);
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(fUser!=null){
+            textView.setText("Logged in as: " +  fUser.getEmail());
+        }
+        else{
+            textView.setText("Not logged in");
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_podesavanja, container, false);
+        view = inflater.inflate(R.layout.fragment_podesavanja, container, false);
         Button dugme_login = view.findViewById(R.id.dugme_login);
         dugme_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,14 +100,7 @@ public class Podesavanja extends Fragment {
             }
         });
 
-        TextView textView = view.findViewById(R.id.loggedin_text);
-        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(fUser!=null){
-            textView.setText("Logged in as: " +  fUser.getEmail());
-        }
-        else{
-            textView.setText("Not logged in");
-        }
+
 
         return view;
     }

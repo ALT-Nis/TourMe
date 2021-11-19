@@ -3,20 +3,17 @@ package com.example.tourme;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.text.TextWatcher;
-import android.text.NoCopySpan;
 
 
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,15 +22,17 @@ import com.google.firebase.auth.FirebaseAuthException;
 
 import com.google.firebase.database.DatabaseReference;
 
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Objects;
+import java.util.HashMap;
 
 public class Register extends AppCompatActivity {
 
-    EditText mEmail, mPassword, mConfirmPassword;
+    EditText mEmail, mUserName, mPassword, mConfirmPassword;
     Button registerButton;
     FirebaseAuth fAuth;
+
+    String email, username, password, confirm_password;
 
     private DatabaseReference mDatabase;
 
@@ -58,12 +57,22 @@ public class Register extends AppCompatActivity {
         didFindError = true;
     }
 
-    void createAccount(String email, String password){
-        fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    void setUsernameError(String errorText){
+        mUserName.setError(errorText);
+        didFindError = true;
+    }
+
+    void createAccount(String AccountEmail, String AccountPassword){
+        fAuth.createUserWithEmailAndPassword(AccountEmail,AccountPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(Register.this,"Uspesno ste kreirali nalog",Toast.LENGTH_LONG).show();
+                    String userId = fAuth.getCurrentUser().getUid();
+                    User user = new User(userId, AccountEmail, username, "default");
+                    FirebaseDatabase.getInstance().getReference("users").child(userId).setValue(user);
+
+
                 }
                 else{
                     String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
@@ -86,6 +95,7 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         mEmail = findViewById(R.id.email);
+        mUserName = findViewById(R.id.CustomName);
         mPassword = findViewById(R.id.password);
         mConfirmPassword = findViewById(R.id.confirm_password);
 
@@ -93,11 +103,17 @@ public class Register extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
 
-
-
-
         //luka ovo su nove izmene
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        //FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+        //FirebaseDatabase.getInstance()
+//        HashMap<String, String> hashMap = new HashMap<>();
+//        hashMap.put("id", "1");
+//        hashMap.put("username","yutopk");
+//        hashMap.put("imageurl","default");
+
+        //FirebaseDatabase.getInstance().getReference("korisnik").child("1").setValue(hashMap);
         /*
 
         OVO CE NAM KASNIJE TREBA ZA CUVANEJ SLIKE
@@ -131,9 +147,10 @@ public class Register extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = mEmail.getText().toString().trim();
-                String password = mPassword.getText().toString().trim();
-                String confirm_password = mConfirmPassword.getText().toString().trim();
+                email = mEmail.getText().toString().trim();
+                username = mUserName.getText().toString().trim();
+                password = mPassword.getText().toString().trim();
+                confirm_password = mConfirmPassword.getText().toString().trim();
 
                 didFindError = false;
 
@@ -146,6 +163,10 @@ public class Register extends AppCompatActivity {
                     if(!m.matches()) {
                         setEmailError("Email nije pravog formata");
                     }
+                }
+
+                if(TextUtils.isEmpty(username)){
+                    setUsernameError("Unesti korisnicko ime");
                 }
 
                 int len = password.length();

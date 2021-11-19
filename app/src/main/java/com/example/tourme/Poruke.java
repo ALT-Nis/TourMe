@@ -115,6 +115,7 @@ public class Poruke extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.e("MANKI", "Manki sas");
                 mUsers.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     User user = dataSnapshot.getValue(User.class);
@@ -123,14 +124,14 @@ public class Poruke extends Fragment {
                     assert firebaseUser != null;
                     if (!user.getId().equals(firebaseUser.getUid())) {
                         mUsers.add(user);
-                        Log.e("KORISNIK", "Username je: " + user.getUsername());
+                        Log.e("KORISNIK", "Username je: " + user.getEmail());
                     }
                 }
 
                 userAdapater = new UserAdapater(getContext(), mUsers);
                 Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());
                 recyclerView.setAdapter(userAdapater);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
             }
