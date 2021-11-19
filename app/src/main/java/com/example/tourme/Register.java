@@ -80,21 +80,6 @@ public class Register extends AppCompatActivity {
             }
         });
     }
-    public class User {
-
-        public String username;
-        public String email;
-
-        public User() {
-            // Default constructor required for calls to DataSnapshot.getValue(User.class)
-        }
-
-        public User(String username, String email) {
-            this.username = username;
-            this.email = email;
-        }
-
-    }
 
 
 
@@ -111,7 +96,6 @@ public class Register extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
 
@@ -153,12 +137,6 @@ public class Register extends AppCompatActivity {
                 String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
                 String confirm_password = mConfirmPassword.getText().toString().trim();
-
-                User user = new User("marko", email);
-
-                mDatabase.child("users").child("1").child("name").setValue("Marko");
-
-
 
                 didFindError = false;
 
