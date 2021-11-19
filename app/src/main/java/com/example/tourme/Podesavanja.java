@@ -9,6 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,6 +85,16 @@ public class Podesavanja extends Fragment {
                 startActivity(i);
             }
         });
+
+        TextView textView = view.findViewById(R.id.loggedin_text);
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(fUser!=null){
+            textView.setText("Logged in as: " +  fUser.getEmail());
+        }
+        else{
+            textView.setText("Not logged in");
+        }
+
         return view;
     }
 }

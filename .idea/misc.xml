@@ -16,11 +16,12 @@
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/fragment_pocetni.xml" value="0.21" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/fragment_podesavanja.xml" value="0.22" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/fragment_poruke.xml" value="0.2105978260869565" />
+        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/users_item.xml" value="0.33" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/menu/bottom_menu.xml" value="0.25" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
