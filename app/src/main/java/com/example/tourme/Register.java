@@ -22,12 +22,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-<<<<<<< HEAD
-import com.google.firebase.auth.FirebaseUser;
-=======
+
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
->>>>>>> c7b0407d04770289637fc5fa00abad0c28750f72
+
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
