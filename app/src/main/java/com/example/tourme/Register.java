@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +22,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+<<<<<<< HEAD
 import com.google.firebase.auth.FirebaseUser;
+=======
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+>>>>>>> c7b0407d04770289637fc5fa00abad0c28750f72
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
@@ -31,6 +37,9 @@ public class Register extends AppCompatActivity {
     EditText mEmail, mPassword, mConfirmPassword;
     Button registerButton;
     FirebaseAuth fAuth;
+
+    private DatabaseReference mDatabase;
+
     //TextView passwordNeedText;
 
     String patternForEmail = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
@@ -71,6 +80,21 @@ public class Register extends AppCompatActivity {
             }
         });
     }
+    public class User {
+
+        public String username;
+        public String email;
+
+        public User() {
+            // Default constructor required for calls to DataSnapshot.getValue(User.class)
+        }
+
+        public User(String username, String email) {
+            this.username = username;
+            this.email = email;
+        }
+
+    }
 
 
 
@@ -87,9 +111,12 @@ public class Register extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+
         //luka ovo su nove izmene
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         /*
 
         OVO CE NAM KASNIJE TREBA ZA CUVANEJ SLIKE
@@ -126,6 +153,12 @@ public class Register extends AppCompatActivity {
                 String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
                 String confirm_password = mConfirmPassword.getText().toString().trim();
+
+                User user = new User("marko", email);
+
+                mDatabase.child("users").child("1").child("name").setValue("Marko");
+
+
 
                 didFindError = false;
 
