@@ -111,6 +111,7 @@ public class Poruke extends Fragment {
 
          */
 
+<<<<<<< HEAD:app/src/main/java/com/example/tourme/Fragments/Poruke.java
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
 
@@ -128,6 +129,31 @@ public class Poruke extends Fragment {
                             Log.e("KORISNIK", "Username je: " + user.getUsername());
                         }
                     }
+=======
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.e("MANKI", "Manki sas");
+                mUsers.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    User user = dataSnapshot.getValue(User.class);
+
+                    assert user!=null;
+                    assert firebaseUser != null;
+                    if (!user.getId().equals(firebaseUser.getUid())) {
+                        mUsers.add(user);
+                        Log.e("KORISNIK", "Username je: " + user.getEmail());
+                    }
+                }
+
+                userAdapater = new UserAdapater(getContext(), mUsers);
+                Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());
+                recyclerView.setAdapter(userAdapater);
+                //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+>>>>>>> cfb72083b02b0c87020a1c23bcd120b6cf325b86:app/src/main/java/com/example/tourme/Poruke.java
 
                     userAdapater = new UserAdapater(getContext(), mUsers);
                     Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());

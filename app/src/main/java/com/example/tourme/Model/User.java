@@ -3,11 +3,13 @@ package com.example.tourme.Model;
 public class User {
 
     private String id;
+    private String email;
     private String username;
     private String imageurl;
 
-    public User(String id, String username, String imageurl){
+    public User(String id, String email, String username, String imageurl){
         this.id = id;
+        this.email = email;
         this.username = username;
         this.imageurl = imageurl;
     }
@@ -22,6 +24,14 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {
