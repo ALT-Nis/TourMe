@@ -1,4 +1,4 @@
-package com.example.tourme;
+package com.example.tourme.Fragments;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.tourme.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Pocetni#newInstance} factory method to
+ * Use the {@link Obavestenja#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Pocetni extends Fragment {
+public class Obavestenja extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +26,7 @@ public class Pocetni extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Pocetni() {
+    public Obavestenja() {
         // Required empty public constructor
     }
 
@@ -34,11 +36,11 @@ public class Pocetni extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Pocetni.
+     * @return A new instance of fragment Obavestenja.
      */
     // TODO: Rename and change types and number of parameters
-    public static Pocetni newInstance(String param1, String param2) {
-        Pocetni fragment = new Pocetni();
+    public static Obavestenja newInstance(String param1, String param2) {
+        Obavestenja fragment = new Obavestenja();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +61,6 @@ public class Pocetni extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pocetni, container, false);
+        return inflater.inflate(R.layout.fragment_obavestenja, container, false);
     }
 }

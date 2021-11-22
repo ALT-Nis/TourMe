@@ -1,4 +1,4 @@
-package com.example.tourme;
+package com.example.tourme.Fragments;
 
 import android.os.Bundle;
 
@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tourme.Model.User;
+import com.example.tourme.R;
+import com.example.tourme.Adapters.UserAdapater;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -82,13 +83,14 @@ public class Poruke extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_poruke, container,false);
 
-        recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+            recyclerView = view.findViewById(R.id.recycler_view);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mUsers = new ArrayList<>();
+            mUsers = new ArrayList<>();
 
-        String userid = "OGO1vougHZNWZQtZSSmMIhLDgsF2";
+            String userid = "OGO1vougHZNWZQtZSSmMIhLDgsF2";
         /*
             HashMap<String, String> hashMap = new HashMap<>();
             hashMap.put("id",userid);
@@ -109,75 +111,39 @@ public class Poruke extends Fragment {
 
          */
 
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mUsers.clear();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    User user = dataSnapshot.getValue(User.class);
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    mUsers.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        User user = dataSnapshot.getValue(User.class);
 
-                    assert user!=null;
-                    assert firebaseUser != null;
-                    if (!user.getId().equals(firebaseUser.getUid())) {
-                        mUsers.add(user);
-                        Log.e("KORISNIK", "Username je: " + user.getUsername());
+                        assert user != null;
+                        assert firebaseUser != null;
+                        if (!user.getId().equals(firebaseUser.getUid())) {
+                            mUsers.add(user);
+                            Log.e("KORISNIK", "Username je: " + user.getUsername());
+                        }
                     }
+
+                    userAdapater = new UserAdapater(getContext(), mUsers);
+                    Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());
+                    recyclerView.setAdapter(userAdapater);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
                 }
 
-                userAdapater = new UserAdapater(getContext(), mUsers);
-                Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());
-                recyclerView.setAdapter(userAdapater);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+                }
+            });
+        }
         return view;
     }
 
-    private void readUsers() {
-
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mUsers.clear();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    User user = dataSnapshot.getValue(User.class);
-
-                    assert user!=null;
-                    assert firebaseUser != null;
-                    if (!user.getId().equals(firebaseUser.getUid())) {
-                        mUsers.add(user);
-                        Log.e("KORISNIK", "Username je: " + user.getUsername());
-                    }
-                }
-
-                userAdapater = new UserAdapater(getContext(), mUsers);
-                Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());
-                recyclerView.setAdapter(userAdapater);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-    }
 }

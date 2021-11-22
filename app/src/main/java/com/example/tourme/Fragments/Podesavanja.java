@@ -1,4 +1,4 @@
-package com.example.tourme;
+package com.example.tourme.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.tourme.Login;
+import com.example.tourme.R;
+import com.example.tourme.Register;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
