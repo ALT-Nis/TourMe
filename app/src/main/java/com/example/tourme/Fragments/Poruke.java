@@ -81,70 +81,40 @@ public class Poruke extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_poruke, container,false);
-
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
-            recyclerView = view.findViewById(R.id.recycler_view);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-            mUsers = new ArrayList<>();
-
-            String userid = "OGO1vougHZNWZQtZSSmMIhLDgsF2";
+        View view = inflater.inflate(R.layout.fragment_poruke, container, false);
+        recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mUsers = new ArrayList<>();
+        String userid = "OGO1vougHZNWZQtZSSmMIhLDgsF2";
         /*
             HashMap<String, String> hashMap = new HashMap<>();
             hashMap.put("id",userid);
             hashMap.put("username","yutopk");
             hashMap.put("imageurl","default");
-
             FirebaseDatabase.getInstance().getReference("users").child(userid).setValue(hashMap);
         */
-
         /*
         userAdapater = new UserAdapater( getContext(), mUsers);
         Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());
         recyclerView.setAdapter(userAdapater);
-
         User user = new User(userid,"yutopk","default");
         mUsers.add(user);
         userAdapater.notifyItemInserted(mUsers.size() - 1);
-
          */
-
-<<<<<<< HEAD:app/src/main/java/com/example/tourme/Fragments/Poruke.java
-            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    mUsers.clear();
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        User user = dataSnapshot.getValue(User.class);
-
-                        assert user != null;
-                        assert firebaseUser != null;
-                        if (!user.getId().equals(firebaseUser.getUid())) {
-                            mUsers.add(user);
-                            Log.e("KORISNIK", "Username je: " + user.getUsername());
-                        }
-                    }
-=======
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.e("MANKI", "Manki sas");
                 mUsers.clear();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
-
-                    assert user!=null;
                     assert firebaseUser != null;
                     if (!user.getId().equals(firebaseUser.getUid())) {
                         mUsers.add(user);
+                        Log.e("KORISNIK", "Username je: " + user.getUsername());
                         Log.e("KORISNIK", "Username je: " + user.getEmail());
                     }
                 }
@@ -152,24 +122,16 @@ public class Poruke extends Fragment {
                 userAdapater = new UserAdapater(getContext(), mUsers);
                 Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());
                 recyclerView.setAdapter(userAdapater);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
->>>>>>> cfb72083b02b0c87020a1c23bcd120b6cf325b86:app/src/main/java/com/example/tourme/Poruke.java
-
-                    userAdapater = new UserAdapater(getContext(), mUsers);
-                    Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());
-                    recyclerView.setAdapter(userAdapater);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-                }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
         return view;
     }
-
 }
