@@ -1,9 +1,11 @@
 package com.example.tourme.Fragments;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -82,18 +84,22 @@ public class Poruke extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_poruke, container, false);
-        recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mUsers = new ArrayList<>();
-        String userid = "OGO1vougHZNWZQtZSSmMIhLDgsF2";
-        /*
-            HashMap<String, String> hashMap = new HashMap<>();
-            hashMap.put("id",userid);
-            hashMap.put("username","yutopk");
-            hashMap.put("imageurl","default");
-            FirebaseDatabase.getInstance().getReference("users").child(userid).setValue(hashMap);
-        */
+
+        //ovde se proverava da li je korisnik povezan
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+
+            recyclerView = view.findViewById(R.id.recycler_view);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            mUsers = new ArrayList<>();
+
+            recyclerView = view.findViewById(R.id.recycler_view);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            mUsers = new ArrayList<>();
+
+
         /*
         userAdapater = new UserAdapater( getContext(), mUsers);
         Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());
@@ -102,36 +108,41 @@ public class Poruke extends Fragment {
         mUsers.add(user);
         userAdapater.notifyItemInserted(mUsers.size() - 1);
          */
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.e("MANKI", "Manki sas");
-                mUsers.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    User user = dataSnapshot.getValue(User.class);
-                    assert firebaseUser != null;
-                    if (!user.getId().equals(firebaseUser.getUid())) {
-                        mUsers.add(user);
-                        Log.e("KORISNIK", "Username je: " + user.getUsername());
-                        Log.e("KORISNIK", "Username je: " + user.getEmail());
+
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    mUsers.clear();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        User user = dataSnapshot.getValue(User.class);
+
+                        assert user != null;
+                        assert firebaseUser != null;
+                        if (!user.getId().equals(firebaseUser.getUid())) {
+                            mUsers.add(user);
+                            Log.e("KORISNIK", "Username je: " + user.getUsername());
+                        }
                     }
+
+                    userAdapater = new UserAdapater(getContext(), mUsers);
+                    Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());
+                    recyclerView.setAdapter(userAdapater);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
                 }
 
-                userAdapater = new UserAdapater(getContext(), mUsers);
-                Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());
-                recyclerView.setAdapter(userAdapater);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
+                }
 
-            }
+            });
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+        }
         return view;
     }
+
 }
