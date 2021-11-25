@@ -17,6 +17,8 @@ import com.example.tourme.R;
 import com.example.tourme.Register;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +35,8 @@ public class Podesavanja extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private DatabaseReference mDatabase;
 
     public Podesavanja() {
         // Required empty public constructor
@@ -63,6 +67,7 @@ public class Podesavanja extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
     View view;
 
