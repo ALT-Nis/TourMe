@@ -75,6 +75,8 @@ public class Register extends AppCompatActivity {
                     String userId = fAuth.getCurrentUser().getUid();
                     User user = new User(userId, AccountEmail, username, "default");
                     mDatabase.child("users").child(username).setValue(user);
+
+                    mDatabase.child("usersID").child(userId).setValue(username);
                 }
                 else{
                     String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();

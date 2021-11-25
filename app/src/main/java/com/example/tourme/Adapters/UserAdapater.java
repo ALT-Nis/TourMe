@@ -1,16 +1,19 @@
 package com.example.tourme.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.tourme.MessageActivity;
 import com.example.tourme.Model.User;
 import com.example.tourme.R;
 
@@ -43,6 +46,15 @@ public class UserAdapater extends RecyclerView.Adapter<UserAdapater.ViewHolder> 
         } else {
             Glide.with(mContext).load(user.getImageurl()).into(holder.profile_image);
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, MessageActivity.class);
+                intent.putExtra("username",user.getUsername());
+                mContext.startActivity(intent);
+            }
+        });
 
     }
 
