@@ -42,6 +42,11 @@ public class Login extends AppCompatActivity {
         didFindError = true;
     }
 
+    void resetErrors(){
+        mEmail.setError(null);
+        mPassword.setError(null);
+    }
+
     void finishSigningIn(String email, String password){
         fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -91,8 +96,6 @@ public class Login extends AppCompatActivity {
         }else{
             finishSigningIn(email, password);
         }
-
-        //finishSigningIn(email, password);
     }
 
     @Override
@@ -114,6 +117,8 @@ public class Login extends AppCompatActivity {
                 didFindError = false;
                 String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
+
+                resetErrors();
 
                 if(TextUtils.isEmpty(email)){
                     setEmailError("Unesite email");

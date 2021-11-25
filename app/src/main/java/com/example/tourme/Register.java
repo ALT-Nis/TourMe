@@ -38,8 +38,6 @@ public class Register extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
 
-    //TextView passwordNeedText;
-
     String patternForEmail = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
     String patternForUsername = "^[a-zA-Z0-9]+$";
 
@@ -63,6 +61,13 @@ public class Register extends AppCompatActivity {
     void setUsernameError(String errorText){
         mUserName.setError(errorText);
         didFindError = true;
+    }
+
+    void resetErrors(){
+        mEmail.setError(null);
+        mUserName.setError(null);
+        mPassword.setError(null);
+        mConfirmPassword.setError(null);
     }
 
     void finishCreatingAccount(String AccountEmail, String AccountPassword) {
@@ -108,8 +113,6 @@ public class Register extends AppCompatActivity {
         });
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +139,8 @@ public class Register extends AppCompatActivity {
 
                 didFindError = false;
 
+                resetErrors();
+
                 if(TextUtils.isEmpty(email)){
                     setEmailError("Unesite Email");
                 }else{
@@ -161,7 +166,6 @@ public class Register extends AppCompatActivity {
                 int len = password.length();
                 if(len >= 1 && len < 6){
                     setPasswordError("Sifra mora imati vise 6 - 12 karaktera");
-                    mConfirmPassword.setError(null);
                 }else{
                     if(TextUtils.isEmpty(password)) {
                         setPasswordError("Unesite Sifru");
