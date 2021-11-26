@@ -94,10 +94,6 @@ public class Poruke extends Fragment {
 
             mUsers = new ArrayList<>();
 
-            recyclerView = view.findViewById(R.id.recycler_view);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            mUsers = new ArrayList<>();
 
 
         /*
