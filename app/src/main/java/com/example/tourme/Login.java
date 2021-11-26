@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +26,7 @@ public class Login extends AppCompatActivity {
 
     EditText mEmail, mPassword;
     Button login_dugme;
+    TextView registerButton;
     FirebaseAuth fAuth;
 
     boolean didFindError = false;
@@ -127,11 +129,22 @@ public class Login extends AppCompatActivity {
 
         mEmail = findViewById(R.id.email_login);
         mPassword = findViewById(R.id.password_login);
-        login_dugme = findViewById(R.id.login_dugme);
 
         fAuth = FirebaseAuth.getInstance();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        registerButton = (TextView)findViewById(R.id.goToRegister);
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Login.this, Register.class);
+                startActivity(i);
+            }
+        });
+
+        login_dugme = findViewById(R.id.login_dugme);
 
         login_dugme.setOnClickListener(new View.OnClickListener() {
             @Override

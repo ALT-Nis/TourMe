@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -32,6 +33,7 @@ public class Register extends AppCompatActivity {
 
     EditText mEmail, mUserName, mPassword, mConfirmPassword;
     Button registerButton;
+    TextView loginButton;
     FirebaseAuth fAuth;
 
     String email, username, password, confirm_password;
@@ -125,11 +127,21 @@ public class Register extends AppCompatActivity {
         mPassword = findViewById(R.id.password);
         mConfirmPassword = findViewById(R.id.confirm_password);
 
-        registerButton = findViewById(R.id.register_dugme);
-
         fAuth = FirebaseAuth.getInstance();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        loginButton = (TextView)findViewById(R.id.goToSignIn);
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Register.this, Login.class);
+                startActivity(i);
+            }
+        });
+
+        registerButton = findViewById(R.id.register_dugme);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
