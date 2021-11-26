@@ -79,9 +79,9 @@ public class Register extends AppCompatActivity {
 
                     String userId = fAuth.getCurrentUser().getUid();
                     User user = new User(userId, AccountEmail, username, "default");
-                    mDatabase.child("users").child(username).setValue(user);
+                    mDatabase.child("users").child(userId).setValue(user);
 
-                    mDatabase.child("usersID").child(userId).setValue(username);
+                    mDatabase.child("usersID").child(username).setValue(userId);
                 }
                 else{
                     String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
@@ -97,7 +97,7 @@ public class Register extends AppCompatActivity {
 
     }
     void startCreatingAccount(String AccountEmail, String AccountPassword){
-        mDatabase.child("users").child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child("usersID").child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {

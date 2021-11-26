@@ -72,6 +72,25 @@ public class Login extends AppCompatActivity {
         });
     }
 
+    void continueSignIn(String id, String password){
+        mDatabase.child("users").child(id).child("email").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("Firebase", "Error getting data", task.getException());
+                }
+                else {
+                    String emailFromDatabase = String.valueOf(task.getResult().getValue());
+                    if(!emailFromDatabase.equals("null")){
+                        finishSigningIn(emailFromDatabase, password);
+                    }else{
+                        setEmailError("Ne postoji nalog sa ovim ID-em");
+                    }
+                }
+            }
+        });
+    }
+
     void startSigningIn(String email, String password){
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(patternForEmail);
         java.util.regex.Matcher m = p.matcher(email);
@@ -80,16 +99,16 @@ public class Login extends AppCompatActivity {
         if(!m.matches()) {
             //nije email nego je username
             String username = email;
-            mDatabase.child("users").child(username).child("email").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            mDatabase.child("usersID").child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (!task.isSuccessful()) {
                         Log.e("Firebase", "Error getting data", task.getException());
                     }
                     else {
-                        String emailFromDatabase = String.valueOf(task.getResult().getValue());
-                        if(!emailFromDatabase.equals("null")){
-                            finishSigningIn(emailFromDatabase, password);
+                        String IDFromDatabase = String.valueOf(task.getResult().getValue());
+                        if(!IDFromDatabase.equals("null")){
+                            continueSignIn(IDFromDatabase, password);
                         }else{
                             setEmailError("Ne postoji ovakvo korisnicko ime");
                         }
