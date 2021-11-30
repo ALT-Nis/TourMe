@@ -6,12 +6,14 @@ public class User {
     private String email;
     private String username;
     private String imageurl;
+    private String brojOglasa;
 
-    public User(String id, String email, String username, String imageurl){
+    public User(String id, String email, String username, String imageurl, String brojOglasa){
         this.id = id;
         this.email = email;
         this.username = username;
         this.imageurl = imageurl;
+        this.brojOglasa = brojOglasa;
     }
 
     public User(){
@@ -49,4 +51,8 @@ public class User {
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
     }
+
+    public void setBrojOglasa(String brojOglasa) { this.brojOglasa = brojOglasa; }
+
+    public String getBrojOglasa() { return brojOglasa; }
 }

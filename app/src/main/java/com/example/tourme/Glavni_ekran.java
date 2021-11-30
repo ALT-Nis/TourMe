@@ -49,6 +49,16 @@ public class Glavni_ekran extends AppCompatActivity {
                         .findFragmentById(R.id.fragmentContainerView3);
         NavController navController1 = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(navigationView, navController);
+        //noviOglas
+
+        navigationView.getMenu().findItem(R.id.noviOglas).setOnMenuItemClickListener(menuItem -> {
+            if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+                Intent i = new Intent(Glavni_ekran.this, pregledSvihSvojihOglasa.class);
+                startActivity(i);
+            }
+
+            return true;
+        });
 
         navigationView.getMenu().findItem(R.id.logInOut).setOnMenuItemClickListener(menuItem -> {
             if(FirebaseAuth.getInstance().getCurrentUser()!=null) {

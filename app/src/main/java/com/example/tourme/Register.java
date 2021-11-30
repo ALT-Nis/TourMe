@@ -80,7 +80,7 @@ public class Register extends AppCompatActivity {
                     Toast.makeText(Register.this,"Uspesno ste kreirali nalog",Toast.LENGTH_LONG).show();
 
                     String userId = fAuth.getCurrentUser().getUid();
-                    User user = new User(userId, AccountEmail, username, "default");
+                    User user = new User(userId, AccountEmail, username, "default", "0");
                     mDatabase.child("users").child(userId).setValue(user);
 
                     mDatabase.child("usersID").child(username).setValue(userId);
@@ -121,6 +121,13 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+//        HashMap<String, String> hashMap = new HashMap<>();
+//        hashMap.put("id", "1");
+//        hashMap.put("username","yutopk");
+//        hashMap.put("imageurl","default");
+//
+//        FirebaseDatabase.getInstance().getReference("usersi").push().setValue(hashMap);
 
         mEmail = findViewById(R.id.email);
         mUserName = findViewById(R.id.CustomName);
