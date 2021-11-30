@@ -60,6 +60,15 @@ public class Glavni_ekran extends AppCompatActivity {
             return true;
         });
 
+        navigationView.getMenu().findItem(R.id.mojNalog).setOnMenuItemClickListener(menuItem -> {
+            if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+                Intent i = new Intent(Glavni_ekran.this, Account.class);
+                startActivity(i);
+            }
+
+            return true;
+        });
+
         navigationView.getMenu().findItem(R.id.logInOut).setOnMenuItemClickListener(menuItem -> {
             if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
                 FirebaseAuth.getInstance().signOut();

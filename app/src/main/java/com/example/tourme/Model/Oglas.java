@@ -3,13 +3,15 @@ package com.example.tourme.Model;
 public class Oglas {
     String grad;
     double ocena;
+    User user;
 
     public Oglas(){
 
     }
-    public Oglas(String grad, double ocena){
+    public Oglas(String grad, double ocena, User user){
         this.grad = grad;
         this.ocena = ocena;
+        this.user = user;
     }
 
     public void setGrad(String grad) { this.grad = grad; }

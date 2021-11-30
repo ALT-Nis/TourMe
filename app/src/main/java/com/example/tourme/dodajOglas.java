@@ -11,18 +11,22 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.tourme.Model.Oglas;
+import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class dodajOglas extends AppCompatActivity {
 
     Button addOglas;
     private DatabaseReference mDatabase;
     FirebaseAuth fAuth;
+    User user;
 
     public void continueAddingOglas(String userId, String grad, double ocena){
 
@@ -36,7 +40,7 @@ public class dodajOglas extends AppCompatActivity {
                     String numberOfOglas = String.valueOf(task.getResult().getValue());
 
                     if(!numberOfOglas.equals("null")){
-                        Oglas oglas = new Oglas(grad, ocena);
+                        Oglas oglas = new Oglas(grad, ocena,user);
                         DatabaseReference ref = mDatabase.child("oglasi").push();
                         String idOglasa = ref.getKey();
 
