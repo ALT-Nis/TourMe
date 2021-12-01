@@ -26,9 +26,8 @@ public class dodajOglas extends AppCompatActivity {
     Button addOglas;
     private DatabaseReference mDatabase;
     FirebaseAuth fAuth;
-    User user;
 
-    public void continueAddingOglas(String userId, String grad, double ocena){
+    public void continueAddingOglas(String userId, String grad, double ocena, String opis, String imageurl, String username){
 
         mDatabase.child("users").child(userId).child("brojOglasa").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -40,7 +39,7 @@ public class dodajOglas extends AppCompatActivity {
                     String numberOfOglas = String.valueOf(task.getResult().getValue());
 
                     if(!numberOfOglas.equals("null")){
-                        Oglas oglas = new Oglas(grad, ocena,user);
+                        Oglas oglas = new Oglas(grad, ocena,userId, opis, imageurl, username);
                         DatabaseReference ref = mDatabase.child("oglasi").push();
                         String idOglasa = ref.getKey();
 
@@ -63,22 +62,39 @@ public class dodajOglas extends AppCompatActivity {
         String userId = fAuth.getCurrentUser().getUid();
         String grad = "Nis";
         double ocena = 3.5;
+        String opis = "Ovo je neki opis oglasa";
 
-        mDatabase.child("users").child(userId).child("oglas").child(grad).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child("users").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("Firebase", "Error getting data", task.getException());
-                }
-                else {
-                    String existsOglas = String.valueOf(task.getResult().getValue());
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                    if(existsOglas.equals("null")){
-                        continueAddingOglas(userId, grad, ocena);
-                    }else{
-                        Toast.makeText(dodajOglas.this, "vec postoji oglas sa ovim gradom", Toast.LENGTH_LONG).show();
+                User user = snapshot.getValue(User.class);
+                String imageurl = user.getImageurl();
+                String username = user.getUsername();
+
+                mDatabase.child("users").child(userId).child("oglas").child(grad).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e("Firebase", "Error getting data", task.getException());
+                        }
+                        else {
+                            String existsOglas = String.valueOf(task.getResult().getValue());
+
+                            if(existsOglas.equals("null")){
+                                continueAddingOglas(userId, grad, ocena, opis, imageurl, username);
+                            }else{
+                                Toast.makeText(dodajOglas.this, "vec postoji oglas sa ovim gradom", Toast.LENGTH_LONG).show();
+                            }
+                        }
                     }
-                }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

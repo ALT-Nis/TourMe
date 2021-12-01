@@ -42,6 +42,16 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Oglas oglas = mOglas.get(position);
+
+        holder.deskripcija.setText(oglas.getOpis());
+        holder.username.setText(oglas.getUsername());
+
+        if(oglas.getImageurl().equals("default")){
+            holder.oglas_image.setImageResource(R.mipmap.ic_launcher);
+        }else{
+            Glide.with(mContext).load(oglas.getImageurl()).into(holder.oglas_image);
+        }
 
     }
 
