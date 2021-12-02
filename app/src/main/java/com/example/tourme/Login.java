@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,11 +27,12 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Login extends AppCompatActivity {
 
     EditText mEmail, mPassword;
-    Button login_dugme;
+    Button login_dugme, buttonShowHidePassword;
     TextView registerButton;
     FirebaseAuth fAuth;
 
     boolean didFindError = false;
+    boolean isPasswordHidden = true;
 
     private DatabaseReference mDatabase;
 
@@ -141,6 +144,22 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(Login.this, Register.class);
                 startActivity(i);
+            }
+        });
+
+        buttonShowHidePassword = findViewById(R.id.buttonForShowingPasswordLogin);
+        buttonShowHidePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isPasswordHidden){
+                    mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    buttonShowHidePassword.setText("Hide");
+                }else{
+                    mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    buttonShowHidePassword.setText("Show");
+                }
+                isPasswordHidden = !isPasswordHidden;
+                mPassword.setSelection(mPassword.length());
             }
         });
 

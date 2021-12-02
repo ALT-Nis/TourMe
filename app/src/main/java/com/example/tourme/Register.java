@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,8 +34,10 @@ import java.util.HashMap;
 public class Register extends AppCompatActivity {
 
     EditText mEmail, mUserName, mPassword, mConfirmPassword;
-    Button registerButton;
+
+    Button registerButton, buttonShowHidePassword, buttonShowHideConfirmPassword;
     TextView loginButton;
+
     FirebaseAuth fAuth;
 
     String email, username, password, confirm_password;
@@ -44,6 +48,8 @@ public class Register extends AppCompatActivity {
     String patternForUsername = "^[a-zA-Z0-9]+$";
 
     boolean didFindError = false;
+    boolean isPasswordHidden = true;
+    boolean isConfirmPasswordHidden = true;
 
     void setEmailError(String errorText){
         mEmail.setError(errorText);
@@ -134,6 +140,39 @@ public class Register extends AppCompatActivity {
         mPassword = findViewById(R.id.password);
         mConfirmPassword = findViewById(R.id.confirm_password);
 
+        buttonShowHidePassword = findViewById(R.id.buttonForShowingPassword);
+        buttonShowHideConfirmPassword = findViewById(R.id.buttonForShowingConfirmPassword);
+
+        buttonShowHidePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isPasswordHidden){
+                    mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    buttonShowHidePassword.setText("Hide");
+                }else{
+                    mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    buttonShowHidePassword.setText("Show");
+                }
+                isPasswordHidden = !isPasswordHidden;
+                mPassword.setSelection(mPassword.length());
+            }
+        });
+
+        buttonShowHideConfirmPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isConfirmPasswordHidden){
+                    mConfirmPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    buttonShowHideConfirmPassword.setText("Hide");
+                }else{
+                    mConfirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    buttonShowHideConfirmPassword.setText("Show");
+                }
+                isConfirmPasswordHidden = !isConfirmPasswordHidden;
+                mConfirmPassword.setSelection(mConfirmPassword.length());
+            }
+        });
+
         fAuth = FirebaseAuth.getInstance();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -157,6 +196,8 @@ public class Register extends AppCompatActivity {
                 username = mUserName.getText().toString().trim();
                 password = mPassword.getText().toString().trim();
                 confirm_password = mConfirmPassword.getText().toString().trim();
+
+
 
                 didFindError = false;
 

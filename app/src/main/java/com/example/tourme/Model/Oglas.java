@@ -2,6 +2,7 @@ package com.example.tourme.Model;
 
 public class Oglas {
     String grad;
+    int brojOcena;
     double ocena;
     String userId;
     String opis;
@@ -12,9 +13,10 @@ public class Oglas {
 
     }
 
-    public Oglas(String grad, double ocena, String userId, String opis, String imageurl, String username){
+    public Oglas(String grad, double ocena, int brojOcena, String userId, String opis, String imageurl, String username){
         this.grad = grad;
         this.ocena = ocena;
+        this.brojOcena = brojOcena;
         this.userId = userId;
         this.opis = opis;
         this.imageurl=imageurl;
@@ -60,4 +62,8 @@ public class Oglas {
     public double getOcena() { return ocena; }
 
     public String getGrad() {  return grad; }
+
+    public int getBrojOcena() { return brojOcena; }
+
+    public void setBrojOcena(int brojOcena) { this.brojOcena = brojOcena; }
 }
