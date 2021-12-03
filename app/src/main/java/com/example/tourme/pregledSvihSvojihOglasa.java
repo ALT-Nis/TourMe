@@ -31,7 +31,7 @@ public class pregledSvihSvojihOglasa extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(pregledSvihSvojihOglasa.this, pregled_jednog_oglasa.class);
-                i.putExtra("IDOglasa", "23");
+                i.putExtra("IDOglasa", "-MpwlHJZTT2jwEl5ZhRE");
                 startActivity(i);
             }
         });
