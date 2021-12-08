@@ -58,9 +58,9 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
                     String numberOfOglas = String.valueOf(task.getResult().getValue());
 
                     if(!numberOfOglas.equals("null")){
-                        Oglas oglas = new Oglas(cityText, 0.0, 0, userId, textForDescribe, imageurl, username);
                         DatabaseReference ref = mDatabase.child("oglasi").push();
                         String idOglasa = ref.getKey();
+                        Oglas oglas = new Oglas(idOglasa, cityText, 0.0, 0, userId, textForDescribe, imageurl, username);
 
                         Integer intNumOfOglas = Integer.parseInt(numberOfOglas) + 1;
                         String newNumberForOglas = intNumOfOglas.toString();

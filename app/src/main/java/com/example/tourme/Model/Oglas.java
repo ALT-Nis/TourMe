@@ -1,6 +1,7 @@
 package com.example.tourme.Model;
 
 public class Oglas {
+    String idOglasa;
     String grad;
     int brojOcena;
     double ocena;
@@ -13,7 +14,8 @@ public class Oglas {
 
     }
 
-    public Oglas(String grad, double ocena, int brojOcena, String userId, String opis, String imageurl, String username){
+    public Oglas(String idOglasa, String grad, double ocena, int brojOcena, String userId, String opis, String imageurl, String username){
+        this.idOglasa = idOglasa;
         this.grad = grad;
         this.ocena = ocena;
         this.brojOcena = brojOcena;
@@ -22,6 +24,10 @@ public class Oglas {
         this.imageurl=imageurl;
         this.username = username;
     }
+
+    public String getIdOglasa() { return idOglasa; }
+
+    public void setIdOglasa(String idOglasa) { this.idOglasa = idOglasa; }
 
     public String getUserId() {
         return userId;
