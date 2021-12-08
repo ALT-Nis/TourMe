@@ -2,7 +2,9 @@ package com.example.tourme;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,34 +13,47 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.tourme.Adapters.MessageAdapter;
+import com.example.tourme.Model.Chat;
 import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.Rating;
 import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    TextView textView;
 
+    TextView textView;
     Spinner rating;
 
     String newRating, newRatingText;
     String IDOglasa;
 
     Button buttonAddRating;
-
     EditText textForRating;
 
     boolean isGood = true;
-
     private DatabaseReference mDatabase;
+
+    ImageView profile_image;
+    TextView username;
+    TextView opis;
+    TextView grad;
 
     void setRatingTextError(String errorText){
         textForRating.setError(errorText);
@@ -82,8 +97,6 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
         setContentView(R.layout.activity_pregled_jednog_oglasa);
 
         IDOglasa = getIntent().getStringExtra("IDOglasa");
-        textView = findViewById(R.id.idForOglas);
-        textView.setText(IDOglasa);
 
         rating = findViewById(R.id.ratingForOglas);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.rating, android.R.layout.simple_spinner_item);
@@ -92,11 +105,8 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
         rating.setOnItemSelectedListener(this);
 
         textForRating = findViewById(R.id.textForRatingForOglas);
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
         buttonAddRating = findViewById(R.id.addRatingButton);
-
         buttonAddRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,6 +120,33 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
                 }
             }
         });
+
+        profile_image = findViewById(R.id.profile_image);
+        username = findViewById(R.id.username);
+        opis = findViewById(R.id.opis);
+        grad = findViewById(R.id.grad);
+        FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Oglas oglas = snapshot.getValue(Oglas.class);
+                username.setText(oglas.getUsername());
+                opis.setText(oglas.getOpis());
+                grad.setText(oglas.getGrad());
+                if(oglas.getImageurl().equals("default")){
+                    profile_image.setImageResource(R.mipmap.ic_launcher);
+                }
+                else{
+                    Glide.with(pregled_jednog_oglasa.this).load(oglas.getImageurl()).into(profile_image);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -121,4 +158,9 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+    public void postaviOglas(String IDOglas){
+
+    }
+
 }

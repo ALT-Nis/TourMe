@@ -17,6 +17,7 @@ import com.example.tourme.Model.Chat;
 import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.User;
 import com.example.tourme.R;
+import com.example.tourme.pregled_jednog_oglasa;
 
 import java.util.List;
 
@@ -52,6 +53,15 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
         }else{
             Glide.with(mContext).load(oglas.getImageurl()).into(holder.oglas_image);
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, pregled_jednog_oglasa.class);
+                intent.putExtra("IDOglasa",oglas.getIdOglasa());
+                mContext.startActivity(intent);
+            }
+        });
 
     }
 
