@@ -31,7 +31,9 @@
                 android:layout_toEndOf="@id/profile_image"
                 android:layout_margin="10dp"
                 android:layout_centerVertical="true"
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                android:focusable="true"
+                android:clickable="true"/>
 
         </Toolbar>
 

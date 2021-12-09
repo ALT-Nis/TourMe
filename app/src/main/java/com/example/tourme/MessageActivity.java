@@ -118,6 +118,20 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+
+        username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAccount(userid);
+            }
+        });
+
+    }
+
+    private void openAccount(String userid){
+        Intent intent = new Intent(MessageActivity.this, MyAccount.class);
+        intent.putExtra("userid",userid);
+        startActivity(intent);
     }
 
     private void sendMessage(String sender, String receiver, String message){
