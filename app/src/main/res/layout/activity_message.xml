@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/toolbar">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -29,7 +29,9 @@
                 android:id="@+id/username"
                 android:layout_toRightOf="@id/profile_image"
                 android:layout_toEndOf="@id/profile_image"
-                android:layout_margin="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:layout_centerVertical="true"
                 android:textSize="20dp"
                 android:focusable="true"

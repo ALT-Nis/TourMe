@@ -129,7 +129,7 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     private void openAccount(String userid){
-        Intent intent = new Intent(MessageActivity.this, MyAccount.class);
+        Intent intent = new Intent(MessageActivity.this, Account.class);
         intent.putExtra("userid",userid);
         startActivity(intent);
     }

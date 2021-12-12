@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="10dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/oglas_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
