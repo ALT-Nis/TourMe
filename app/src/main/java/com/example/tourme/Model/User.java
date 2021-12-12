@@ -7,13 +7,15 @@ public class User {
     private String username;
     private String imageurl;
     private String brojOglasa;
+    private String status;
 
-    public User(String id, String email, String username, String imageurl, String brojOglasa){
+    public User(String id, String email, String username, String imageurl, String brojOglasa, String status){
         this.id = id;
         this.email = email;
         this.username = username;
         this.imageurl = imageurl;
         this.brojOglasa = brojOglasa;
+        this.status = status;
     }
 
     public User(){
@@ -55,4 +57,12 @@ public class User {
     public void setBrojOglasa(String brojOglasa) { this.brojOglasa = brojOglasa; }
 
     public String getBrojOglasa() { return brojOglasa; }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

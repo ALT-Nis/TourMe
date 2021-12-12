@@ -86,7 +86,7 @@ public class Register extends AppCompatActivity {
                     Toast.makeText(Register.this,"Uspesno ste kreirali nalog",Toast.LENGTH_LONG).show();
 
                     String userId = fAuth.getCurrentUser().getUid();
-                    User user = new User(userId, AccountEmail, username, "default", "0");
+                    User user = new User(userId, AccountEmail, username, "default", "0", "offline");
                     mDatabase.child("users").child(userId).setValue(user);
 
                     mDatabase.child("usersID").child(username).setValue(userId);
