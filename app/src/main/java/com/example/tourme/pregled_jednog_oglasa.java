@@ -42,7 +42,7 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
     Spinner rating;
 
     String newRating, newRatingText;
-    String IDOglasa;
+    String IDOglasa, nazivGrada;
 
     Button buttonAddRating;
     EditText textForRating;
@@ -61,7 +61,7 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
     }
 
     public void startAddingRating(){
-        mDatabase.child("oglasi").child(IDOglasa).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child("oglasi").child(nazivGrada).child(IDOglasa).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
@@ -69,7 +69,7 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
                 }
                 else {
                     Oglas oglas = task.getResult().getValue(Oglas.class);
-
+                    Log.e("1", "greska");
                     if(oglas != null){
                         Integer brojOcena = oglas.getBrojOcena() + 1;
                         double ocena = oglas.getOcena();
@@ -79,9 +79,9 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
                         ocena = Math.round(ocena * 100.0) / 100.0;
                         Rating r = new Rating(doubleNewRating, newRatingText);
 
-                        mDatabase.child("oglasi").child(IDOglasa).child("brojOcena").setValue(brojOcena);
-                        mDatabase.child("oglasi").child(IDOglasa).child("ocena").setValue(ocena);
-                        mDatabase.child("oglasi").child(IDOglasa).child("oceneOglasa").child(brojOcena.toString()).setValue(r);
+                        mDatabase.child("oglasi").child(nazivGrada).child(IDOglasa).child("brojOcena").setValue(brojOcena);
+                        mDatabase.child("oglasi").child(nazivGrada).child(IDOglasa).child("ocena").setValue(ocena);
+                        mDatabase.child("oglasi").child(nazivGrada).child(IDOglasa).child("oceneOglasa").child(brojOcena.toString()).setValue(r);
                     }else{
                         Toast.makeText(pregled_jednog_oglasa.this, "ne postoji ovakav oglas", Toast.LENGTH_LONG).show();
                     }
@@ -97,6 +97,7 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
         setContentView(R.layout.activity_pregled_jednog_oglasa);
 
         IDOglasa = getIntent().getStringExtra("IDOglasa");
+        nazivGrada = getIntent().getStringExtra("NazivGrada");
 
         rating = findViewById(R.id.ratingForOglas);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.rating, android.R.layout.simple_spinner_item);
@@ -125,7 +126,8 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
         username = findViewById(R.id.username);
         opis = findViewById(R.id.opis);
         grad = findViewById(R.id.grad);
-        FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).addValueEventListener(new ValueEventListener() {
+
+        FirebaseDatabase.getInstance().getReference("oglasi").child(nazivGrada).child(IDOglasa).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Oglas oglas = snapshot.getValue(Oglas.class);

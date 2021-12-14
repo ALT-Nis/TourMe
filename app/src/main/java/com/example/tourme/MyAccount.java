@@ -10,6 +10,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.tourme.Adapters.OglasAdapter;
+import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,6 +39,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -169,18 +172,24 @@ public class MyAccount extends AppCompatActivity {
     private void showOglas(String userid){
         mOglas = new ArrayList<>();
 
-        reference = FirebaseDatabase.getInstance().getReference("oglasi");
+        reference = FirebaseDatabase.getInstance().getReference().child("oglasi");
+
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mOglas.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Oglas oglas = dataSnapshot.getValue(Oglas.class);
-                    if(oglas.getUserId().equals(userid)){
-                        mOglas.add(oglas);
+                    HashMap<String, HashMap<String, Object>> s = (HashMap<String, HashMap<String, Object>>) dataSnapshot.getValue();
+                    for(HashMap<String, Object> hm : s.values()){
+                        Oglas oglas = new Oglas(hm);
+                        String grad = oglas.getGrad();
+                        if(oglas.getUserId().equals(userid)){
+                            mOglas.add(oglas);
+                        }
+                        oglasAdapter = new OglasAdapter(MyAccount.this, mOglas);
+                        recyclerView.setAdapter(oglasAdapter);
+
                     }
-                    oglasAdapter = new OglasAdapter(MyAccount.this, mOglas);
-                    recyclerView.setAdapter(oglasAdapter);
                 }
             }
 

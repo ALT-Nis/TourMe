@@ -50,9 +50,9 @@ public class Pocetni extends Fragment {
         mOglas = new ArrayList<>();
         oglasAdapter = new OglasAdapter(getContext(), mOglas);
         recyclerView.setAdapter(oglasAdapter);
-
-        reference = FirebaseDatabase.getInstance().getReference("oglasi");
-        reference.addValueEventListener(new ValueEventListener() {
+        String pocetniGrad = "Nis"; //ovo je grad koji se dobija na pocetku preko lokacija stavio sam za sad finsko Nis
+        reference = FirebaseDatabase.getInstance().getReference();
+        reference.child("oglasi").child(pocetniGrad).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mOglas.clear();

@@ -59,6 +59,7 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, pregled_jednog_oglasa.class);
                 intent.putExtra("IDOglasa",oglas.getIdOglasa());
+                intent.putExtra("NazivGrada", oglas.getGrad());
                 mContext.startActivity(intent);
             }
         });
