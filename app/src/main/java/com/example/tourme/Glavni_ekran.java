@@ -41,20 +41,14 @@ public class Glavni_ekran extends AppCompatActivity {
         //noviOglas
 
         navigationView.getMenu().findItem(R.id.noviOglas).setOnMenuItemClickListener(menuItem -> {
-            if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
                 Intent i = new Intent(Glavni_ekran.this, pregledSvihSvojihOglasa.class);
                 startActivity(i);
-            }
-
             return true;
         });
 
         navigationView.getMenu().findItem(R.id.mojNalog).setOnMenuItemClickListener(menuItem -> {
-            if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
                 Intent i = new Intent(Glavni_ekran.this, MyAccount.class);
                 startActivity(i);
-            }
-
             return true;
         });
 

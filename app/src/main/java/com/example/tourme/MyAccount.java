@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -62,51 +63,64 @@ public class MyAccount extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_myaccount);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 
-        imageView = findViewById(R.id.profile_image);
-        textView = findViewById(R.id.username);
+            setContentView(R.layout.activity_myaccount);
 
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        LinearLayout linearLayout = new LinearLayout(getApplicationContext());
+            imageView = findViewById(R.id.profile_image);
+            textView = findViewById(R.id.username);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(MyAccount.this));
+            recyclerView = findViewById(R.id.recycler_view);
+            recyclerView.setHasFixedSize(true);
+            LinearLayout linearLayout = new LinearLayout(getApplicationContext());
 
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid());
+            recyclerView.setLayoutManager(new LinearLayoutManager(MyAccount.this));
 
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                textView.setText(user.getUsername());
-                if(user.getImageurl().equals("default")){
-                    imageView.setImageResource(R.mipmap.ic_launcher);
+            firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+            reference = FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid());
+
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    User user = snapshot.getValue(User.class);
+                    textView.setText(user.getUsername());
+                    if (user.getImageurl().equals("default")) {
+                        imageView.setImageResource(R.mipmap.ic_launcher);
+                    } else {
+                        Glide.with(MyAccount.this).load(user.getImageurl()).into(imageView);
+                    }
+
+                    showOglas(user.getId());
+
                 }
-                else{
-                    Glide.with(MyAccount.this).load(user.getImageurl()).into(imageView);
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
                 }
-
-                showOglas(user.getId());
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+            });
 
 
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
-        imageView.setOnClickListener(new View.OnClickListener() {
+            storage = FirebaseStorage.getInstance();
+            storageReference = storage.getReference();
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    choseImage();
+                }
+            });
+        }
+        else{
+        setContentView(R.layout.not_logged_in);
+        Button dugme_login = findViewById(R.id.dugme_login);
+        dugme_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                choseImage();
+                Intent i = new Intent(MyAccount.this, Login.class);
+                startActivity(i);
             }
         });
+    }
 
     }
 

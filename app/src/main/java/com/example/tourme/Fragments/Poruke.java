@@ -1,5 +1,6 @@
 package com.example.tourme.Fragments;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -13,10 +14,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.example.tourme.Login;
 import com.example.tourme.Model.User;
 import com.example.tourme.R;
 import com.example.tourme.Adapters.UserAdapater;
+import com.example.tourme.Register;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -86,9 +90,7 @@ public class Poruke extends Fragment {
         View view = inflater.inflate(R.layout.fragment_poruke, container, false);
 
         //ovde se proverava da li je korisnik povezan
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-
-            recyclerView = view.findViewById(R.id.recycler_view);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {            recyclerView = view.findViewById(R.id.recycler_view);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -137,6 +139,19 @@ public class Poruke extends Fragment {
 
             });
 
+
+
+        }
+        else{
+            view = inflater.inflate(R.layout.not_logged_in, container, false);
+            Button dugme_login = view.findViewById(R.id.dugme_login);
+            dugme_login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), Login.class);
+                    startActivity(i);
+                }
+            });
         }
         return view;
     }
