@@ -21,7 +21,7 @@
                 android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/ic_profp" />
 
             <TextView
                 android:id="@+id/username"
@@ -79,6 +79,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="15dp"
+                    android:backgroundTint="#339933"
                     android:text="dodaj ocenu" />
 
                 <EditText

@@ -26,7 +26,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.269"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="#339933"/>
 
     <Button
         android:id="@+id/dugme_register"
@@ -37,7 +38,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.803"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="#339933"/>
 
     <TextView
         android:id="@+id/loggedin_text"

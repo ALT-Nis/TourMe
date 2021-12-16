@@ -19,5 +19,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:fitsSystemWindows="true"
-        app:menu="@menu/drawer_menu" />
+        app:menu="@menu/drawer_menu"
+        android:background="#a9efa9"/>
 </androidx.drawerlayout.widget.DrawerLayout>

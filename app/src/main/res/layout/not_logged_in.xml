@@ -12,10 +12,10 @@
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.659"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.317" />
+        app:layout_constraintVertical_bias="0.317"
+        android:textAlignment="center"/>
 
     <Button
         android:id="@+id/dugme_login"
@@ -26,6 +26,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="#339933"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
