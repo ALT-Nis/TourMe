@@ -23,6 +23,7 @@ import com.example.tourme.Adapters.OglasAdapter;
 import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -183,28 +184,43 @@ public class MyAccount extends AppCompatActivity {
         });
     }
 
+    int numberOfOglases;
+
+    void recursion1ForMyOglases(int index, List<String> idsForMyOglas){
+        if(index == numberOfOglases){
+            oglasAdapter = new OglasAdapter(MyAccount.this, mOglas);
+            recyclerView.setAdapter(oglasAdapter);
+        }else{
+            DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
+            ref1.child("oglasi").child(idsForMyOglas.get(index)).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    Oglas oglas = task.getResult().getValue(Oglas.class);
+                    mOglas.add(oglas);
+                    recursion1ForMyOglases(index + 1, idsForMyOglas);
+                }
+            });
+        }
+
+    }
+
     private void showOglas(String userid){
         mOglas = new ArrayList<>();
 
-        reference = FirebaseDatabase.getInstance().getReference().child("oglasi");
+        reference = FirebaseDatabase.getInstance().getReference().child("users").child(userid).child("oglas");
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mOglas.clear();
+                List<String> idsForMyOglas = new ArrayList<>();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    HashMap<String, HashMap<String, Object>> s = (HashMap<String, HashMap<String, Object>>) dataSnapshot.getValue();
-                    for(HashMap<String, Object> hm : s.values()){
-                        Oglas oglas = new Oglas(hm);
-                        String grad = oglas.getGrad();
-                        if(oglas.getUserId().equals(userid)){
-                            mOglas.add(oglas);
-                        }
-                        oglasAdapter = new OglasAdapter(MyAccount.this, mOglas);
-                        recyclerView.setAdapter(oglasAdapter);
-
-                    }
+                    String newIdOglasa = dataSnapshot.getValue(String.class);
+                    idsForMyOglas.add(newIdOglasa);
                 }
+                numberOfOglases = idsForMyOglas.size();
+                recursion1ForMyOglases(0, idsForMyOglas);
+
             }
 
             @Override

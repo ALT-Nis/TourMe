@@ -25,6 +25,7 @@ public class Glavni_ekran extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_main);
 
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager()

@@ -7,13 +7,22 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.ContactsContract;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.tourme.Adapters.OglasAdapter;
+import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
 import com.example.tourme.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,7 +31,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class Pocetni extends Fragment {
 
@@ -33,6 +44,11 @@ public class Pocetni extends Fragment {
 
     OglasAdapter oglasAdapter;
     List<Oglas> mOglas;
+
+    EditText searchBar;
+    Button searchButton;
+    Gradovi g;
+    List<String> items;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,23 +66,62 @@ public class Pocetni extends Fragment {
         mOglas = new ArrayList<>();
         oglasAdapter = new OglasAdapter(getContext(), mOglas);
         recyclerView.setAdapter(oglasAdapter);
+
         String pocetniGrad = "Nis"; //ovo je grad koji se dobija na pocetku preko lokacija stavio sam za sad finsko Nis
+        items = Arrays.asList(pocetniGrad.toLowerCase());
+
+        g = new Gradovi();
+
+
         reference = FirebaseDatabase.getInstance().getReference();
-        reference.child("oglasi").child(pocetniGrad).addValueEventListener(new ValueEventListener() {
+        reference.child("oglasi").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mOglas.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Oglas oglas = dataSnapshot.getValue(Oglas.class);
-                    mOglas.add(oglas);
-                    oglasAdapter = new OglasAdapter(getContext(), mOglas);
-                    recyclerView.setAdapter(oglasAdapter);
+                    String gradOglasaa = oglas.getGrad();
+                    if(items.contains(gradOglasaa.toLowerCase())) {
+                        mOglas.add(oglas);
+                        oglasAdapter = new OglasAdapter(getContext(), mOglas);
+                        recyclerView.setAdapter(oglasAdapter);
+                    }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+        searchBar = view.findViewById(R.id.searchBar);
+        searchButton = view.findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String inputText = searchBar.getText().toString().trim();
+                if(TextUtils.isEmpty(inputText)){
+                    searchBar.setError("Unesite text");
+                }else{
+                    reference.child("oglasi").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            mOglas.clear();
+                            List<String> newItems  = g.Search(inputText);
+                            items = newItems;
+
+                            for(DataSnapshot dataSnapshot : task.getResult().getChildren()){
+                                Oglas oglas = dataSnapshot.getValue(Oglas.class);
+                                String gradOglasaa = oglas.getGrad();
+                                if(newItems.contains(gradOglasaa.toLowerCase()))
+                                    mOglas.add(oglas);
+
+                            }
+                            oglasAdapter = new OglasAdapter(getContext(), mOglas);
+                            recyclerView.setAdapter(oglasAdapter);
+                        }
+                    });
+                }
             }
         });
 

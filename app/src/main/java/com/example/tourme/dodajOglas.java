@@ -20,10 +20,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -58,14 +56,14 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
                     String numberOfOglas = String.valueOf(task.getResult().getValue());
 
                     if(!numberOfOglas.equals("null")){
-                        DatabaseReference ref = mDatabase.child("oglasi").child(cityText).push();
+                        DatabaseReference ref = mDatabase.child("oglasi").push();
                         String idOglasa = ref.getKey();
                         Oglas oglas = new Oglas(idOglasa, cityText, 0.0, 0, userId, textForDescribe, imageurl, username);
 
                         Integer intNumOfOglas = Integer.parseInt(numberOfOglas) + 1;
                         String newNumberForOglas = intNumOfOglas.toString();
 
-                        mDatabase.child("oglasi").child(cityText).child(idOglasa).setValue(oglas);
+                        mDatabase.child("oglasi").child(idOglasa).setValue(oglas);
                         mDatabase.child("users").child(userId).child("brojOglasa").setValue(newNumberForOglas);
                         mDatabase.child("users").child(userId).child("oglas").child(cityText).setValue(idOglasa);
 
