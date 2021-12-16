@@ -14,7 +14,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="#339933"/>
 
     <Button
         android:id="@+id/goToAddOglas"
@@ -26,5 +27,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/goToCheckOglas" />
+        app:layout_constraintTop_toBottomOf="@+id/goToCheckOglas"
+        android:backgroundTint="#339933"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

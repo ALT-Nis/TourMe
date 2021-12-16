@@ -13,17 +13,18 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#ccffcc">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:id="@+id/profile_image"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
-                android:src="@mipmap/ic_launcher"
                 android:clickable="true"
-                android:focusable="true"/>
+                android:focusable="true"
+                android:src="@drawable/ic_profp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,9 +43,9 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recycler_view"
-        android:layout_below="@id/user_details"/>
+        android:layout_below="@id/user_details" />
 
 </RelativeLayout>

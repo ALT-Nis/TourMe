@@ -14,13 +14,14 @@
         <Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/toolbar">
+            android:id="@+id/toolbar"
+            android:background="#22c322">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/ic_profp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,29 +50,30 @@
         android:layout_above="@id/bottom"/>
 
     <RelativeLayout
+        android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/bottom"
+        android:layout_alignParentBottom="true"
         android:padding="5dp"
-        android:layout_alignParentBottom="true">
+        android:background="#e9fbe9">
 
 
         <EditText
+            android:id="@+id/text_send"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/text_send"
-            android:background="@android:color/transparent"
-            android:hint="Unesite poruku..."
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/button_send"
-            android:layout_centerVertical="true"/>
+            android:background="@android:color/transparent"
+            android:hint="Unesite poruku..." />
 
         <ImageButton
+            android:id="@+id/button_send"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:id="@+id/button_send"
-            android:background="@drawable/ic_send"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_send" />
 
 
     </RelativeLayout>
