@@ -13,7 +13,7 @@ public class Gradovi {
         List<String> cities;
 
         public Node(){
-            letters = new Node[27];
+            letters = new Node[32];
             cities = new ArrayList<>();
         }
 
@@ -27,8 +27,15 @@ public class Gradovi {
             char c = s.charAt(index);
 
             int position = (int)(c - 'a');
-            if(c == ' ')
-                position = 26;
+            switch(c){
+                case ' ': position = 26; break;
+                case 'š': position = 27; break;
+                case 'đ': position = 28; break;
+                case 'č': position = 29; break;
+                case 'ć': position = 30; break;
+                case 'ž': position = 31; break;
+            }
+
             if(letters[position] == null)
                 letters[position] = new Node();
 
@@ -37,15 +44,20 @@ public class Gradovi {
         }
 
         public List<String> Search(String inputText, int index){
-//            Log.e("neki text", inputText + " " + String.valueOf(index));
             if(index == inputText.length())
                 return cities;
             char c = inputText.charAt(index);
             int position = (int)(c - 'a');
-            if(c == ' ')
-                position = 26;
+            switch(c){
+                case ' ': position = 26; break;
+                case 'š': position = 27; break;
+                case 'đ': position = 28; break;
+                case 'č': position = 29; break;
+                case 'ć': position = 30; break;
+                case 'ž': position = 31; break;
+            }
             if(letters[position] == null)
-                return cities;
+                letters[position] = new Node();
             return letters[position].Search(inputText, index + 1);
 
         }
@@ -70,8 +82,14 @@ public class Gradovi {
         }
     }
 
-    List<String> allCities = Arrays.asList("Nis", "Beograd", "Novi Sad", "Subotica", "Bela Palanka");
+    List<String> allCities = Arrays.asList("niš", "beograd", "novi sad", "subotica", "bela palanka", "leskovac");
+    List<String> allCitiesC = Arrays.asList("Niš", "Beograd", "Novi Sad", "Subotica", "Bela Palanka", "Leskovac");
+
     Trie trie;
+
+    public List<String> getAllCities() { return allCities; }
+
+    public List<String> getAllCitiesC() { return allCitiesC; }
 
     public Gradovi(){
         trie = new Trie();

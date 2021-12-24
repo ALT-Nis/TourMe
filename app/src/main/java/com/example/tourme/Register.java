@@ -128,13 +128,6 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-//        HashMap<String, String> hashMap = new HashMap<>();
-//        hashMap.put("id", "1");
-//        hashMap.put("username","yutopk");
-//        hashMap.put("imageurl","default");
-//
-//        FirebaseDatabase.getInstance().getReference("usersi").push().setValue(hashMap);
-
         mEmail = findViewById(R.id.email);
         mUserName = findViewById(R.id.CustomName);
         mPassword = findViewById(R.id.password);
