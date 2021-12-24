@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.tourme.Login;
+import com.example.tourme.Model.Chat;
 import com.example.tourme.Model.User;
 import com.example.tourme.R;
 import com.example.tourme.Adapters.UserAdapater;
@@ -83,6 +84,7 @@ public class Poruke extends Fragment {
     private UserAdapater userAdapater;
 
     private List<User> mUsers;
+    private List<String> usersList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,39 +98,27 @@ public class Poruke extends Fragment {
 
             mUsers = new ArrayList<>();
 
-
-
-        /*
-        userAdapater = new UserAdapater( getContext(), mUsers);
-        Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());
-        recyclerView.setAdapter(userAdapater);
-        User user = new User(userid,"yutopk","default");
-        mUsers.add(user);
-        userAdapater.notifyItemInserted(mUsers.size() - 1);
-         */
-
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("chats");
+
+            usersList = new ArrayList<>();
 
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    mUsers.clear();
+                    usersList.clear();
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        User user = dataSnapshot.getValue(User.class);
+                        Chat chat = dataSnapshot.getValue(Chat.class);
 
-                        assert user != null;
-                        assert firebaseUser != null;
-                        if (!user.getId().equals(firebaseUser.getUid())) {
-                            mUsers.add(user);
-                            Log.e("KORISNIK", "Username je: " + user.getUsername());
+                        if(chat.getSender().equals(firebaseUser.getUid())){
+                            usersList.add(chat.getReceiver());
+                        }
+                        if(chat.getReceiver().equals(firebaseUser.getUid())){
+                            usersList.add(chat.getSender());
                         }
                     }
 
-                    userAdapater = new UserAdapater(getContext(), mUsers, true);
-                    Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());
-                    recyclerView.setAdapter(userAdapater);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    readChats();
 
                 }
 
@@ -154,6 +144,43 @@ public class Poruke extends Fragment {
             });
         }
         return view;
+    }
+
+    private void readChats(){
+        mUsers = new ArrayList<>();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mUsers.clear();
+
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    User user = dataSnapshot.getValue(User.class);
+
+                    if(usersList.contains(user.getId())){
+                        mUsers.add(user);
+                    }
+
+                }
+                userAdapater = new UserAdapater(getContext(), mUsers, true);
+                recyclerView.setAdapter(userAdapater);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        /*
+        userAdapater = new UserAdapater(getContext(), mUsers, true);
+        Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());
+        recyclerView.setAdapter(userAdapater);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        */
+
     }
 
 }

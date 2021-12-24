@@ -55,6 +55,8 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
     TextView opis;
     TextView grad;
 
+    Button sendMessage;
+
     void setRatingTextError(String errorText){
         textForRating.setError(errorText);
         isGood = false;
@@ -122,11 +124,11 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
             }
         });
 
+
         profile_image = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
         opis = findViewById(R.id.opis);
         grad = findViewById(R.id.grad);
-
         FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -134,6 +136,7 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
                 username.setText(oglas.getUsername());
                 opis.setText(oglas.getOpis());
                 grad.setText(oglas.getGrad());
+
                 if(oglas.getImageurl().equals("default")){
                     profile_image.setImageResource(R.mipmap.ic_launcher);
                 }
@@ -149,6 +152,34 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
 
             }
         });
+
+        sendMessage = findViewById(R.id.sendMessage);
+        sendMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startMessaging();
+            }
+        });
+
+    }
+
+    private void startMessaging() {
+        FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Oglas oglas = snapshot.getValue(Oglas.class);
+
+                Intent i = new Intent(pregled_jednog_oglasa.this, MessageActivity.class);
+                i.putExtra("userid",oglas.getUserId());
+                startActivity(i);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     @Override

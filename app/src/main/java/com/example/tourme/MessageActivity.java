@@ -162,6 +162,7 @@ public class MessageActivity extends AppCompatActivity {
                     }
                     messageAdapter = new MessageAdapter(MessageActivity.this, mChat, imageurl);
                     recyclerView.setAdapter(messageAdapter);
+                    recyclerView.scrollToPosition(mChat.size()-1);
                 }
             }
 
