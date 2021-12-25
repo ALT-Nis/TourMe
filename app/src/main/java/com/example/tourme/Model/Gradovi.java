@@ -87,9 +87,15 @@ public class Gradovi {
 
     Trie trie;
 
+    public static String lastSearch = "";
+
     public List<String> getAllCities() { return allCities; }
 
     public List<String> getAllCitiesC() { return allCitiesC; }
+
+    public static String getLastSearch() { return lastSearch; }
+
+    public static void setLastSearch(String lastSearch) { Gradovi.lastSearch = lastSearch; }
 
     public Gradovi(){
         trie = new Trie();

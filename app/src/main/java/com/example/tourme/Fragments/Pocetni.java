@@ -65,6 +65,7 @@ public class Pocetni extends Fragment {
                     mOglas.clear();
                     List<String> newItems  = g.Search(inputText);
                     items = newItems;
+                    Gradovi.lastSearch = inputText;
 
                     for(DataSnapshot dataSnapshot : task.getResult().getChildren()){
                         Oglas oglas = dataSnapshot.getValue(Oglas.class);
@@ -102,7 +103,6 @@ public class Pocetni extends Fragment {
         //        String pocetniGrad = "Nis"; //ovo je grad koji se dobija na pocetku preko lokacija stavio sam za sad finsko Nis
         items = g.getAllCities();
 
-
         reference = FirebaseDatabase.getInstance().getReference();
         reference.child("oglasi").addValueEventListener(new ValueEventListener() {
             @Override
@@ -136,6 +136,13 @@ public class Pocetni extends Fragment {
                 search();
             }
         });
+
+        if(!Gradovi.lastSearch.equals("")){
+            String f = Gradovi.lastSearch;
+            searchBar.setText(f);
+            search();
+        }
+
 
         searchButton = view.findViewById(R.id.searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
