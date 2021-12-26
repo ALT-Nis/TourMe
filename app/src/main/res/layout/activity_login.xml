@@ -5,108 +5,99 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login"
-    android:background="@drawable/oglas_bg"
-    android:layout_margin="30dp">
+    android:background="?attr/colorPrimaryVariant">
 
-    <TextView
-        android:id="@+id/pocetni_tekst"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:text="E-mail"
-        app:layout_constraintBottom_toTopOf="@+id/email_login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.27"
-        app:layout_constraintStart_toStartOf="parent" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorPrimary"
+        android:layout_margin="35dp">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="130dp"
-        android:layout_height="41dp"
-        android:text="LOGIN"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.162"
-        android:textColor="#000000"/>
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prijavljivanje na nalog"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"/>
 
-    <EditText
-        android:id="@+id/email_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="E-mail"
+            android:layout_marginTop="100dp"
+            android:layout_below="@+id/login"
+            android:layout_centerHorizontal="true"/>
 
-    <Button
-        android:id="@+id/login_dugme"
-        android:layout_width="153dp"
-        android:layout_height="47dp"
-        android:layout_marginBottom="148dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:backgroundTint="#339933"/>
+        <EditText
+            android:id="@+id/email_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/email"/>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="18dp"
-        android:text="Password"
-        app:layout_constraintBottom_toTopOf="@+id/password_login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.289"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/email_login"/>
 
-    <TextView
-        android:id="@+id/goToRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="21dp"
-        android:clickable="true"
-        android:text="Nemate nalog"
-        app:layout_constraintBottom_toTopOf="@+id/login_dugme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_login"
-        app:layout_constraintVertical_bias="1.0" />
+        <EditText
+            android:id="@+id/password_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/password"/>
 
-    <EditText
-        android:id="@+id/password_login"
-        android:layout_width="181dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="56dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.439"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_login" />
+        <Button
+            android:id="@+id/buttonForShowingPasswordLogin"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignBaseline="@id/password_login"
+            android:layout_toRightOf="@id/password_login"/>
 
-    <Button
-        android:id="@+id/buttonForShowingPasswordLogin"
-        android:layout_width="25dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="76dp"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:text="show"
-        android:textSize="5sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.642"
-        app:layout_constraintStart_toEndOf="@+id/password_login"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.451" />
+        <Button
+            android:id="@+id/login_dugme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prijavi se"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/password_login"
+            android:backgroundTint="?attr/colorSecondary"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"/>
+
+        <TextView
+            android:id="@+id/goToRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="Nemate nalog?"
+            android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/login_dugme"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnToRegister"
+            android:text="Registruj se"
+            android:backgroundTint="?attr/colorSecondary"
+            android:textColor="@color/white"
+            android:layout_below="@id/goToRegister"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
