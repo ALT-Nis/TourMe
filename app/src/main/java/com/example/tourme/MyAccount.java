@@ -88,7 +88,7 @@ public class MyAccount extends AppCompatActivity {
                     if (user.getImageurl().equals("default")) {
                         imageView.setImageResource(R.mipmap.ic_launcher);
                     } else {
-                        Glide.with(MyAccount.this).load(user.getImageurl()).into(imageView);
+                        Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
                     }
 
                     showOglas(user.getId());
@@ -163,6 +163,24 @@ public class MyAccount extends AppCompatActivity {
                             public void onSuccess(Uri uri) {
                                 String imageUrl = uri.toString();
                                 FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid()).child("imageurl").setValue(imageUrl);
+                                FirebaseDatabase.getInstance().getReference("oglasi").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                            Oglas oglas = dataSnapshot.getValue(Oglas.class);
+                                            Log.e("2", "test + " + oglas.getUserId());
+                                            Log.e("2", "test + " + firebaseUser.getUid());
+                                            if(oglas.getUserId().equals(firebaseUser.getUid())){
+                                                FirebaseDatabase.getInstance().getReference("oglasi").child(oglas.getIdOglasa()).child("imageurl").setValue(imageUrl);
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
                             }
                         });
                     }
