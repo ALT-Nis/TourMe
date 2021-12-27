@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="40dp"
             android:text="Postavljanje novog oglasa"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -26,37 +26,37 @@
             android:id="@+id/addOglas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="dodaj Oglas"
-            android:textColor="@color/white"
             android:layout_below="@+id/describeOglas"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
             android:backgroundTint="?attr/colorSecondary"
-            android:layout_marginTop="40dp"/>
+            android:text="dodaj Oglas"
+            android:textColor="@color/white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Izaberite grad:"
             android:layout_above="@id/cityForOglas"
-            android:layout_alignStart="@id/cityForOglas"/>
+            android:layout_alignStart="@id/cityForOglas"
+            android:text="Izaberite grad:" />
 
         <Spinner
             android:id="@+id/cityForOglas"
-            android:layout_width="248dp"
-            android:layout_height="44dp"
+            android:layout_width="260dp"
+            android:layout_height="30dp"
             android:layout_above="@+id/describeOglas"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp" />
 
         <EditText
             android:id="@+id/describeOglas"
-            android:layout_width="267dp"
-            android:layout_height="119dp"
-            android:ems="10"
-            android:inputType="text|textMultiLine|textCapSentences"
+            android:layout_width="260dp"
+            android:layout_height="150dp"
             android:layout_centerInParent="true"
-            android:layout_margin="20dp"
+            android:layout_marginTop="30dp"
+            android:gravity="bottom"
             android:hint="Dodajte opis svom oglasu"
-            android:gravity="bottom"/>
+            android:inputType="text|textMultiLine|textCapSentences" />
 
     </RelativeLayout>
 
