@@ -27,24 +27,34 @@
                 android:src="@drawable/ic_profp" />
 
             <TextView
+                android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="username"
                 android:layout_below="@id/profile_image"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="15dp"
-                android:textStyle="bold"
+                android:text="Ime korisnika"
                 android:textSize="25sp"
-                android:id="@+id/username"/>
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Svi oglasi korisnika"
+        android:id="@+id/oglasi"
+        android:layout_below="@id/user_details"
+        android:layout_margin="10dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/user_details" />
+        android:layout_below="@id/oglasi"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
 </RelativeLayout>
