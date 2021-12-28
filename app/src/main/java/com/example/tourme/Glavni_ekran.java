@@ -42,7 +42,7 @@ public class Glavni_ekran extends AppCompatActivity {
         //noviOglas
 
         navigationView.getMenu().findItem(R.id.noviOglas).setOnMenuItemClickListener(menuItem -> {
-                Intent i = new Intent(Glavni_ekran.this, pregledSvihSvojihOglasa.class);
+                Intent i = new Intent(Glavni_ekran.this, dodajOglas.class);
                 startActivity(i);
             return true;
         });

@@ -27,6 +27,7 @@ import com.example.tourme.Model.Rating;
 import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,6 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -141,7 +143,7 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
                     profile_image.setImageResource(R.mipmap.ic_launcher);
                 }
                 else{
-                    Glide.with(pregled_jednog_oglasa.this).load(oglas.getImageurl()).into(profile_image);
+                    Glide.with(getApplicationContext()).load(oglas.getImageurl()).into(profile_image);
                 }
 
 
@@ -194,6 +196,30 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
 
     public void postaviOglas(String IDOglas){
 
+    }
+
+    private void status(String status){
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+            HashMap<String, Object> hashMap = new HashMap<String, Object>();
+            hashMap.put("status", status);
+
+            reference.updateChildren(hashMap);
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
     }
 
 }

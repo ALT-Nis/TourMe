@@ -37,6 +37,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -79,7 +80,7 @@ public class Account extends AppCompatActivity {
                     imageView.setImageResource(R.mipmap.ic_launcher);
                 }
                 else{
-                    Glide.with(Account.this).load(user.getImageurl()).into(imageView);
+                    Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
                 }
 
                 showOglas(user.getId());
@@ -117,6 +118,30 @@ public class Account extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void status(String status){
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+            HashMap<String, Object> hashMap = new HashMap<String, Object>();
+            hashMap.put("status", status);
+
+            reference.updateChildren(hashMap);
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
     }
 
 }

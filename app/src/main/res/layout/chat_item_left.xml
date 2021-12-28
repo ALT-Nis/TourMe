@@ -18,6 +18,7 @@
         android:layout_toRightOf="@+id/profile_image"
         android:background="@drawable/background_left"
         android:padding="10dp"
-        android:text="test" />
+        android:text="test"
+        android:layout_margin="5dp"/>
 
 </RelativeLayout>
