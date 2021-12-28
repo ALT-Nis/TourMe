@@ -5,21 +5,24 @@
     android:id="@+id/nema_oglasa">
 
     <ImageView
+        android:id="@+id/imageNoOglas"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/ic_nema_gradova"
-        android:id="@+id/ico_no"
-        android:layout_centerHorizontal="true"></ImageView>
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_nema_gradova"></ImageView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ico_no"
-        android:text="Za izabrani grad ne postoji nijedan oglas."
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_margin="10dp"
+        android:layout_below="@id/imageNoOglas"
         android:layout_centerHorizontal="true"
-        android:gravity="center"></TextView>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="Za izabrani grad ne postoji nijedan oglas."
+        android:textSize="20sp"
+        android:textStyle="bold"></TextView>
 
 </RelativeLayout>

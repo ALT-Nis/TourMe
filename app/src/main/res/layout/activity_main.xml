@@ -8,7 +8,7 @@
     android:background="#e9fbe9">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/logoImage"
         android:layout_width="190dp"
         android:layout_height="198dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,4 +16,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_logo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

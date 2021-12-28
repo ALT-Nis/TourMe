@@ -4,13 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,11 +40,16 @@ public class Register extends AppCompatActivity {
     EditText mEmail, mUserName, mPassword, mConfirmPassword;
 
     Button registerButton, buttonShowHidePassword, buttonShowHideConfirmPassword;
+    Button tryAgainButton;
     TextView loginButton;
+    TextView emailText, usernameText, passwordText, confirmPasswordText;
 
     FirebaseAuth fAuth;
 
     String email, username, password, confirm_password;
+
+
+    View viewNoInternet;
 
     private DatabaseReference mDatabase;
 
@@ -78,49 +87,98 @@ public class Register extends AppCompatActivity {
         mConfirmPassword.setError(null);
     }
 
+    void HideEverything(){
+        registerButton.setVisibility(View.GONE);
+        loginButton.setVisibility(View.GONE);
+        buttonShowHidePassword.setVisibility(View.GONE);
+        buttonShowHideConfirmPassword.setVisibility(View.GONE);
+        mEmail.setVisibility(View.GONE);
+        mUserName.setVisibility(View.GONE);
+        mPassword.setVisibility(View.GONE);
+        mConfirmPassword.setVisibility(View.GONE);
+        emailText.setVisibility(View.GONE);
+        usernameText.setVisibility(View.GONE);
+        passwordText.setVisibility(View.GONE);
+        confirmPasswordText.setVisibility(View.GONE);
+
+        viewNoInternet.setVisibility(View.VISIBLE);
+    }
+
+    void ShowEverything(){
+        registerButton.setVisibility(View.VISIBLE);
+        loginButton.setVisibility(View.VISIBLE);
+        buttonShowHidePassword.setVisibility(View.VISIBLE);
+        buttonShowHideConfirmPassword.setVisibility(View.VISIBLE);
+        mEmail.setVisibility(View.VISIBLE);
+        mUserName.setVisibility(View.VISIBLE);
+        mPassword.setVisibility(View.VISIBLE);
+        mConfirmPassword.setVisibility(View.VISIBLE);
+        emailText.setVisibility(View.VISIBLE);
+        usernameText.setVisibility(View.VISIBLE);
+        passwordText.setVisibility(View.VISIBLE);
+        confirmPasswordText.setVisibility(View.VISIBLE);
+
+        viewNoInternet.setVisibility(View.GONE);
+    }
+
+    Boolean IsConnectedToInternet(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+    }
+
+
     void finishCreatingAccount(String AccountEmail, String AccountPassword) {
-        fAuth.createUserWithEmailAndPassword(AccountEmail,AccountPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(Register.this,"Uspesno ste kreirali nalog",Toast.LENGTH_LONG).show();
+        if(IsConnectedToInternet()){
+            fAuth.createUserWithEmailAndPassword(AccountEmail,AccountPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(Register.this,"Uspesno ste kreirali nalog",Toast.LENGTH_LONG).show();
 
-                    String userId = fAuth.getCurrentUser().getUid();
-                    User user = new User(userId, AccountEmail, username, "default", "0", "offline");
-                    mDatabase.child("users").child(userId).setValue(user);
+                        String userId = fAuth.getCurrentUser().getUid();
+                        User user = new User(userId, AccountEmail, username, "default", "0", "offline");
+                        mDatabase.child("users").child(userId).setValue(user);
 
-                    mDatabase.child("usersID").child(username).setValue(userId);
-                }
-                else{
-                    String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                        mDatabase.child("usersID").child(username).setValue(userId);
+                    }
+                    else{
+                        String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
 
-                    if(errorCode.equals("ERROR_EMAIL_ALREADY_IN_USE")){
-                        setEmailError("Vec postoji nalog sa ovim Email-om");
-                    }else {
-                        Toast.makeText(Register.this, task.getException().toString(), Toast.LENGTH_LONG).show();
+                        if(errorCode.equals("ERROR_EMAIL_ALREADY_IN_USE")){
+                            setEmailError("Vec postoji nalog sa ovim Email-om");
+                        }else {
+                            HideEverything();
+                        }
                     }
                 }
-            }
-        });
+            });
+        }else{
+            HideEverything();
+        }
 
     }
     void startCreatingAccount(String AccountEmail, String AccountPassword){
-        mDatabase.child("usersID").child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("Firebase", "Error getting data", task.getException());
-                }
-                else {
-                    String dataFromDatabase = String.valueOf(task.getResult().getValue());
-                    if(!dataFromDatabase.equals("null")){
-                        setUsernameError("Vec postoji nalog sa ovim korisnickim imenom");
-                    }else{
-                        finishCreatingAccount(AccountEmail, AccountPassword);
+        if(IsConnectedToInternet()){
+            mDatabase.child("usersID").child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        HideEverything();
+                    }
+                    else {
+                        String dataFromDatabase = String.valueOf(task.getResult().getValue());
+                        if(!dataFromDatabase.equals("null")){
+                            setUsernameError("Vec postoji nalog sa ovim korisnickim imenom");
+                        }else{
+                            finishCreatingAccount(AccountEmail, AccountPassword);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }else{
+            HideEverything();
+        }
     }
 
     @Override
@@ -135,6 +193,11 @@ public class Register extends AppCompatActivity {
 
         buttonShowHidePassword = findViewById(R.id.buttonForShowingPassword);
         buttonShowHideConfirmPassword = findViewById(R.id.buttonForShowingConfirmPassword);
+
+        emailText = findViewById(R.id.textView4);
+        usernameText = findViewById(R.id.textView8);
+        passwordText = findViewById(R.id.textView9);
+        confirmPasswordText = findViewById(R.id.textView10);
 
         buttonShowHidePassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,6 +243,17 @@ public class Register extends AppCompatActivity {
             }
         });
 
+        viewNoInternet = (View) findViewById(R.id.nemaInternet);
+
+        tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
+
+        tryAgainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowEverything();
+            }
+        });
+
         registerButton = findViewById(R.id.register_dugme);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -189,8 +263,6 @@ public class Register extends AppCompatActivity {
                 username = mUserName.getText().toString().trim();
                 password = mPassword.getText().toString().trim();
                 confirm_password = mConfirmPassword.getText().toString().trim();
-
-
 
                 didFindError = false;
 
@@ -243,44 +315,3 @@ public class Register extends AppCompatActivity {
 
     }
 }
-
-//luka ovo su nove izmene
-//FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
-//FirebaseDatabase.getInstance()
-//        HashMap<String, String> hashMap = new HashMap<>();
-//        hashMap.put("id", "1");
-//        hashMap.put("username","yutopk");
-//        hashMap.put("imageurl","default");
-
-//FirebaseDatabase.getInstance().getReference("korisnik").child("1").setValue(hashMap);
-        /*
-
-        OVO CE NAM KASNIJE TREBA ZA CUVANEJ SLIKE
-        StorageReference storageRef = storage.getReference();
-
-        NJIHOV DEFAULT KOD PRIMER
-        * // Create a new user with a first and last name
-        Map<String, Object> user = new HashMap<>();
-        user.put("first", "Ada");
-        user.put("last", "Lovelace");
-        user.put("born", 1815);
-
-        // Add a new document with a generated ID
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-        .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Error adding document", e);
-            }
-        });
-        *
-        * */

@@ -38,7 +38,7 @@ import java.util.List;
  * Use the {@link Poruke#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Poruke extends Fragment {
+public class  Poruke extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tourme.Adapters.OglasAdapter;
@@ -44,7 +45,6 @@ public class Pocetni extends Fragment {
     RecyclerView recyclerView;
 
     DatabaseReference reference;
-    FirebaseUser firebaseUser;
 
     OglasAdapter oglasAdapter;
     List<Oglas> mOglas;
@@ -53,6 +53,15 @@ public class Pocetni extends Fragment {
     Button searchButton;
     Gradovi g;
     List<String> items;
+
+    View viewNoOglas;
+
+    public void hideNoOglas(int len) {
+        if(len == 0)
+            viewNoOglas.setVisibility(View.VISIBLE);
+        else
+            viewNoOglas.setVisibility(View.GONE);
+    }
 
     public void search(){
         String inputText = searchBar.getText().toString().trim();
@@ -74,6 +83,7 @@ public class Pocetni extends Fragment {
                             mOglas.add(oglas);
 
                     }
+                    hideNoOglas(mOglas.size());
                     oglasAdapter = new OglasAdapter(getContext(), mOglas);
                     recyclerView.setAdapter(oglasAdapter);
                 }
@@ -98,9 +108,9 @@ public class Pocetni extends Fragment {
         oglasAdapter = new OglasAdapter(getContext(), mOglas);
         recyclerView.setAdapter(oglasAdapter);
 
-        g = new Gradovi();
+        viewNoOglas = (View) view.findViewById(R.id.nemaOglas);
 
-        //        String pocetniGrad = "Nis"; //ovo je grad koji se dobija na pocetku preko lokacija stavio sam za sad finsko Nis
+        g = new Gradovi();
         items = g.getAllCities();
 
         reference = FirebaseDatabase.getInstance().getReference();
@@ -113,9 +123,10 @@ public class Pocetni extends Fragment {
                     String gradOglasaa = oglas.getGrad();
                     if(items.contains(gradOglasaa.toLowerCase())) {
                         mOglas.add(oglas);
-                        oglasAdapter = new OglasAdapter(getContext(), mOglas);
-                        recyclerView.setAdapter(oglasAdapter);
                     }
+                    hideNoOglas(mOglas.size());
+                    oglasAdapter = new OglasAdapter(getContext(), mOglas);
+                    recyclerView.setAdapter(oglasAdapter);
                 }
             }
 
@@ -142,7 +153,6 @@ public class Pocetni extends Fragment {
             searchBar.setText(f);
             search();
         }
-
 
         searchButton = view.findViewById(R.id.searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
