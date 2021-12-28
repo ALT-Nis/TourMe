@@ -44,6 +44,8 @@ public class Register extends AppCompatActivity {
 
     FirebaseAuth fAuth;
 
+    ConstraintLayout constraintLayout;
+
     View viewNoInternet;
 
     private DatabaseReference mDatabase;
@@ -85,7 +87,6 @@ public class Register extends AppCompatActivity {
     }
 
     void HideEverything(){
-        ConstraintLayout constraintLayout = findViewById(R.id.RegisterActivity);
         for (int i=0;i<constraintLayout.getChildCount();i++) {
             View v1=constraintLayout.getChildAt(i);
             v1.setVisibility(View.GONE);
@@ -95,7 +96,6 @@ public class Register extends AppCompatActivity {
     }
 
     void ShowEverything(){
-        ConstraintLayout constraintLayout = findViewById(R.id.RegisterActivity);
         for (int i=0;i<constraintLayout.getChildCount();i++) {
             View v1=constraintLayout.getChildAt(i);
             v1.setVisibility(View.VISIBLE);
@@ -177,6 +177,8 @@ public class Register extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        constraintLayout = findViewById(R.id.RegisterActivity);
 
         buttonShowHidePassword = findViewById(R.id.buttonForShowingPassword);
         buttonShowHidePassword.setOnClickListener(new View.OnClickListener() {

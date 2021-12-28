@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,60 +44,123 @@ import java.util.List;
 
 public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    TextView textView;
     Spinner rating;
 
     String newRating, newRatingText;
     String IDOglasa, nazivGrada;
 
-    Button buttonAddRating;
-    EditText textForRating;
-
-    boolean isGood = true;
-    private DatabaseReference mDatabase;
+    Button buttonAddRating, tryAgainButton;
+    Button sendMessage;
 
     ImageView profile_image;
-    TextView username;
-    TextView opis;
-    TextView grad;
+    TextView username, opis, grad;
+    EditText textForRating;
 
-    Button sendMessage;
+    RelativeLayout relativeLayout;
+    View viewNoInternet;
+
+    int reasonForBadConnection = 1;
+
+    boolean isGood = true;
+
+    private DatabaseReference mDatabase;
 
     void setRatingTextError(String errorText){
         textForRating.setError(errorText);
         isGood = false;
     }
 
-    public void startAddingRating(){
-        mDatabase.child("oglasi").child(IDOglasa).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("Firebase", "Error getting data", task.getException());
-                }
-                else {
-                    Oglas oglas = task.getResult().getValue(Oglas.class);
-                    Log.e("1", "greska");
-                    if(oglas != null){
-                        Integer brojOcena = oglas.getBrojOcena() + 1;
-                        double ocena = oglas.getOcena();
-                        double doubleNewRating = (double)(Integer.parseInt(newRating));
+    void HideEverything(){
+        for (int i=0;i<relativeLayout.getChildCount();i++) {
+            View v1=relativeLayout.getChildAt(i);
+            v1.setVisibility(View.GONE);
+        }
 
-                        ocena = (((double)brojOcena - 1) * ocena + doubleNewRating) / ((double)brojOcena);
-                        ocena = Math.round(ocena * 100.0) / 100.0;
-                        Rating r = new Rating(doubleNewRating, newRatingText);
-
-                        mDatabase.child("oglasi").child(IDOglasa).child("brojOcena").setValue(brojOcena);
-                        mDatabase.child("oglasi").child(IDOglasa).child("ocena").setValue(ocena);
-                        mDatabase.child("oglasi").child(IDOglasa).child("oceneOglasa").child(brojOcena.toString()).setValue(r);
-                    }else{
-                        Toast.makeText(pregled_jednog_oglasa.this, "ne postoji ovakav oglas", Toast.LENGTH_LONG).show();
-                    }
-
-                }
-            }
-        });
+        viewNoInternet.setVisibility(View.VISIBLE);
     }
+
+    void ShowEverything(){
+        for (int i=0;i<relativeLayout.getChildCount();i++) {
+            View v1=relativeLayout.getChildAt(i);
+            v1.setVisibility(View.VISIBLE);
+        }
+
+        viewNoInternet.setVisibility(View.GONE);
+    }
+
+    Boolean IsConnectedToInternet(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+    }
+
+    public void startAddingRating(){
+        if(IsConnectedToInternet()){
+            mDatabase.child("oglasi").child(IDOglasa).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        HideEverything();
+                    }
+                    else {
+                        Oglas oglas = task.getResult().getValue(Oglas.class);
+
+                        if(oglas != null){
+                            Integer brojOcena = oglas.getBrojOcena() + 1;
+                            double ocena = oglas.getOcena();
+                            double doubleNewRating = (double)(Integer.parseInt(newRating));
+
+                            ocena = (((double)brojOcena - 1) * ocena + doubleNewRating) / ((double)brojOcena);
+                            ocena = Math.round(ocena * 100.0) / 100.0;
+                            Rating r = new Rating(doubleNewRating, newRatingText);
+
+                            mDatabase.child("oglasi").child(IDOglasa).child("brojOcena").setValue(brojOcena);
+                            mDatabase.child("oglasi").child(IDOglasa).child("ocena").setValue(ocena);
+                            mDatabase.child("oglasi").child(IDOglasa).child("oceneOglasa").child(brojOcena.toString()).setValue(r);
+                        }else{
+                            Toast.makeText(pregled_jednog_oglasa.this, "ne postoji ovakav oglas", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                }
+            });
+        }else{
+            reasonForBadConnection = 2;
+            HideEverything();
+        }
+
+    }
+
+    public boolean tryToStart(){
+        if(IsConnectedToInternet()) {
+            FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Oglas oglas = snapshot.getValue(Oglas.class);
+                    username.setText(oglas.getUsername());
+                    opis.setText(oglas.getOpis());
+                    grad.setText(oglas.getGrad());
+
+                    if (oglas.getImageurl().equals("default"))
+                        profile_image.setImageResource(R.mipmap.ic_launcher);
+                    else
+                        Glide.with(getApplicationContext()).load(oglas.getImageurl()).into(profile_image);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }else{
+            HideEverything();
+            reasonForBadConnection = 1;
+            return false;
+        }
+        return true;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +170,9 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
         IDOglasa = getIntent().getStringExtra("IDOglasa");
         nazivGrada = getIntent().getStringExtra("NazivGrada");
 
+        relativeLayout = findViewById(R.id.PregledJednogOglasaActivity);
+        viewNoInternet = (View) findViewById(R.id.nemaInternet);
+
         rating = findViewById(R.id.ratingForOglas);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.rating, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -111,6 +181,12 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
 
         textForRating = findViewById(R.id.textForRatingForOglas);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        profile_image = findViewById(R.id.profile_image);
+        username = findViewById(R.id.username);
+        opis = findViewById(R.id.opis);
+        grad = findViewById(R.id.grad);
+
         buttonAddRating = findViewById(R.id.addRatingButton);
         buttonAddRating.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,34 +202,19 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
             }
         });
 
-
-        profile_image = findViewById(R.id.profile_image);
-        username = findViewById(R.id.username);
-        opis = findViewById(R.id.opis);
-        grad = findViewById(R.id.grad);
-        FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).addValueEventListener(new ValueEventListener() {
+        tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
+        tryAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Oglas oglas = snapshot.getValue(Oglas.class);
-                username.setText(oglas.getUsername());
-                opis.setText(oglas.getOpis());
-                grad.setText(oglas.getGrad());
-
-                if(oglas.getImageurl().equals("default")){
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
-                }
-                else{
-                    Glide.with(getApplicationContext()).load(oglas.getImageurl()).into(profile_image);
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onClick(View view) {
+                if(reasonForBadConnection == 1) {
+                    if (tryToStart())
+                        ShowEverything();
+                }else
+                    ShowEverything();
             }
         });
+
+        tryToStart();
 
         sendMessage = findViewById(R.id.sendMessage);
         sendMessage.setOnClickListener(new View.OnClickListener() {
@@ -166,21 +227,26 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
     }
 
     private void startMessaging() {
-        FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Oglas oglas = snapshot.getValue(Oglas.class);
+        if(IsConnectedToInternet()) {
+            FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Oglas oglas = snapshot.getValue(Oglas.class);
 
-                Intent i = new Intent(pregled_jednog_oglasa.this, MessageActivity.class);
-                i.putExtra("userid",oglas.getUserId());
-                startActivity(i);
-            }
+                    Intent i = new Intent(pregled_jednog_oglasa.this, MessageActivity.class);
+                    i.putExtra("userid", oglas.getUserId());
+                    startActivity(i);
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }else{
+            reasonForBadConnection = 2;
+            HideEverything();
+        }
 
     }
 
@@ -191,10 +257,6 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
-
-    public void postaviOglas(String IDOglas){
 
     }
 

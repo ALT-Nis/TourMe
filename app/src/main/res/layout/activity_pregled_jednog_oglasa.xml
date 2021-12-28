@@ -4,7 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/PregledJednogOglasaActivity"
     tools:context=".pregled_jednog_oglasa">
+
+    <include
+        layout="@layout/nema_internet"
+        android:id="@+id/nemaInternet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="114dp"
+        android:layout_marginEnd="124dp"
+        android:visibility="visible" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/user_details"
@@ -103,6 +113,7 @@
                     android:layout_marginBottom="15dp"
                     android:backgroundTint="#339933"
                     android:text="Posalji poruku" />
+
 
             </RelativeLayout>
 
