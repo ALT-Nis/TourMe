@@ -314,33 +314,6 @@ public class Register extends AppCompatActivity {
         });
 
     }
-<<<<<<< HEAD
-}
-=======
-
-    private void status(String status){
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-            HashMap<String, Object> hashMap = new HashMap<String, Object>();
-            hashMap.put("status", status);
-
-            reference.updateChildren(hashMap);
-        }
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        status("online");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        status("offline");
-    }
 
 }
->>>>>>> 0d24211c31752c3404aeb43c79badfb24138b506
+

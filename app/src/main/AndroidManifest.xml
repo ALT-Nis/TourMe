@@ -22,9 +22,6 @@
             android:name=".dodajOglas"
             android:exported="false" />
         <activity
-            android:name=".pregledSvihSvojihOglasa"
-            android:exported="false" />
-        <activity
             android:name=".pregled_jednog_oglasa"
             android:exported="false" />
         <activity
