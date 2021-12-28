@@ -242,45 +242,29 @@ public class Register extends AppCompatActivity {
         });
 
     }
+
+    private void status(String status){
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+            HashMap<String, Object> hashMap = new HashMap<String, Object>();
+            hashMap.put("status", status);
+
+            reference.updateChildren(hashMap);
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
+    }
+
 }
-
-//luka ovo su nove izmene
-//FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
-//FirebaseDatabase.getInstance()
-//        HashMap<String, String> hashMap = new HashMap<>();
-//        hashMap.put("id", "1");
-//        hashMap.put("username","yutopk");
-//        hashMap.put("imageurl","default");
-
-//FirebaseDatabase.getInstance().getReference("korisnik").child("1").setValue(hashMap);
-        /*
-
-        OVO CE NAM KASNIJE TREBA ZA CUVANEJ SLIKE
-        StorageReference storageRef = storage.getReference();
-
-        NJIHOV DEFAULT KOD PRIMER
-        * // Create a new user with a first and last name
-        Map<String, Object> user = new HashMap<>();
-        user.put("first", "Ada");
-        user.put("last", "Lovelace");
-        user.put("born", 1815);
-
-        // Add a new document with a generated ID
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-        .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Error adding document", e);
-            }
-        });
-        *
-        * */

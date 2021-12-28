@@ -24,6 +24,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 public class Login extends AppCompatActivity {
 
     EditText mEmail, mPassword;
@@ -187,5 +189,29 @@ public class Login extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void status(String status){
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+            HashMap<String, Object> hashMap = new HashMap<String, Object>();
+            hashMap.put("status", status);
+
+            reference.updateChildren(hashMap);
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
     }
 }
