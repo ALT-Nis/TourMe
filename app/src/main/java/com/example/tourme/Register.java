@@ -2,6 +2,7 @@ package com.example.tourme;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,8 +34,6 @@ import com.google.firebase.database.DatabaseReference;
 
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-
 public class Register extends AppCompatActivity {
 
     EditText mEmail, mUserName, mPassword, mConfirmPassword;
@@ -42,12 +41,8 @@ public class Register extends AppCompatActivity {
     Button registerButton, buttonShowHidePassword, buttonShowHideConfirmPassword;
     Button tryAgainButton;
     TextView loginButton;
-    TextView emailText, usernameText, passwordText, confirmPasswordText;
 
     FirebaseAuth fAuth;
-
-    String email, username, password, confirm_password;
-
 
     View viewNoInternet;
 
@@ -55,10 +50,12 @@ public class Register extends AppCompatActivity {
 
     String patternForEmail = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
     String patternForUsername = "^[a-zA-Z0-9]+$";
+    String email, username, password, confirm_password;
 
     boolean didFindError = false;
     boolean isPasswordHidden = true;
     boolean isConfirmPasswordHidden = true;
+
 
     void setEmailError(String errorText){
         mEmail.setError(errorText);
@@ -88,35 +85,21 @@ public class Register extends AppCompatActivity {
     }
 
     void HideEverything(){
-        registerButton.setVisibility(View.GONE);
-        loginButton.setVisibility(View.GONE);
-        buttonShowHidePassword.setVisibility(View.GONE);
-        buttonShowHideConfirmPassword.setVisibility(View.GONE);
-        mEmail.setVisibility(View.GONE);
-        mUserName.setVisibility(View.GONE);
-        mPassword.setVisibility(View.GONE);
-        mConfirmPassword.setVisibility(View.GONE);
-        emailText.setVisibility(View.GONE);
-        usernameText.setVisibility(View.GONE);
-        passwordText.setVisibility(View.GONE);
-        confirmPasswordText.setVisibility(View.GONE);
+        ConstraintLayout constraintLayout = findViewById(R.id.RegisterActivity);
+        for (int i=0;i<constraintLayout.getChildCount();i++) {
+            View v1=constraintLayout.getChildAt(i);
+            v1.setVisibility(View.GONE);
+        }
 
         viewNoInternet.setVisibility(View.VISIBLE);
     }
 
     void ShowEverything(){
-        registerButton.setVisibility(View.VISIBLE);
-        loginButton.setVisibility(View.VISIBLE);
-        buttonShowHidePassword.setVisibility(View.VISIBLE);
-        buttonShowHideConfirmPassword.setVisibility(View.VISIBLE);
-        mEmail.setVisibility(View.VISIBLE);
-        mUserName.setVisibility(View.VISIBLE);
-        mPassword.setVisibility(View.VISIBLE);
-        mConfirmPassword.setVisibility(View.VISIBLE);
-        emailText.setVisibility(View.VISIBLE);
-        usernameText.setVisibility(View.VISIBLE);
-        passwordText.setVisibility(View.VISIBLE);
-        confirmPasswordText.setVisibility(View.VISIBLE);
+        ConstraintLayout constraintLayout = findViewById(R.id.RegisterActivity);
+        for (int i=0;i<constraintLayout.getChildCount();i++) {
+            View v1=constraintLayout.getChildAt(i);
+            v1.setVisibility(View.VISIBLE);
+        }
 
         viewNoInternet.setVisibility(View.GONE);
     }
@@ -126,7 +109,6 @@ public class Register extends AppCompatActivity {
         return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
-
 
     void finishCreatingAccount(String AccountEmail, String AccountPassword) {
         if(IsConnectedToInternet()){
@@ -191,14 +173,12 @@ public class Register extends AppCompatActivity {
         mPassword = findViewById(R.id.password);
         mConfirmPassword = findViewById(R.id.confirm_password);
 
+        viewNoInternet = (View) findViewById(R.id.nemaInternet);
+
+        fAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         buttonShowHidePassword = findViewById(R.id.buttonForShowingPassword);
-        buttonShowHideConfirmPassword = findViewById(R.id.buttonForShowingConfirmPassword);
-
-        emailText = findViewById(R.id.textView4);
-        usernameText = findViewById(R.id.textView8);
-        passwordText = findViewById(R.id.textView9);
-        confirmPasswordText = findViewById(R.id.textView10);
-
         buttonShowHidePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -214,6 +194,7 @@ public class Register extends AppCompatActivity {
             }
         });
 
+        buttonShowHideConfirmPassword = findViewById(R.id.buttonForShowingConfirmPassword);
         buttonShowHideConfirmPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -229,12 +210,7 @@ public class Register extends AppCompatActivity {
             }
         });
 
-        fAuth = FirebaseAuth.getInstance();
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
         loginButton = (TextView)findViewById(R.id.goToSignIn);
-
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -243,10 +219,7 @@ public class Register extends AppCompatActivity {
             }
         });
 
-        viewNoInternet = (View) findViewById(R.id.nemaInternet);
-
         tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
-
         tryAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -255,7 +228,6 @@ public class Register extends AppCompatActivity {
         });
 
         registerButton = findViewById(R.id.register_dugme);
-
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

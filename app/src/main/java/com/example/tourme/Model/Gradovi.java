@@ -1,11 +1,9 @@
 package com.example.tourme.Model;
 
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public class Gradovi {
     public class Node{
