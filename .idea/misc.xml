@@ -21,6 +21,7 @@
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/nema_oglas.xml" value="0.2" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2890625" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2890625" />
+        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/drawable/ic_logo.xml" value="0.3536458333333333" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/drawable/ic_settings.xml" value="0.15885416666666666" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_glavni_ekran.xml" value="0.16" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_login.xml" value="0.25" />
@@ -30,7 +31,7 @@
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_pregled_svih_svojih_oglasa.xml" value="0.1859375" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/activity_register.xml" value="0.25" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/chat_item_left.xml" value="0.67" />
-        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/chat_item_right.xml" value="0.4659090909090909" />
+        <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/chat_item_right.xml" value="0.5" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/fragment_obavestenja.xml" value="0.13677536231884058" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/fragment_pocetni.xml" value="0.21" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/layout/fragment_podesavanja.xml" value="0.22" />
