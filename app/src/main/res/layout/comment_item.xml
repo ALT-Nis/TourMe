@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="@drawable/oglas_bg"
+    android:layout_margin="5dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/comment_image"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_profp" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginStart="58dp"
+        android:layout_marginLeft="58dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@id/comment_image"
+        android:layout_toRightOf="@id/comment_image"
+        android:text="username"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/deskripcija"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="opis oglasa"
+        android:layout_toRightOf="@id/comment_image"
+        android:layout_toEndOf="@id/comment_image"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="10dp"/>
+
+</RelativeLayout>

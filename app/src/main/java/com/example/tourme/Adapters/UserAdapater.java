@@ -80,7 +80,7 @@ public class UserAdapater extends RecyclerView.Adapter<UserAdapater.ViewHolder> 
         return mUsers.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView username;
         public ImageView profile_image;

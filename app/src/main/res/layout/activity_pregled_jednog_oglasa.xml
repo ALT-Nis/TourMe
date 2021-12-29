@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".pregled_jednog_oglasa">
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/PregledJednogOglasaActivity"
-    tools:context=".pregled_jednog_oglasa">
+    android:id="@+id/PregledJednogOglasaActivity">
 
     <include
         layout="@layout/nema_internet"
@@ -19,7 +23,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/user_details"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -67,58 +71,68 @@
                 android:text="Nis"
                 android:textSize="10dp" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/grad"
-                android:layout_marginTop="15dp">
-
-                <Spinner
-                    android:id="@+id/ratingForOglas"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp" />
-
-                <Button
-                    android:id="@+id/addRatingButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/ratingForOglas"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:backgroundTint="#339933"
-                    android:text="dodaj ocenu" />
-
-                <EditText
-                    android:id="@+id/textForRatingForOglas"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/addRatingButton"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:ems="10"
-                    android:inputType="text|textMultiLine|textCapSentences" />
-
-                <Button
-                    android:id="@+id/sendMessage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/textForRatingForOglas"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:backgroundTint="#339933"
-                    android:text="Posalji poruku" />
-
-
-            </RelativeLayout>
 
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
+    <RelativeLayout
+        android:id="@+id/OceniOglas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_details"
+        android:layout_marginTop="15dp">
+
+        <Spinner
+            android:id="@+id/ratingForOglas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp" />
+
+        <Button
+            android:id="@+id/addRatingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ratingForOglas"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="#339933"
+            android:text="dodaj ocenu" />
+
+        <EditText
+            android:id="@+id/textForRatingForOglas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/addRatingButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:ems="10"
+            android:inputType="text|textMultiLine|textCapSentences" />
+
+        <Button
+            android:id="@+id/sendMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textForRatingForOglas"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="#339933"
+            android:text="Posalji poruku" />
+
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/OceniOglas"
+        android:layout_marginTop="15dp"/>
+
 </RelativeLayout>
+</ScrollView>

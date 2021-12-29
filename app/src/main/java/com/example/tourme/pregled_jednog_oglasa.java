@@ -2,6 +2,7 @@ package com.example.tourme;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -18,14 +19,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.tourme.Adapters.CommentAdapter;
 import com.example.tourme.Adapters.MessageAdapter;
+import com.example.tourme.Adapters.OglasAdapter;
+import com.example.tourme.Adapters.UserAdapater;
 import com.example.tourme.Model.Chat;
+import com.example.tourme.Model.Comment;
 import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.Rating;
 import com.example.tourme.Model.User;
@@ -39,6 +45,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,6 +65,10 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
 
     RelativeLayout relativeLayout;
     View viewNoInternet;
+
+    RecyclerView recyclerView;
+    CommentAdapter commentAdapter;
+    List<Comment> mComment;
 
     int reasonForBadConnection = 1;
 
@@ -112,11 +123,11 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
 
                             ocena = (((double)brojOcena - 1) * ocena + doubleNewRating) / ((double)brojOcena);
                             ocena = Math.round(ocena * 100.0) / 100.0;
-                            Rating r = new Rating(doubleNewRating, newRatingText);
+                            Comment comment = new Comment(doubleNewRating,newRatingText,FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                             mDatabase.child("oglasi").child(IDOglasa).child("brojOcena").setValue(brojOcena);
                             mDatabase.child("oglasi").child(IDOglasa).child("ocena").setValue(ocena);
-                            mDatabase.child("oglasi").child(IDOglasa).child("oceneOglasa").child(brojOcena.toString()).setValue(r);
+                            mDatabase.child("oglasi").child(IDOglasa).child("oceneOglasa").child(brojOcena.toString()).setValue(comment);
                         }else{
                             Toast.makeText(pregled_jednog_oglasa.this, "ne postoji ovakav oglas", Toast.LENGTH_LONG).show();
                         }
@@ -223,6 +234,35 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
                 startMessaging();
             }
         });
+
+
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        LinearLayout linearLayout = new LinearLayout(getApplicationContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        mComment = new ArrayList<>();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).child("oceneOglasa");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mComment.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Comment comment = dataSnapshot.getValue(Comment.class);
+                    mComment.add(comment);
+                }
+                commentAdapter = new CommentAdapter(getApplicationContext(), mComment);
+                recyclerView.setAdapter(commentAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
     }
 
