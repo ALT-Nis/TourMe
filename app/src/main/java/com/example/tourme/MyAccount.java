@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,31 +58,50 @@ public class MyAccount extends AppCompatActivity {
     DatabaseReference reference;
     FirebaseUser firebaseUser;
 
+    RelativeLayout relativeLayout;
+    View viewNoInternet;
+
     OglasAdapter oglasAdapter;
     List<Oglas> mOglas;
 
     Uri imageUri;
     FirebaseStorage storage;
     StorageReference storageReference;
+    Button tryAgainButton;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+    int reasonForBadConnection = 1;
 
-            setContentView(R.layout.activity_myaccount);
+    void HideEverything(){
+        for (int i=0;i<relativeLayout.getChildCount();i++) {
+            View v1=relativeLayout.getChildAt(i);
+            v1.setVisibility(View.GONE);
+        }
 
-            imageView = findViewById(R.id.profile_image);
-            textView = findViewById(R.id.username);
+        viewNoInternet.setVisibility(View.VISIBLE);
+    }
 
-            recyclerView = findViewById(R.id.recycler_view);
-            recyclerView.setHasFixedSize(true);
-            LinearLayout linearLayout = new LinearLayout(getApplicationContext());
+    void ShowEverything(){
+        for (int i=0;i<relativeLayout.getChildCount();i++) {
+            View v1=relativeLayout.getChildAt(i);
+            v1.setVisibility(View.VISIBLE);
+        }
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(MyAccount.this));
+        viewNoInternet.setVisibility(View.GONE);
+    }
 
+    Boolean IsConnectedToInternet(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+    }
+
+    public boolean tryToStart(){
+        if(IsConnectedToInternet()) {
             firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             reference = FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid());
+
+            storage = FirebaseStorage.getInstance();
+            storageReference = storage.getReference();
 
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -101,27 +124,69 @@ public class MyAccount extends AppCompatActivity {
                 }
             });
 
+        }else{
+            HideEverything();
+            reasonForBadConnection = 1;
+            return false;
+        }
+        return true;
+    }
 
-            storage = FirebaseStorage.getInstance();
-            storageReference = storage.getReference();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+
+            setContentView(R.layout.activity_myaccount);
+
+            imageView = findViewById(R.id.profile_image);
+            textView = findViewById(R.id.username);
+
+            relativeLayout = findViewById(R.id.MojNalog);
+            viewNoInternet = (View) findViewById(R.id.nemaInternet);
+
+            recyclerView = findViewById(R.id.recycler_view);
+            recyclerView.setHasFixedSize(true);
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(MyAccount.this));
+
+            tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
+            tryAgainButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(reasonForBadConnection == 1) {
+                        if (tryToStart())
+                            ShowEverything();
+                    }else
+                        ShowEverything();
+                }
+            });
+
+            tryToStart();
+
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    choseImage();
+                    if(IsConnectedToInternet())
+                        choseImage();
+                    else{
+                        reasonForBadConnection = 2;
+                        HideEverything();
+                    }
                 }
             });
         }
         else{
-        setContentView(R.layout.not_logged_in);
-        Button dugme_login = findViewById(R.id.dugme_login);
-        dugme_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MyAccount.this, Login.class);
-                startActivity(i);
-            }
-        });
-    }
+            setContentView(R.layout.not_logged_in);
+            Button dugme_login = findViewById(R.id.dugme_login);
+            dugme_login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(MyAccount.this, Login.class);
+                    startActivity(i);
+                }
+            });
+        }
 
     }
 
