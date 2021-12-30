@@ -9,7 +9,7 @@
         android:layout_height="120dp"
         android:src="@drawable/ic_nema_internet"
         android:id="@+id/ico_ni"
-        android:layout_centerHorizontal="true"></ImageView>
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,7 +20,7 @@
         android:textSize="20sp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:id="@+id/problem"></TextView>
+        android:id="@+id/problem"/>
 
     <Button
         android:id="@+id/TryAgainButton"
@@ -31,6 +31,15 @@
         android:layout_marginTop="40dp"
         android:backgroundTint="?attr/colorSecondary"
         android:text="Pokušaj ponovo"
-        android:textColor="@color/white"></Button>
+        android:textColor="@color/white"
+        android:visibility="visible"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:layout_below="@id/problem"
+        android:layout_marginTop="40dp"/>
 
 </RelativeLayout>
