@@ -47,6 +47,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class MyAccount extends AppCompatActivity {
@@ -54,22 +55,25 @@ public class MyAccount extends AppCompatActivity {
     ImageView imageView;
     TextView textView;
     RecyclerView recyclerView;
+    View viewNoInternet;
+
+    RelativeLayout relativeLayout;
 
     DatabaseReference reference;
     FirebaseUser firebaseUser;
+    FirebaseStorage storage;
 
-    RelativeLayout relativeLayout;
-    View viewNoInternet;
+    StorageReference storageReference;
 
     OglasAdapter oglasAdapter;
     List<Oglas> mOglas;
 
     Uri imageUri;
-    FirebaseStorage storage;
-    StorageReference storageReference;
+
     Button tryAgainButton;
 
     int reasonForBadConnection = 1;
+    int numberOfOglases;
 
     void HideEverything(){
         for (int i=0;i<relativeLayout.getChildCount();i++) {
@@ -93,6 +97,44 @@ public class MyAccount extends AppCompatActivity {
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+    }
+
+    void recursion1ForMyOglases(int index, List<String> idsForMyOglas){
+        if(index == numberOfOglases){
+            oglasAdapter = new OglasAdapter(MyAccount.this, mOglas);
+            recyclerView.setAdapter(oglasAdapter);
+        }else{
+            DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
+            ref1.child("oglasi").child(idsForMyOglas.get(index)).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    Oglas oglas = task.getResult().getValue(Oglas.class);
+                    mOglas.add(oglas);
+                    recursion1ForMyOglases(index + 1, idsForMyOglas);
+                }
+            });
+        }
+
+    }
+
+    private void showOglas(String userid){
+        mOglas = new ArrayList<>();
+
+        reference = FirebaseDatabase.getInstance().getReference().child("users").child(userid).child("oglas");
+        reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                mOglas.clear();
+                List<String> idsForMyOglas = new ArrayList<>();
+
+                for(DataSnapshot dataSnapshot : Objects.requireNonNull(task.getResult()).getChildren()){
+                    String newIdOglasa = dataSnapshot.getValue(String.class);
+                    idsForMyOglas.add(newIdOglasa);
+                }
+                numberOfOglases = idsForMyOglas.size();
+                recursion1ForMyOglases(0, idsForMyOglas);
+            }
+        });
     }
 
     public boolean tryToStart(){
@@ -267,51 +309,6 @@ public class MyAccount extends AppCompatActivity {
         });
     }
 
-    int numberOfOglases;
-
-    void recursion1ForMyOglases(int index, List<String> idsForMyOglas){
-        if(index == numberOfOglases){
-            oglasAdapter = new OglasAdapter(MyAccount.this, mOglas);
-            recyclerView.setAdapter(oglasAdapter);
-        }else{
-            DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
-            ref1.child("oglasi").child(idsForMyOglas.get(index)).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    Oglas oglas = task.getResult().getValue(Oglas.class);
-                    mOglas.add(oglas);
-                    recursion1ForMyOglases(index + 1, idsForMyOglas);
-                }
-            });
-        }
-
-    }
-
-    private void showOglas(String userid){
-        mOglas = new ArrayList<>();
-
-        reference = FirebaseDatabase.getInstance().getReference().child("users").child(userid).child("oglas");
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mOglas.clear();
-                List<String> idsForMyOglas = new ArrayList<>();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    String newIdOglasa = dataSnapshot.getValue(String.class);
-                    idsForMyOglas.add(newIdOglasa);
-                }
-                numberOfOglases = idsForMyOglas.size();
-                recursion1ForMyOglases(0, idsForMyOglas);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 
     private void status(String status){
         if(FirebaseAuth.getInstance().getCurrentUser()!=null) {

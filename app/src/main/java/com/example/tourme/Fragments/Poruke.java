@@ -173,14 +173,6 @@ public class  Poruke extends Fragment {
 
             }
         });
-
-        /*
-        userAdapater = new UserAdapater(getContext(), mUsers, true);
-        Log.e("VELICINA", "Velicina je: " + userAdapater.getItemCount());
-        recyclerView.setAdapter(userAdapater);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        */
-
     }
 
 }
