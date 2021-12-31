@@ -149,6 +149,13 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Oglas oglas = snapshot.getValue(Oglas.class);
                     username.setText(oglas.getUsername());
+                    username.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            openAccount(oglas.getUserId());
+                        }
+                    });
+
                     opis.setText(oglas.getOpis());
                     grad.setText(oglas.getGrad());
 
@@ -156,6 +163,13 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
                         profile_image.setImageResource(R.mipmap.ic_launcher);
                     else
                         Glide.with(getApplicationContext()).load(oglas.getImageurl()).into(profile_image);
+
+                    profile_image.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            openAccount(oglas.getUserId());
+                        }
+                    });
 
                 }
 
@@ -264,6 +278,12 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
 
 
 
+    }
+
+    private void openAccount(String userid){
+        Intent intent = new Intent(getApplicationContext(), Account.class);
+        intent.putExtra("userid",userid);
+        startActivity(intent);
     }
 
     private void startMessaging() {

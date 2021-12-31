@@ -1,16 +1,19 @@
 package com.example.tourme.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.tourme.Account;
 import com.example.tourme.Model.Chat;
 import com.example.tourme.Model.Comment;
 import com.example.tourme.Model.User;
@@ -49,12 +52,31 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 holder.username.setText(user.getUsername());
+                holder.username.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, Account.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("userid",user.getId());
+                        mContext.startActivity(intent);
+                    }
+                });
                 if (user.getImageurl().equals("default")){
                     holder.comment_image.setImageResource(R.mipmap.ic_launcher);
                 } else {
                     Glide.with(mContext).load(user.getImageurl()).into(holder.comment_image);
                 }
+                holder.comment_image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, Account.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("userid",user.getId());
+                        mContext.startActivity(intent);
+                    }
+                });
                 holder.deskripcija.setText(comment.getRatingDescription());
+                holder.ratingStars.setRating((float) comment.getRating());
             }
 
             @Override
@@ -74,6 +96,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         public TextView username;
         public ImageView comment_image;
         public TextView deskripcija;
+        public RatingBar ratingStars;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -81,6 +104,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             username = itemView.findViewById(R.id.username);
             comment_image = itemView.findViewById(R.id.comment_image);
             deskripcija = itemView.findViewById(R.id.deskripcija);
+            ratingStars = itemView.findViewById(R.id.ratingStars);
         }
 
     }
