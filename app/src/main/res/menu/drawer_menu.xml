@@ -17,7 +17,7 @@
         <item
             android:id="@+id/obavestenja"
             android:icon="@drawable/ic_notifications"
-            android:title="Obavestenja"
+            android:title="Obaveštenja"
             />
 
         <item
@@ -29,13 +29,13 @@
         <item
             android:id="@+id/podesavanja"
             android:icon="@drawable/ic_settings"
-            android:title="Podesavanja"
+            android:title="Podešavanja"
             />
 
         <item
             android:id="@+id/logInOut"
             android:icon="@drawable/ic_login"
-            android:title="Logout"
+            android:title="Odjavite se"
             />
 
     </group>
