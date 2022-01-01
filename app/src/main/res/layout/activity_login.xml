@@ -28,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="E-mail"
-            android:layout_centerHorizontal="true"
             android:layout_above="@id/email_login"
             android:layout_alignLeft="@id/email_login"/>
 
@@ -36,19 +35,19 @@
             android:id="@+id/email_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
+            android:layout_above="@id/password"
             android:layout_centerHorizontal="true"
-            android:layout_above="@id/password"/>
+            android:ems="10"
+            android:inputType="textPersonName" />
 
         <TextView
             android:id="@+id/password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Password"
-            android:layout_marginTop="30dp"
+            android:layout_above="@id/password_login"
             android:layout_alignLeft="@id/password_login"
-            android:layout_above="@id/password_login"/>
+            android:layout_marginTop="30dp"
+            android:text="Šifra" />
 
         <EditText
             android:id="@+id/password_login"
@@ -56,22 +55,23 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@id/email_login"
             android:layout_alignEnd="@id/email_login"
-            android:inputType="textPassword"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/buttonForShowingPasswordLogin"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignBaseline="@id/password_login"
-            android:layout_toRightOf="@id/password_login"/>
+            android:layout_width="40dp"
+            android:layout_height="45dp"
+            android:layout_alignBottom="@id/password_login"
+            android:layout_toRightOf="@id/password_login"
+            android:drawableBottom="@drawable/ic_eye"
+            android:layout_marginLeft="10dp"/>
 
         <Button
             android:id="@+id/login_dugme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Prijavi se"
+            android:text="Prijavite se"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/password_login"
             android:backgroundTint="?attr/colorSecondary"
@@ -85,22 +85,22 @@
             android:layout_below="@+id/login_dugme"
             android:layout_centerHorizontal="true">
 
-        <TextView
-            android:id="@+id/bezNaloga"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nemate nalog?"
-            android:layout_below="@+id/login_dugme"/>
+            <TextView
+                android:id="@+id/bezNaloga"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nemate nalog?"
+                android:layout_below="@+id/login_dugme"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/goToRegister"
-            android:clickable="true"
-            android:text="Registrujte se ovde."
-            android:layout_toRightOf="@id/bezNaloga"
-            android:layout_marginLeft="5dp"
-            android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/goToRegister"
+                android:clickable="true"
+                android:text="Registrujte se ovde."
+                android:layout_toRightOf="@id/bezNaloga"
+                android:layout_marginLeft="5dp"
+                android:textStyle="bold"/>
 
         </LinearLayout>
 
