@@ -73,7 +73,6 @@ public class MyAccount extends AppCompatActivity {
 
     Uri imageUri;
 
-
     int reasonForBadConnection = 1;
     int numberOfOglases;
 
@@ -103,13 +102,19 @@ public class MyAccount extends AppCompatActivity {
         viewNoInternet.setVisibility(View.VISIBLE);
     }
 
+    void HideWithReason(int reason){
+        HideEverything();
+        reasonForBadConnection = reason;
+    }
+
     private void ShowEverythingRecursion(View v) {
         ViewGroup viewgroup=(ViewGroup)v;
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet)
-                    HideEverythingRecursion(v1);
+                if(v1 != viewNoInternet) {
+                    ShowEverythingRecursion(v1);
+                }
             }else
                 v1.setVisibility(View.VISIBLE);
         }
@@ -180,8 +185,7 @@ public class MyAccount extends AppCompatActivity {
 
                         showOglas(user.getId());
                     }else{
-                        reasonForBadConnection = 1;
-                        HideEverything();
+                        HideWithReason(1);
                     }
                 }
 
@@ -192,8 +196,7 @@ public class MyAccount extends AppCompatActivity {
             });
 
         }else{
-            HideEverything();
-            reasonForBadConnection = 1;
+            HideWithReason(1);
             return false;
         }
         return true;
@@ -242,8 +245,7 @@ public class MyAccount extends AppCompatActivity {
                     if(IsConnectedToInternet())
                         choseImage();
                     else{
-                        reasonForBadConnection = 2;
-                        HideEverything();
+                        HideWithReason(2);
                     }
                 }
             });
@@ -259,7 +261,6 @@ public class MyAccount extends AppCompatActivity {
                 }
             });
         }
-
     }
 
     private void choseImage(){

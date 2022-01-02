@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,14 +41,14 @@ public class Register extends AppCompatActivity {
     EditText mEmail, mUserName, mPassword, mConfirmPassword;
 
     Button registerButton, buttonShowHidePassword, buttonShowHideConfirmPassword;
-    Button tryAgainButton;
     TextView loginButton;
 
     FirebaseAuth fAuth;
 
-    ConstraintLayout constraintLayout;
-
-    View viewNoInternet;
+    View viewNoInternet, viewThis;
+    ProgressBar progressBar;
+    Button tryAgainButton;
+    Handler h = new Handler();
 
     private DatabaseReference mDatabase;
 
@@ -58,6 +60,7 @@ public class Register extends AppCompatActivity {
     boolean isPasswordHidden = true;
     boolean isConfirmPasswordHidden = true;
 
+    int reasonForBadConnection = 1;
 
     void setEmailError(String errorText){
         mEmail.setError(errorText);
@@ -86,23 +89,54 @@ public class Register extends AppCompatActivity {
         mConfirmPassword.setError(null);
     }
 
-    void HideEverything(){
-        for (int i=0;i<constraintLayout.getChildCount();i++) {
-            View v1=constraintLayout.getChildAt(i);
-            v1.setVisibility(View.GONE);
-        }
+    void hideProgressShowButton(){
+        progressBar.setVisibility(View.GONE);
+        tryAgainButton.setVisibility(View.VISIBLE);
+    }
+    void hideButtonShowProgress(){
+        progressBar.setVisibility(View.VISIBLE);
+        tryAgainButton.setVisibility(View.GONE);
+    }
 
+    private void HideEverythingRecursion(View v) {
+        ViewGroup viewgroup=(ViewGroup)v;
+        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+            View v1 = viewgroup.getChildAt(i);
+            if (v1 instanceof ViewGroup){
+                if(v1 != viewNoInternet)
+                    HideEverythingRecursion(v1);
+            }else
+                v1.setVisibility(View.GONE);
+        }
+    }
+
+    void HideEverything(){
+        HideEverythingRecursion(viewThis);
         viewNoInternet.setVisibility(View.VISIBLE);
     }
 
-    void ShowEverything(){
-        for (int i=0;i<constraintLayout.getChildCount();i++) {
-            View v1=constraintLayout.getChildAt(i);
-            v1.setVisibility(View.VISIBLE);
-        }
+    void HideWithReason(int reason){
+        HideEverything();
+        reasonForBadConnection = reason;
+    }
 
+    private void ShowEverythingRecursion(View v) {
+        ViewGroup viewgroup=(ViewGroup)v;
+        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+            View v1 = viewgroup.getChildAt(i);
+            if (v1 instanceof ViewGroup){
+                if(v1 != viewNoInternet)
+                    ShowEverythingRecursion(v1);
+            }else
+                v1.setVisibility(View.VISIBLE);
+        }
+    }
+
+    void ShowEverything(){
+        ShowEverythingRecursion(viewThis);
         viewNoInternet.setVisibility(View.GONE);
     }
+
 
     Boolean IsConnectedToInternet(){
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -130,13 +164,13 @@ public class Register extends AppCompatActivity {
                         if(errorCode.equals("ERROR_EMAIL_ALREADY_IN_USE")){
                             setEmailError("Vec postoji nalog sa ovim Email-om");
                         }else {
-                            HideEverything();
+                            HideWithReason(2);
                         }
                     }
                 }
             });
         }else{
-            HideEverything();
+            HideWithReason(2);
         }
 
     }
@@ -146,7 +180,7 @@ public class Register extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (!task.isSuccessful()) {
-                        HideEverything();
+                        HideWithReason(2);
                     }
                     else {
                         String dataFromDatabase = String.valueOf(task.getResult().getValue());
@@ -159,8 +193,19 @@ public class Register extends AppCompatActivity {
                 }
             });
         }else{
-            HideEverything();
+            HideWithReason(2);
         }
+    }
+
+    public boolean tryToStart(){
+        if(IsConnectedToInternet()){
+            fAuth = FirebaseAuth.getInstance();
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+        }else{
+            HideWithReason(1);
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -173,12 +218,9 @@ public class Register extends AppCompatActivity {
         mPassword = findViewById(R.id.password);
         mConfirmPassword = findViewById(R.id.confirm_password);
 
+        viewThis = findViewById(R.id.RegisterActivity);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
-
-        fAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        constraintLayout = findViewById(R.id.RegisterActivity);
+        progressBar = viewNoInternet.findViewById(R.id.progressBar);
 
         buttonShowHidePassword = findViewById(R.id.buttonForShowingPassword);
         buttonShowHidePassword.setOnClickListener(new View.OnClickListener() {
@@ -225,9 +267,20 @@ public class Register extends AppCompatActivity {
         tryAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShowEverything();
+                hideButtonShowProgress();
+                h.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideProgressShowButton();
+                        if(reasonForBadConnection == 1) {
+                            if (tryToStart()) ShowEverything();
+                        }else ShowEverything();
+                    }
+                }, 1000);
             }
         });
+
+        tryToStart();
 
         registerButton = findViewById(R.id.register_dugme);
         registerButton.setOnClickListener(new View.OnClickListener() {

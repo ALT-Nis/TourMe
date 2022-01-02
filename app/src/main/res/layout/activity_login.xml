@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login"
+    android:id="@+id/LoginActivity"
     android:background="?attr/colorPrimaryVariant">
 
     <RelativeLayout
@@ -12,6 +13,13 @@
         android:layout_height="match_parent"
         android:background="?attr/colorPrimary"
         android:layout_margin="35dp">
+
+        <include
+            layout="@layout/nema_internet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/nemaInternet"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/login"

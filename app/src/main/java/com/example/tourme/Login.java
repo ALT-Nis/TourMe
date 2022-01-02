@@ -3,15 +3,21 @@ package com.example.tourme;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,10 +39,17 @@ public class Login extends AppCompatActivity {
     TextView registerButton;
     FirebaseAuth fAuth;
 
+    View viewNoInternet, viewThis;
+    ProgressBar progressBar;
+    Button tryAgainButton;
+    Handler h = new Handler();
+
     boolean didFindError = false;
     boolean isPasswordHidden = true;
 
     private DatabaseReference mDatabase;
+
+    int reasonForBadConnection = 1;
 
     String patternForEmail = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
 
@@ -53,6 +66,60 @@ public class Login extends AppCompatActivity {
     void resetErrors(){
         mEmail.setError(null);
         mPassword.setError(null);
+    }
+
+    void hideProgressShowButton(){
+        progressBar.setVisibility(View.GONE);
+        tryAgainButton.setVisibility(View.VISIBLE);
+    }
+    void hideButtonShowProgress(){
+        progressBar.setVisibility(View.VISIBLE);
+        tryAgainButton.setVisibility(View.GONE);
+    }
+
+    private void HideEverythingRecursion(View v) {
+        ViewGroup viewgroup=(ViewGroup)v;
+        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+            View v1 = viewgroup.getChildAt(i);
+            if (v1 instanceof ViewGroup){
+                if(v1 != viewNoInternet)
+                    HideEverythingRecursion(v1);
+            }else
+                v1.setVisibility(View.GONE);
+        }
+    }
+
+    void HideEverything(){
+        HideEverythingRecursion(viewThis);
+        viewNoInternet.setVisibility(View.VISIBLE);
+    }
+
+    void HideWithReason(int reason){
+        HideEverything();
+        reasonForBadConnection = reason;
+    }
+
+    private void ShowEverythingRecursion(View v) {
+        ViewGroup viewgroup=(ViewGroup)v;
+        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+            View v1 = viewgroup.getChildAt(i);
+            if (v1 instanceof ViewGroup){
+                if(v1 != viewNoInternet)
+                    ShowEverythingRecursion(v1);
+            }else
+                v1.setVisibility(View.VISIBLE);
+        }
+    }
+
+    void ShowEverything(){
+        ShowEverythingRecursion(viewThis);
+        viewNoInternet.setVisibility(View.GONE);
+    }
+
+    Boolean IsConnectedToInternet(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 
     void finishSigningIn(String email, String password){
@@ -104,27 +171,42 @@ public class Login extends AppCompatActivity {
 
 
         if(!m.matches()) {
-            //nije email nego je username
-            String username = email;
-            mDatabase.child("usersID").child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (!task.isSuccessful()) {
-                        Log.e("Firebase", "Error getting data", task.getException());
-                    }
-                    else {
-                        String IDFromDatabase = String.valueOf(task.getResult().getValue());
-                        if(!IDFromDatabase.equals("null")){
-                            continueSignIn(IDFromDatabase, password);
-                        }else{
-                            setEmailError("Ne postoji ovakvo korisnicko ime");
+            if(IsConnectedToInternet()){
+                //nije email nego je username
+                String username = email;
+                mDatabase.child("usersID").child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            HideEverything();
+                        }
+                        else {
+                            String IDFromDatabase = String.valueOf(task.getResult().getValue());
+                            if(!IDFromDatabase.equals("null")){
+                                continueSignIn(IDFromDatabase, password);
+                            }else{
+                                setEmailError("Ne postoji ovakvo korisnicko ime");
+                            }
                         }
                     }
-                }
-            });
+                });
+            }else{
+                HideEverything();
+            }
         }else{
             finishSigningIn(email, password);
         }
+    }
+
+    public boolean tryToStart(){
+        if(IsConnectedToInternet()){
+            fAuth = FirebaseAuth.getInstance();
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+        }else{
+            HideWithReason(1);
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -135,12 +217,30 @@ public class Login extends AppCompatActivity {
         mEmail = findViewById(R.id.email_login);
         mPassword = findViewById(R.id.password_login);
 
-        fAuth = FirebaseAuth.getInstance();
+        viewThis = findViewById(R.id.LoginActivity);
+        viewNoInternet = (View) findViewById(R.id.nemaInternet);
+        progressBar = viewNoInternet.findViewById(R.id.progressBar);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
+        tryAgainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideButtonShowProgress();
+                h.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideProgressShowButton();
+                        if(reasonForBadConnection == 1) {
+                            if (tryToStart()) ShowEverything();
+                        }else ShowEverything();
+                    }
+                }, 1000);
+            }
+        });
+
+        tryToStart();
 
         registerButton = (TextView)findViewById(R.id.goToRegister);
-
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,7 +266,6 @@ public class Login extends AppCompatActivity {
         });
 
         login_dugme = findViewById(R.id.login_dugme);
-
         login_dugme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

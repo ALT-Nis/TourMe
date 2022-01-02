@@ -42,12 +42,15 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
+        android:id="@+id/oglasi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Svi oglasi korisnika"
-        android:id="@+id/oglasi"
         android:layout_below="@id/user_details"
-        android:layout_margin="10dp"/>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Svi oglasi korisnika" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
