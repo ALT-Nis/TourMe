@@ -280,8 +280,6 @@ public class Register extends AppCompatActivity {
             }
         });
 
-        tryToStart();
-
         registerButton = findViewById(R.id.register_dugme);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -339,6 +337,8 @@ public class Register extends AppCompatActivity {
 
             }
         });
+
+        tryToStart();
 
     }
 

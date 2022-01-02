@@ -297,8 +297,6 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
             }
         });
 
-        tryToStart();
-
         sendMessage = findViewById(R.id.sendMessage);
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -311,6 +309,8 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        tryToStart();
     }
 
     private void openAccount(String userid){
@@ -321,19 +321,14 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
 
     private void startMessaging() {
         if(IsConnectedToInternet()) {
-            FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).addValueEventListener(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Oglas oglas = snapshot.getValue(Oglas.class);
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    Oglas oglas = task.getResult().getValue(Oglas.class);
 
                     Intent i = new Intent(pregled_jednog_oglasa.this, MessageActivity.class);
                     i.putExtra("userid", oglas.getUserId());
                     startActivity(i);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
                 }
             });
         }else{
