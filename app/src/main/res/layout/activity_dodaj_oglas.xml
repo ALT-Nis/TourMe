@@ -30,7 +30,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
             android:backgroundTint="?attr/colorSecondary"
-            android:text="dodaj Oglas"
+            android:text="dodajte Oglas"
             android:textColor="@color/white" />
 
         <TextView
