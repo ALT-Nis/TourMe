@@ -17,7 +17,7 @@
             android:id="@+id/user_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/user_details"
             android:layout_marginTop="15dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <Spinner
                 android:id="@+id/ratingForOglas"
@@ -128,14 +128,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/OceniOglas"
             android:layout_marginTop="15dp"
-            android:visibility="gone"/>
+            android:visibility="visible" />
 
         <include
             android:id="@+id/nemaInternet"
             layout="@layout/nema_internet"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </RelativeLayout>
 

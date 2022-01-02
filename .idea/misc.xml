@@ -11,6 +11,21 @@
         <entry key="..\:/Programming/Projekti/mts/5/TourMe/app/src/main/res/layout/nema_internet.xml" value="0.20885416666666667" />
         <entry key="..\:/Programming/Projekti/mts/5/TourMe/app/src/main/res/layout/nema_oglas.xml" value="0.20885416666666667" />
         <entry key="..\:/Programming/Projekti/mts/5/TourMe/app/src/main/res/layout/not_logged_in.xml" value="0.20885416666666667" />
+<<<<<<< HEAD
+=======
+        <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/activity_account.xml" value="0.371875" />
+        <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/activity_login.xml" value="0.371875" />
+        <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/activity_myaccount.xml" value="0.371875" />
+        <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/activity_pregled_jednog_oglasa.xml" value="0.371875" />
+        <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/activity_register.xml" value="0.371875" />
+        <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/nema_internet.xml" value="0.3287037037037037" />
+        <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/nema_oglas.xml" value="0.3287037037037037" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/background_left.xml" value="0.1707236842105263" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/background_right.xml" value="0.1707236842105263" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_eye.xml" value="0.1707236842105263" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1707236842105263" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_login.xml" value="0.1707236842105263" />
+>>>>>>> 6a2ea5410a108cb9609eec8311c422c89cf68f5b
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_logo.xml" value="0.12685185185185185" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_nema_internet.xml" value="0.12685185185185185" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_account.xml" value="0.16" />
