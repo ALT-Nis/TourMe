@@ -42,5 +42,8 @@ public class SplashScreen extends AppCompatActivity {
             }
         },3000);
 
+        Intent intent = new Intent(this, PushNotificationService.class);
+        startService(intent);
+
     }
 }
