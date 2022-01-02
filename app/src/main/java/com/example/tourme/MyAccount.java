@@ -13,11 +13,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,41 +58,65 @@ public class MyAccount extends AppCompatActivity {
     ImageView imageView;
     TextView textView;
     RecyclerView recyclerView;
-    View viewNoInternet;
-
-    RelativeLayout relativeLayout;
 
     DatabaseReference reference;
     FirebaseUser firebaseUser;
     FirebaseStorage storage;
-
     StorageReference storageReference;
 
+    View viewNoInternet, viewThis;
+    ProgressBar progressBar;
+    Button tryAgainButton;
+    Handler h = new Handler();
+
     OglasAdapter oglasAdapter;
-    List<Oglas> mOglas;
 
     Uri imageUri;
 
-    Button tryAgainButton;
 
     int reasonForBadConnection = 1;
     int numberOfOglases;
 
-    void HideEverything(){
-        for (int i=0;i<relativeLayout.getChildCount();i++) {
-            View v1=relativeLayout.getChildAt(i);
-            v1.setVisibility(View.GONE);
-        }
+    void hideProgressShowButton(){
+        progressBar.setVisibility(View.GONE);
+        tryAgainButton.setVisibility(View.VISIBLE);
+    }
+    void hideButtonShowProgress(){
+        progressBar.setVisibility(View.VISIBLE);
+        tryAgainButton.setVisibility(View.GONE);
+    }
 
+    private void HideEverythingRecursion(View v) {
+        ViewGroup viewgroup=(ViewGroup)v;
+        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+            View v1 = viewgroup.getChildAt(i);
+            if (v1 instanceof ViewGroup){
+                if(v1 != viewNoInternet)
+                    HideEverythingRecursion(v1);
+            }else
+                v1.setVisibility(View.GONE);
+        }
+    }
+
+    void HideEverything(){
+        HideEverythingRecursion(viewThis);
         viewNoInternet.setVisibility(View.VISIBLE);
     }
 
-    void ShowEverything(){
-        for (int i=0;i<relativeLayout.getChildCount();i++) {
-            View v1=relativeLayout.getChildAt(i);
-            v1.setVisibility(View.VISIBLE);
+    private void ShowEverythingRecursion(View v) {
+        ViewGroup viewgroup=(ViewGroup)v;
+        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+            View v1 = viewgroup.getChildAt(i);
+            if (v1 instanceof ViewGroup){
+                if(v1 != viewNoInternet)
+                    HideEverythingRecursion(v1);
+            }else
+                v1.setVisibility(View.VISIBLE);
         }
+    }
 
+    void ShowEverything(){
+        ShowEverythingRecursion(viewThis);
         viewNoInternet.setVisibility(View.GONE);
     }
 
@@ -99,7 +126,7 @@ public class MyAccount extends AppCompatActivity {
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 
-    void recursion1ForMyOglases(int index, List<String> idsForMyOglas){
+    void recursion1ForMyOglases(int index, List<String> idsForMyOglas, List<Oglas> mOglas){
         if(index == numberOfOglases){
             oglasAdapter = new OglasAdapter(MyAccount.this, mOglas);
             recyclerView.setAdapter(oglasAdapter);
@@ -110,21 +137,18 @@ public class MyAccount extends AppCompatActivity {
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     Oglas oglas = task.getResult().getValue(Oglas.class);
                     mOglas.add(oglas);
-                    recursion1ForMyOglases(index + 1, idsForMyOglas);
+                    recursion1ForMyOglases(index + 1, idsForMyOglas, mOglas);
                 }
             });
         }
-
     }
 
     private void showOglas(String userid){
-        mOglas = new ArrayList<>();
-
         reference = FirebaseDatabase.getInstance().getReference().child("users").child(userid).child("oglas");
         reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                mOglas.clear();
+                List<Oglas> mOglas = new ArrayList<>();
                 List<String> idsForMyOglas = new ArrayList<>();
 
                 for(DataSnapshot dataSnapshot : Objects.requireNonNull(task.getResult()).getChildren()){
@@ -132,7 +156,7 @@ public class MyAccount extends AppCompatActivity {
                     idsForMyOglas.add(newIdOglasa);
                 }
                 numberOfOglases = idsForMyOglas.size();
-                recursion1ForMyOglases(0, idsForMyOglas);
+                recursion1ForMyOglases(0, idsForMyOglas, mOglas);
             }
         });
     }
@@ -148,16 +172,17 @@ public class MyAccount extends AppCompatActivity {
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User user = snapshot.getValue(User.class);
-                    textView.setText(user.getUsername());
-                    if (user.getImageurl().equals("default")) {
-                        imageView.setImageResource(R.mipmap.ic_launcher);
-                    } else {
-                        Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
+                    if(IsConnectedToInternet()){
+                        User user = snapshot.getValue(User.class);
+                        textView.setText(user.getUsername());
+                        if (user.getImageurl().equals("default")) imageView.setImageResource(R.mipmap.ic_launcher);
+                        else Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
+
+                        showOglas(user.getId());
+                    }else{
+                        reasonForBadConnection = 1;
+                        HideEverything();
                     }
-
-                    showOglas(user.getId());
-
                 }
 
                 @Override
@@ -184,23 +209,28 @@ public class MyAccount extends AppCompatActivity {
             imageView = findViewById(R.id.profile_image);
             textView = findViewById(R.id.username);
 
-            relativeLayout = findViewById(R.id.MojNalog);
+            viewThis = findViewById(R.id.MojNalog);
             viewNoInternet = (View) findViewById(R.id.nemaInternet);
+            progressBar = viewNoInternet.findViewById(R.id.progressBar);
 
             recyclerView = findViewById(R.id.recycler_view);
             recyclerView.setHasFixedSize(true);
-
             recyclerView.setLayoutManager(new LinearLayoutManager(MyAccount.this));
 
             tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
             tryAgainButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(reasonForBadConnection == 1) {
-                        if (tryToStart())
-                            ShowEverything();
-                    }else
-                        ShowEverything();
+                    hideButtonShowProgress();
+                    h.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            hideProgressShowButton();
+                            if(reasonForBadConnection == 1) {
+                                if (tryToStart()) ShowEverything();
+                            }else ShowEverything();
+                        }
+                    }, 1000);
                 }
             });
 
