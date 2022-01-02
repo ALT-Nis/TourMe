@@ -123,46 +123,54 @@ public class Login extends AppCompatActivity {
     }
 
     void finishSigningIn(String email, String password){
-        fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(Login.this,"Uspesno",Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(Login.this, Glavni_ekran.class);
-                    startActivity(i);
-                }
-                else{
-                    String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
-                    Log.e("gf", errorCode);
-                    if(errorCode.equals("ERROR_USER_NOT_FOUND")){
-                        setEmailError("Ne postoji nalog sa ovim email-om");
-                    }else if(errorCode.equals("ERROR_WRONG_PASSWORD")){
-                        setPasswordError("Pogresna sifra");
-                    }else{
-                        Toast.makeText(Login.this,"Greska" + task.getException().getMessage(),Toast.LENGTH_LONG).show();
+        if(IsConnectedToInternet()){
+            fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(Login.this,"Uspesno",Toast.LENGTH_LONG).show();
+                        Intent i = new Intent(Login.this, Glavni_ekran.class);
+                        startActivity(i);
+                    }
+                    else{
+                        String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                        Log.e("gf", errorCode);
+                        if(errorCode.equals("ERROR_USER_NOT_FOUND")){
+                            setEmailError("Ne postoji nalog sa ovim email-om");
+                        }else if(errorCode.equals("ERROR_WRONG_PASSWORD")){
+                            setPasswordError("Pogresna sifra");
+                        }else{
+                            HideWithReason(2);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }else{
+            HideWithReason(2);
+        }
     }
 
     void continueSignIn(String id, String password){
-        mDatabase.child("users").child(id).child("email").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("Firebase", "Error getting data", task.getException());
-                }
-                else {
-                    String emailFromDatabase = String.valueOf(task.getResult().getValue());
-                    if(!emailFromDatabase.equals("null")){
-                        finishSigningIn(emailFromDatabase, password);
-                    }else{
-                        setEmailError("Ne postoji nalog sa ovim ID-em");
+        if(IsConnectedToInternet()){
+            mDatabase.child("users").child(id).child("email").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        HideWithReason(2);
+                    }
+                    else {
+                        String emailFromDatabase = String.valueOf(task.getResult().getValue());
+                        if(!emailFromDatabase.equals("null")){
+                            finishSigningIn(emailFromDatabase, password);
+                        }else{
+                            setEmailError("Ne postoji nalog sa ovim ID-em");
+                        }
                     }
                 }
-            }
-        });
+            });
+        }else{
+            HideWithReason(2);
+        }
     }
 
     void startSigningIn(String email, String password){
@@ -178,7 +186,7 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if (!task.isSuccessful()) {
-                            HideEverything();
+                            HideWithReason(2);
                         }
                         else {
                             String IDFromDatabase = String.valueOf(task.getResult().getValue());
@@ -191,7 +199,7 @@ public class Login extends AppCompatActivity {
                     }
                 });
             }else{
-                HideEverything();
+                HideWithReason(2);
             }
         }else{
             finishSigningIn(email, password);

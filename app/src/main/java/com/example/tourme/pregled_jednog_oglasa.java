@@ -111,13 +111,18 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
         viewNoInternet.setVisibility(View.VISIBLE);
     }
 
+    void HideWithReason(int reason){
+        HideEverything();
+        reasonForBadConnection = reason;
+    }
+
     private void ShowEverythingRecursion(View v) {
         ViewGroup viewgroup=(ViewGroup)v;
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
                 if(v1 != viewNoInternet)
-                    HideEverythingRecursion(v1);
+                    ShowEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.VISIBLE);
         }
@@ -140,7 +145,7 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (!task.isSuccessful()) {
-                        HideEverything();
+                        HideWithReason(2);
                     }
                     else {
                         Oglas oglas = task.getResult().getValue(Oglas.class);
@@ -165,8 +170,7 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
                 }
             });
         }else{
-            reasonForBadConnection = 2;
-            HideEverything();
+            HideWithReason(2);
         }
 
     }
@@ -228,8 +232,7 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
             });
 
         }else{
-            HideEverything();
-            reasonForBadConnection = 1;
+            HideWithReason(1);
             return false;
         }
         return true;
@@ -334,8 +337,7 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
                 }
             });
         }else{
-            reasonForBadConnection = 2;
-            HideEverything();
+            HideWithReason(2);
         }
 
     }
