@@ -3,137 +3,140 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    tools:context=".pregled_jednog_oglasa">
-<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/PregledJednogOglasaActivity">
+    android:fillViewport="true"
+    tools:context=".pregled_jednog_oglasa">
 
-    <include
-        android:id="@+id/nemaInternet"
-        layout="@layout/nema_internet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/user_details"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:layout_height="match_parent"
+        android:id="@+id/PregledJednogOglasaActivity">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/user_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="50dp"
+                    android:src="@drawable/ic_profp" />
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/profile_image"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="username"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/opis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/username"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="description"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:id="@+id/grad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/opis"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="Nis"
+                    android:textSize="10dp" />
+
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <RelativeLayout
+            android:id="@+id/OceniOglas"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_details"
+            android:layout_marginTop="15dp"
+            android:visibility="gone">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"
-                android:src="@drawable/ic_profp" />
-
-            <TextView
-                android:id="@+id/username"
+            <Spinner
+                android:id="@+id/ratingForOglas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/profile_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp" />
+
+            <Button
+                android:id="@+id/addRatingButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ratingForOglas"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:text="username"
-                android:textSize="15dp"
-                android:textStyle="bold" />
+                android:backgroundTint="#339933"
+                android:text="dodaj ocenu" />
 
-            <TextView
-                android:id="@+id/opis"
+            <EditText
+                android:id="@+id/textForRatingForOglas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/username"
+                android:layout_below="@id/addRatingButton"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:text="description"
-                android:textSize="10dp" />
+                android:ems="10"
+                android:inputType="text|textMultiLine|textCapSentences" />
 
-            <TextView
-                android:id="@+id/grad"
+            <Button
+                android:id="@+id/sendMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/opis"
+                android:layout_below="@id/textForRatingForOglas"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:text="Nis"
-                android:textSize="10dp" />
+                android:backgroundTint="#339933"
+                android:text="Posalji poruku" />
 
 
         </RelativeLayout>
 
-    </androidx.cardview.widget.CardView>
-
-    <RelativeLayout
-        android:id="@+id/OceniOglas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/user_details"
-        android:layout_marginTop="15dp"
-        android:visibility="gone">
-
-        <Spinner
-            android:id="@+id/ratingForOglas"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/OceniOglas"
             android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp" />
+            android:visibility="gone"/>
 
-        <Button
-            android:id="@+id/addRatingButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ratingForOglas"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:backgroundTint="#339933"
-            android:text="dodaj ocenu" />
-
-        <EditText
-            android:id="@+id/textForRatingForOglas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/addRatingButton"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:ems="10"
-            android:inputType="text|textMultiLine|textCapSentences" />
-
-        <Button
-            android:id="@+id/sendMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textForRatingForOglas"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:backgroundTint="#339933"
-            android:text="Posalji poruku" />
-
+        <include
+            android:id="@+id/nemaInternet"
+            layout="@layout/nema_internet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
 
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/OceniOglas"
-        android:layout_marginTop="15dp"
-        android:visibility="gone" />
-
-</RelativeLayout>
 </ScrollView>
