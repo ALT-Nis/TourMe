@@ -10,9 +10,11 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -20,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -56,19 +59,20 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
     String newRating, newRatingText;
     String IDOglasa, nazivGrada;
 
-    Button buttonAddRating, tryAgainButton;
+    Button buttonAddRating;
     Button sendMessage;
 
     ImageView profile_image;
     TextView username, opis, grad;
     EditText textForRating;
 
-    RelativeLayout relativeLayout;
-    View viewNoInternet;
+    View viewNoInternet, viewThis;
+    ProgressBar progressBar;
+    Button tryAgainButton;
+    Handler h = new Handler();
 
     RecyclerView recyclerView;
     CommentAdapter commentAdapter;
-    List<Comment> mComment;
 
     int reasonForBadConnection = 1;
 
@@ -81,21 +85,46 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
         isGood = false;
     }
 
-    void HideEverything(){
-        for (int i=0;i<relativeLayout.getChildCount();i++) {
-            View v1=relativeLayout.getChildAt(i);
-            v1.setVisibility(View.GONE);
-        }
+    void hideProgressShowButton(){
+        progressBar.setVisibility(View.GONE);
+        tryAgainButton.setVisibility(View.VISIBLE);
+    }
+    void hideButtonShowProgress(){
+        progressBar.setVisibility(View.VISIBLE);
+        tryAgainButton.setVisibility(View.GONE);
+    }
 
+    private void HideEverythingRecursion(View v) {
+        ViewGroup viewgroup=(ViewGroup)v;
+        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+            View v1 = viewgroup.getChildAt(i);
+            if (v1 instanceof ViewGroup){
+                if(v1 != viewNoInternet)
+                    HideEverythingRecursion(v1);
+            }else
+                v1.setVisibility(View.GONE);
+        }
+    }
+
+    void HideEverything(){
+        HideEverythingRecursion(viewThis);
         viewNoInternet.setVisibility(View.VISIBLE);
     }
 
-    void ShowEverything(){
-        for (int i=0;i<relativeLayout.getChildCount();i++) {
-            View v1=relativeLayout.getChildAt(i);
-            v1.setVisibility(View.VISIBLE);
+    private void ShowEverythingRecursion(View v) {
+        ViewGroup viewgroup=(ViewGroup)v;
+        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+            View v1 = viewgroup.getChildAt(i);
+            if (v1 instanceof ViewGroup){
+                if(v1 != viewNoInternet)
+                    HideEverythingRecursion(v1);
+            }else
+                v1.setVisibility(View.VISIBLE);
         }
+    }
 
+    void ShowEverything(){
+        ShowEverythingRecursion(viewThis);
         viewNoInternet.setVisibility(View.GONE);
     }
 
@@ -178,6 +207,26 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
 
                 }
             });
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).child("oceneOglasa");
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    List<Comment> mComment = new ArrayList<>();
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        Comment comment = dataSnapshot.getValue(Comment.class);
+                        mComment.add(comment);
+                    }
+                    commentAdapter = new CommentAdapter(getApplicationContext(), mComment);
+                    recyclerView.setAdapter(commentAdapter);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
         }else{
             HideEverything();
             reasonForBadConnection = 1;
@@ -195,8 +244,9 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
         IDOglasa = getIntent().getStringExtra("IDOglasa");
         nazivGrada = getIntent().getStringExtra("NazivGrada");
 
-        relativeLayout = findViewById(R.id.PregledJednogOglasaActivity);
+        viewThis = findViewById(R.id.PregledJednogOglasaActivity);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
+        progressBar = viewNoInternet.findViewById(R.id.progressBar);
 
         rating = findViewById(R.id.ratingForOglas);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.rating, android.R.layout.simple_spinner_item);
@@ -231,11 +281,16 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
         tryAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(reasonForBadConnection == 1) {
-                    if (tryToStart())
-                        ShowEverything();
-                }else
-                    ShowEverything();
+                hideButtonShowProgress();
+                h.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideProgressShowButton();
+                        if(reasonForBadConnection == 1) {
+                            if (tryToStart()) ShowEverything();
+                        }else ShowEverything();
+                    }
+                }, 1000);
             }
         });
 
@@ -252,32 +307,7 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        LinearLayout linearLayout = new LinearLayout(getApplicationContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-        mComment = new ArrayList<>();
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).child("oceneOglasa");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mComment.clear();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Comment comment = dataSnapshot.getValue(Comment.class);
-                    mComment.add(comment);
-                }
-                commentAdapter = new CommentAdapter(getApplicationContext(), mComment);
-                recyclerView.setAdapter(commentAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-
     }
 
     private void openAccount(String userid){

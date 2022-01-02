@@ -12,18 +12,17 @@
     android:id="@+id/PregledJednogOglasaActivity">
 
     <include
-        layout="@layout/nema_internet"
         android:id="@+id/nemaInternet"
+        layout="@layout/nema_internet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="114dp"
-        android:layout_marginEnd="124dp"
         android:visibility="visible" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/user_details"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -81,7 +80,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/user_details"
-        android:layout_marginTop="15dp">
+        android:layout_marginTop="15dp"
+        android:visibility="gone">
 
         <Spinner
             android:id="@+id/ratingForOglas"
@@ -132,7 +132,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/OceniOglas"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="15dp"
+        android:visibility="gone" />
 
 </RelativeLayout>
 </ScrollView>

@@ -58,10 +58,10 @@
         android:layout_below="@id/oglasi" />
 
     <include
+        android:id="@+id/nemaInternet"
         layout="@layout/nema_internet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/nemaInternet"
         android:layout_centerInParent="true"
         android:visibility="gone" />
 
