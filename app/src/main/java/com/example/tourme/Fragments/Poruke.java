@@ -1,6 +1,9 @@
 package com.example.tourme.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -10,14 +13,18 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
+import com.example.tourme.Adapters.OglasAdapter;
 import com.example.tourme.Login;
 import com.example.tourme.Model.Chat;
+import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.User;
 import com.example.tourme.R;
 import com.example.tourme.Adapters.UserAdapater;
@@ -49,6 +56,12 @@ public class  Poruke extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    View viewNoInternet, viewThis;
+    ProgressBar progressBar;
+    Button tryAgainButton;
+    Handler h = new Handler();
+    int reasonForBadConnection = 1;
+
     public Poruke() {
         // Required empty public constructor
     }
@@ -71,42 +84,70 @@ public class  Poruke extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    void hideProgressShowButton(){
+        progressBar.setVisibility(View.GONE);
+        tryAgainButton.setVisibility(View.VISIBLE);
+    }
+    void hideButtonShowProgress(){
+        progressBar.setVisibility(View.VISIBLE);
+        tryAgainButton.setVisibility(View.GONE);
+    }
+
+    private void HideEverythingRecursion(View v) {
+        ViewGroup viewgroup=(ViewGroup)v;
+        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+            View v1 = viewgroup.getChildAt(i);
+            if (v1 instanceof ViewGroup){
+                if(v1 != viewNoInternet)
+                    HideEverythingRecursion(v1);
+            }else
+                v1.setVisibility(View.GONE);
         }
     }
 
-    private RecyclerView recyclerView;
-    private UserAdapater userAdapater;
+    void HideEverything(){
+        HideEverythingRecursion(viewThis);
+        viewNoInternet.setVisibility(View.VISIBLE);
+    }
 
-    private List<User> mUsers;
-    private List<String> usersList;
+    void HideWithReason(int reason){
+        HideEverything();
+        reasonForBadConnection = reason;
+    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_poruke, container, false);
+    private void ShowEverythingRecursion(View v) {
+        ViewGroup viewgroup=(ViewGroup)v;
+        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+            View v1 = viewgroup.getChildAt(i);
+            if (v1 instanceof ViewGroup){
+                if(v1 != viewNoInternet)
+                    ShowEverythingRecursion(v1);
+            }else
+                v1.setVisibility(View.VISIBLE);
+        }
+    }
 
-        //ovde se proverava da li je korisnik povezan
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {            recyclerView = view.findViewById(R.id.recycler_view);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    void ShowEverything(){
+        ShowEverythingRecursion(viewThis);
+        viewNoInternet.setVisibility(View.GONE);
+    }
 
-            mUsers = new ArrayList<>();
+    Boolean IsConnectedToInternet(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+    }
 
+    List<String> usersList;
+
+    public boolean tryToStart(){
+        if(IsConnectedToInternet()){
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("chats");
-
-            usersList = new ArrayList<>();
 
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    usersList.clear();
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         Chat chat = dataSnapshot.getValue(Chat.class);
 
@@ -119,7 +160,6 @@ public class  Poruke extends Fragment {
                     }
 
                     readChats();
-
                 }
 
                 @Override
@@ -128,9 +168,60 @@ public class  Poruke extends Fragment {
                 }
 
             });
+        }else{
+            HideWithReason(1);
+            return false;
+        }
+        return true;
+    }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
 
+    private RecyclerView recyclerView;
+    private UserAdapater userAdapater;
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_poruke, container, false);
+
+        //ovde se proverava da li je korisnik povezan
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            recyclerView = view.findViewById(R.id.recycler_view);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            usersList = new ArrayList<>();
+
+            viewThis = view.findViewById(R.id.porukeFragment);
+            viewNoInternet = (View) view.findViewById(R.id.nemaInternet);
+            progressBar = viewNoInternet.findViewById(R.id.progressBar);
+
+            tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
+            tryAgainButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    hideButtonShowProgress();
+                    h.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            hideProgressShowButton();
+                            if(reasonForBadConnection == 1) {
+                                if (tryToStart()) ShowEverything();
+                            }else ShowEverything();
+                        }
+                    }, 1000);
+                }
+            });
+
+            tryToStart();
         }
         else{
             view = inflater.inflate(R.layout.not_logged_in, container, false);
@@ -147,15 +238,11 @@ public class  Poruke extends Fragment {
     }
 
     private void readChats(){
-        mUsers = new ArrayList<>();
-
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mUsers.clear();
-
+                List<User> mUsers = new ArrayList<>();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     User user = dataSnapshot.getValue(User.class);
 

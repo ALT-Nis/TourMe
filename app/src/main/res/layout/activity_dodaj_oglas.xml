@@ -5,13 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".dodajOglas"
+    android:id="@+id/dodajOglasActivity"
     android:background="?attr/colorPrimaryVariant">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="35dp"
         android:background="?attr/colorPrimary"
-        android:layout_margin="35dp">
+        android:visibility="visible"
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="35dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,5 +63,14 @@
             android:inputType="text|textMultiLine|textCapSentences" />
 
     </RelativeLayout>
+
+    <include
+        android:id="@+id/nemaInternet"
+        layout="@layout/nema_internet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="35dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

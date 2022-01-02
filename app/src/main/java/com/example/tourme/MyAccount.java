@@ -68,12 +68,12 @@ public class MyAccount extends AppCompatActivity {
     ProgressBar progressBar;
     Button tryAgainButton;
     Handler h = new Handler();
+    int reasonForBadConnection = 1;
 
     OglasAdapter oglasAdapter;
 
     Uri imageUri;
 
-    int reasonForBadConnection = 1;
     int numberOfOglases;
 
     void hideProgressShowButton(){
@@ -177,16 +177,12 @@ public class MyAccount extends AppCompatActivity {
             reference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(IsConnectedToInternet()){
-                        User user = snapshot.getValue(User.class);
-                        textView.setText(user.getUsername());
-                        if (user.getImageurl().equals("default")) imageView.setImageResource(R.mipmap.ic_launcher);
-                        else Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
+                    User user = snapshot.getValue(User.class);
+                    textView.setText(user.getUsername());
+                    if (user.getImageurl().equals("default")) imageView.setImageResource(R.mipmap.ic_launcher);
+                    else Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
 
-                        showOglas(user.getId());
-                    }else{
-                        HideWithReason(1);
-                    }
+                    showOglas(user.getId());
                 }
 
                 @Override
@@ -237,8 +233,6 @@ public class MyAccount extends AppCompatActivity {
                 }
             });
 
-            tryToStart();
-
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -249,6 +243,8 @@ public class MyAccount extends AppCompatActivity {
                     }
                 }
             });
+
+            tryToStart();
         }
         else{
             setContentView(R.layout.not_logged_in);

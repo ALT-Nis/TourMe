@@ -5,14 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -46,12 +53,111 @@ public class MessageActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
 
+    View viewNoInternet, viewThis;
+    ProgressBar progressBar;
+    Button tryAgainButton;
+    Handler h = new Handler();
+    int reasonForBadConnection = 1;
+
     Intent intent;
+
+    String userid;
 
     ImageButton button_send;
     EditText text_send;
 
     ValueEventListener seenListener;
+
+    void hideProgressShowButton(){
+        progressBar.setVisibility(View.GONE);
+        tryAgainButton.setVisibility(View.VISIBLE);
+    }
+    void hideButtonShowProgress(){
+        progressBar.setVisibility(View.VISIBLE);
+        tryAgainButton.setVisibility(View.GONE);
+    }
+
+    private void HideEverythingRecursion(View v) {
+        ViewGroup viewgroup=(ViewGroup)v;
+        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+            View v1 = viewgroup.getChildAt(i);
+            if (v1 instanceof ViewGroup){
+                if(v1 != viewNoInternet)
+                    HideEverythingRecursion(v1);
+            }else
+                v1.setVisibility(View.GONE);
+        }
+    }
+
+    void HideEverything(){
+        HideEverythingRecursion(viewThis);
+        viewNoInternet.setVisibility(View.VISIBLE);
+    }
+
+    void HideWithReason(int reason){
+        HideEverything();
+        reasonForBadConnection = reason;
+    }
+
+    private void ShowEverythingRecursion(View v) {
+        ViewGroup viewgroup=(ViewGroup)v;
+        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+            View v1 = viewgroup.getChildAt(i);
+            if (v1 instanceof ViewGroup){
+                if(v1 != viewNoInternet)
+                    ShowEverythingRecursion(v1);
+            }else
+                v1.setVisibility(View.VISIBLE);
+        }
+    }
+
+    void ShowEverything(){
+        ShowEverythingRecursion(viewThis);
+        viewNoInternet.setVisibility(View.GONE);
+    }
+
+    Boolean IsConnectedToInternet(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+    }
+
+    public boolean tryToStart(){
+        if(IsConnectedToInternet()){
+            //todo uradi ovo
+            fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+            reference = FirebaseDatabase.getInstance().getReference("users").child(userid);
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    User user = snapshot.getValue(User.class);
+                    username.setText(user.getUsername());
+                    if(user.getImageurl().equals("default")){
+                        profile_image.setImageResource(R.mipmap.ic_launcher);
+                    }
+                    else{
+                        Glide.with(getApplicationContext()).load(user.getImageurl()).into(profile_image);
+                    }
+
+                    readMessages(fUser.getUid(), userid, user.getImageurl());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            seenMessage(userid);
+
+
+        }else{
+            HideWithReason(1);
+            return false;
+        }
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +173,27 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
+        viewThis = findViewById(R.id.messageActivity);
+        viewNoInternet = (View) findViewById(R.id.nemaInternet);
+        progressBar = viewNoInternet.findViewById(R.id.progressBar);
+
+        tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
+        tryAgainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideButtonShowProgress();
+                h.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideProgressShowButton();
+                        if(reasonForBadConnection == 1) {
+                            if (tryToStart()) ShowEverything();
+                        }else ShowEverything();
+                    }
+                }, 1000);
+            }
+        });
+
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayout linearLayout = new LinearLayout(getApplicationContext());
@@ -79,49 +206,25 @@ public class MessageActivity extends AppCompatActivity {
         text_send = findViewById(R.id.text_send);
 
         intent = getIntent();
-        final String userid = intent.getStringExtra("userid");
-
-        fUser = FirebaseAuth.getInstance().getCurrentUser();
+        userid = intent.getStringExtra("userid");
 
         button_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String msg = text_send.getText().toString();
-                if(!msg.equals("")){
-                    sendMessage(fUser.getUid(), userid, msg);
+                if(IsConnectedToInternet()){
+                    String msg = text_send.getText().toString();
+                    if(!msg.equals("")){
+                        sendMessage(fUser.getUid(), userid, msg);
+                    }else{
+                        Toast.makeText(MessageActivity.this, "Prazana poruka", Toast.LENGTH_LONG).show();
+                    }
+
+                    text_send.setText("");
                 }else{
-                    Toast.makeText(MessageActivity.this, "Prazana poruka", Toast.LENGTH_LONG).show();
+                    HideWithReason(2);
                 }
-
-                text_send.setText("");
             }
         });
-
-
-        reference = FirebaseDatabase.getInstance().getReference("users").child(userid);
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                username.setText(user.getUsername());
-                if(user.getImageurl().equals("default")){
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
-                }
-                else{
-                    Glide.with(getApplicationContext()).load(user.getImageurl()).into(profile_image);
-                }
-
-                readMessages(fUser.getUid(), userid, user.getImageurl());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        seenMessage(userid);
 
         username.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +232,8 @@ public class MessageActivity extends AppCompatActivity {
                 openAccount(userid);
             }
         });
+
+        tryToStart();
 
     }
 

@@ -43,13 +43,12 @@ public class Login extends AppCompatActivity {
     ProgressBar progressBar;
     Button tryAgainButton;
     Handler h = new Handler();
+    int reasonForBadConnection = 1;
 
     boolean didFindError = false;
     boolean isPasswordHidden = true;
 
     private DatabaseReference mDatabase;
-
-    int reasonForBadConnection = 1;
 
     String patternForEmail = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
 
@@ -246,7 +245,6 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        tryToStart();
 
         registerButton = (TextView)findViewById(R.id.goToRegister);
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -296,6 +294,7 @@ public class Login extends AppCompatActivity {
 
             }
         });
+        tryToStart();
     }
 
     private void status(String status){

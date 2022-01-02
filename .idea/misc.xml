@@ -14,10 +14,16 @@
 <<<<<<< HEAD
 =======
         <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/activity_account.xml" value="0.371875" />
+        <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/activity_dodaj_oglas.xml" value="0.2984375" />
+        <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/activity_glavni_ekran.xml" value="0.371875" />
         <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/activity_login.xml" value="0.371875" />
+        <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/activity_main.xml" value="0.371875" />
+        <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/activity_message.xml" value="0.33" />
         <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/activity_myaccount.xml" value="0.371875" />
         <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/activity_pregled_jednog_oglasa.xml" value="0.371875" />
         <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/activity_register.xml" value="0.371875" />
+        <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/fragment_pocetni.xml" value="0.25" />
+        <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/fragment_poruke.xml" value="0.32864583333333336" />
         <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/nema_internet.xml" value="0.3287037037037037" />
         <entry key="..\:/Programming/Projekti/mts/6/TourMe/app/src/main/res/layout/nema_oglas.xml" value="0.3287037037037037" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/background_left.xml" value="0.1707236842105263" />
