@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -53,9 +54,9 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
     String textForDescribe;
     String cityText;
 
-    View viewNoInternet, viewThis;
+    View viewNoInternet, viewThis, viewNotLoggedIn;
     ProgressBar progressBar;
-    Button tryAgainButton;
+    Button tryAgainButton, goToLoginButton;
     Handler h = new Handler();
     int reasonForBadConnection = 1;
 
@@ -73,20 +74,23 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet)
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn)
                     HideEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.GONE);
         }
     }
 
-    void HideEverything(){
+    void HideEverything(int option){
         HideEverythingRecursion(viewThis);
-        viewNoInternet.setVisibility(View.VISIBLE);
+        if(option == 1)
+            viewNoInternet.setVisibility(View.VISIBLE);
+        else
+            viewNotLoggedIn.setVisibility(View.VISIBLE);
     }
 
     void HideWithReason(int reason){
-        HideEverything();
+        HideEverything(1);
         reasonForBadConnection = reason;
     }
 
@@ -95,7 +99,7 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet) {
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn) {
                     ShowEverythingRecursion(v1);
                 }
             }else
@@ -209,9 +213,13 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
 
     public boolean tryToStart(){
         if(IsConnectedToInternet()) {
-            mDatabase = FirebaseDatabase.getInstance().getReference();
-            fAuth = FirebaseAuth.getInstance();
-
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                mDatabase = FirebaseDatabase.getInstance().getReference();
+                fAuth = FirebaseAuth.getInstance();
+            }else{
+                HideEverything(2);
+                return false;
+            }
         }else{
             HideWithReason(1);
             return false;
@@ -226,6 +234,7 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
 
         viewThis = findViewById(R.id.dodajOglasActivity);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
+        viewNotLoggedIn = (View) findViewById(R.id.nijePrijavljen);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
 
         city = findViewById(R.id.cityForOglas);
@@ -251,6 +260,15 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
                         }else ShowEverything();
                     }
                 }, 1000);
+            }
+        });
+
+        goToLoginButton = viewNotLoggedIn.findViewById(R.id.goToLoginIfDidnt);
+        goToLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(dodajOglas.this, Login.class);
+                startActivity(i);
             }
         });
 

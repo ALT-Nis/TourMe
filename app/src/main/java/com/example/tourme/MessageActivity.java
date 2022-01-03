@@ -53,9 +53,9 @@ public class MessageActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
 
-    View viewNoInternet, viewThis;
+    View viewNoInternet, viewThis, viewNotLoggedIn;
     ProgressBar progressBar;
-    Button tryAgainButton;
+    Button tryAgainButton, goToLoginButton;
     Handler h = new Handler();
     int reasonForBadConnection = 1;
 
@@ -82,20 +82,23 @@ public class MessageActivity extends AppCompatActivity {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet)
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn)
                     HideEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.GONE);
         }
     }
 
-    void HideEverything(){
+    void HideEverything(int option){
         HideEverythingRecursion(viewThis);
-        viewNoInternet.setVisibility(View.VISIBLE);
+        if(option == 1)
+            viewNoInternet.setVisibility(View.VISIBLE);
+        else
+            viewNotLoggedIn.setVisibility(View.VISIBLE);
     }
 
     void HideWithReason(int reason){
-        HideEverything();
+        HideEverything(1);
         reasonForBadConnection = reason;
     }
 
@@ -104,7 +107,7 @@ public class MessageActivity extends AppCompatActivity {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet)
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn)
                     ShowEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.VISIBLE);
@@ -124,34 +127,35 @@ public class MessageActivity extends AppCompatActivity {
 
     public boolean tryToStart(){
         if(IsConnectedToInternet()){
-            //todo uradi ovo
-            fUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                fUser = FirebaseAuth.getInstance().getCurrentUser();
 
-            reference = FirebaseDatabase.getInstance().getReference("users").child(userid);
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User user = snapshot.getValue(User.class);
-                    username.setText(user.getUsername());
-                    if(user.getImageurl().equals("default")){
-                        profile_image.setImageResource(R.mipmap.ic_launcher);
+                reference = FirebaseDatabase.getInstance().getReference("users").child(userid);
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user = snapshot.getValue(User.class);
+                        username.setText(user.getUsername());
+                        if (user.getImageurl().equals("default")) {
+                            profile_image.setImageResource(R.mipmap.ic_launcher);
+                        } else {
+                            Glide.with(getApplicationContext()).load(user.getImageurl()).into(profile_image);
+                        }
+
+                        readMessages(fUser.getUid(), userid, user.getImageurl());
                     }
-                    else{
-                        Glide.with(getApplicationContext()).load(user.getImageurl()).into(profile_image);
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
                     }
+                });
 
-                    readMessages(fUser.getUid(), userid, user.getImageurl());
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-            seenMessage(userid);
-
-
+                seenMessage(userid);
+            }else{
+                HideEverything(2);
+                return false;
+            }
         }else{
             HideWithReason(1);
             return false;
@@ -175,6 +179,7 @@ public class MessageActivity extends AppCompatActivity {
 
         viewThis = findViewById(R.id.messageActivity);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
+        viewNotLoggedIn = (View) findViewById(R.id.nijePrijavljen);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
 
         tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
@@ -191,6 +196,15 @@ public class MessageActivity extends AppCompatActivity {
                         }else ShowEverything();
                     }
                 }, 1000);
+            }
+        });
+
+        goToLoginButton = viewNotLoggedIn.findViewById(R.id.goToLoginIfDidnt);
+        goToLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MessageActivity.this, Login.class);
+                startActivity(i);
             }
         });
 
@@ -306,13 +320,14 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     private void status(String status){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("status", status);
+            HashMap<String, Object> hashMap = new HashMap<String, Object>();
+            hashMap.put("status", status);
 
-        reference.updateChildren(hashMap);
-
+            reference.updateChildren(hashMap);
+        }
     }
 
     @Override
@@ -324,7 +339,7 @@ public class MessageActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        reference.removeEventListener(seenListener);
+//        reference.removeEventListener(seenListener);
         status("offline");
     }
 

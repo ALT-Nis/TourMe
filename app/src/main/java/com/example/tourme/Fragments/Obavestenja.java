@@ -70,7 +70,7 @@ public class Obavestenja extends Fragment {
         }
         else{
             view = inflater.inflate(R.layout.not_logged_in, container, false);
-            Button dugme_login = view.findViewById(R.id.dugme_login);
+            Button dugme_login = view.findViewById(R.id.goToLoginIfDidnt);
             dugme_login.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

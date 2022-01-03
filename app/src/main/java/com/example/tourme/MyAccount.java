@@ -19,15 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.tourme.Adapters.OglasAdapter;
-import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -64,9 +61,9 @@ public class MyAccount extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
 
-    View viewNoInternet, viewThis;
+    View viewNoInternet, viewThis, viewNotLoggedIn;
     ProgressBar progressBar;
-    Button tryAgainButton;
+    Button tryAgainButton, goToLoginButton;
     Handler h = new Handler();
     int reasonForBadConnection = 1;
 
@@ -90,20 +87,23 @@ public class MyAccount extends AppCompatActivity {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet)
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn)
                     HideEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.GONE);
         }
     }
 
-    void HideEverything(){
+    void HideEverything(int option){
         HideEverythingRecursion(viewThis);
-        viewNoInternet.setVisibility(View.VISIBLE);
+        if(option == 1)
+            viewNoInternet.setVisibility(View.VISIBLE);
+        else
+            viewNotLoggedIn.setVisibility(View.VISIBLE);
     }
 
     void HideWithReason(int reason){
-        HideEverything();
+        HideEverything(1);
         reasonForBadConnection = reason;
     }
 
@@ -112,7 +112,7 @@ public class MyAccount extends AppCompatActivity {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet) {
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn) {
                     ShowEverythingRecursion(v1);
                 }
             }else
@@ -168,29 +168,35 @@ public class MyAccount extends AppCompatActivity {
 
     public boolean tryToStart(){
         if(IsConnectedToInternet()) {
-            firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-            reference = FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid());
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                reference = FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid());
 
-            storage = FirebaseStorage.getInstance();
-            storageReference = storage.getReference();
+                storage = FirebaseStorage.getInstance();
+                storageReference = storage.getReference();
 
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User user = snapshot.getValue(User.class);
-                    textView.setText(user.getUsername());
-                    if (user.getImageurl().equals("default")) imageView.setImageResource(R.mipmap.ic_launcher);
-                    else Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user = snapshot.getValue(User.class);
+                        textView.setText(user.getUsername());
+                        if (user.getImageurl().equals("default"))
+                            imageView.setImageResource(R.mipmap.ic_launcher);
+                        else
+                            Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
 
-                    showOglas(user.getId());
-                }
+                        showOglas(user.getId());
+                    }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            });
-
+                    }
+                });
+            }else{
+                HideEverything(2);
+                return false;
+            }
         }else{
             HideWithReason(1);
             return false;
@@ -201,62 +207,60 @@ public class MyAccount extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+        setContentView(R.layout.activity_myaccount);
 
-            setContentView(R.layout.activity_myaccount);
+        imageView = findViewById(R.id.profile_image);
+        textView = findViewById(R.id.username);
 
-            imageView = findViewById(R.id.profile_image);
-            textView = findViewById(R.id.username);
+        viewThis = findViewById(R.id.MojNalog);
+        viewNoInternet = (View) findViewById(R.id.nemaInternet);
+        viewNotLoggedIn = (View) findViewById(R.id.nijePrijavljen);
+        progressBar = viewNoInternet.findViewById(R.id.progressBar);
 
-            viewThis = findViewById(R.id.MojNalog);
-            viewNoInternet = (View) findViewById(R.id.nemaInternet);
-            progressBar = viewNoInternet.findViewById(R.id.progressBar);
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MyAccount.this));
 
-            recyclerView = findViewById(R.id.recycler_view);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(MyAccount.this));
-
-            tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
-            tryAgainButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    hideButtonShowProgress();
-                    h.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            hideProgressShowButton();
-                            if(reasonForBadConnection == 1) {
-                                if (tryToStart()) ShowEverything();
-                            }else ShowEverything();
-                        }
-                    }, 1000);
-                }
-            });
-
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(IsConnectedToInternet())
-                        choseImage();
-                    else{
-                        HideWithReason(2);
+        tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
+        tryAgainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideButtonShowProgress();
+                h.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideProgressShowButton();
+                        if(reasonForBadConnection == 1) {
+                            if (tryToStart()) ShowEverything();
+                        }else ShowEverything();
                     }
-                }
-            });
+                }, 1000);
+            }
+        });
 
-            tryToStart();
-        }
-        else{
-            setContentView(R.layout.not_logged_in);
-            Button dugme_login = findViewById(R.id.dugme_login);
-            dugme_login.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(MyAccount.this, Login.class);
-                    startActivity(i);
+        goToLoginButton = viewNotLoggedIn.findViewById(R.id.goToLoginIfDidnt);
+        goToLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MyAccount.this, Login.class);
+                startActivity(i);
+            }
+        });
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(IsConnectedToInternet())
+                    choseImage();
+                else{
+                    HideWithReason(2);
                 }
-            });
-        }
+            }
+        });
+
+        tryToStart();
+
+
     }
 
     private void choseImage(){

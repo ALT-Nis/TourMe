@@ -79,10 +79,17 @@
     </RelativeLayout>
 
     <include
+        android:id="@+id/nemaInternet"
         layout="@layout/nema_internet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/nemaInternet"
         android:visibility="gone" />
+
+    <include
+        layout="@layout/not_logged_in"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/nijePrijavljen"
+        android:visibility="gone"/>
 
 </RelativeLayout>

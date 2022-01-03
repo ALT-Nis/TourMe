@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -45,17 +46,19 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-public class Pocetni extends Fragment {
+public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListener {
 
     RecyclerView recyclerView;
 
     DatabaseReference reference;
 
     OglasAdapter oglasAdapter;
-    List<Oglas> mOglas;
 
     AutoCompleteTextView searchBar;
     Button searchButton;
@@ -68,6 +71,9 @@ public class Pocetni extends Fragment {
     Button tryAgainButton;
     Handler h = new Handler();
     int reasonForBadConnection = 1;
+
+    Spinner spinnerForSorting;
+    int sortingVariable = 0;
 
     View viewNoOglas;
 
@@ -141,7 +147,7 @@ public class Pocetni extends Fragment {
                 reference.child("oglasi").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
-                        mOglas.clear();
+                        List<Oglas> mOglas = new ArrayList<>();
                         List<String> newItems  = g.Search(inputText);
                         items = newItems;
                         Gradovi.lastSearch = inputText;
@@ -170,7 +176,7 @@ public class Pocetni extends Fragment {
             reference.child("oglasi").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    mOglas.clear();
+                    List<Oglas> mOglas = new ArrayList<>();
                     for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                         Oglas oglas = dataSnapshot.getValue(Oglas.class);
                         String gradOglasaa = oglas.getGrad();
@@ -214,6 +220,13 @@ public class Pocetni extends Fragment {
         viewNoInternet = (View) view.findViewById(R.id.nemaInternet);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
 
+        spinnerForSorting = view.findViewById(R.id.sortType);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sortingType, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerForSorting.setAdapter(adapter);
+
+        spinnerForSorting.setOnItemSelectedListener(this);
+
         tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
         tryAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -231,8 +244,8 @@ public class Pocetni extends Fragment {
             }
         });
 
-        mOglas = new ArrayList<>();
-        oglasAdapter = new OglasAdapter(getContext(), mOglas);
+        List<Oglas> mOglas2 = new ArrayList<>();
+        oglasAdapter = new OglasAdapter(getContext(), mOglas2);
         recyclerView.setAdapter(oglasAdapter);
 
         viewNoOglas = (View) view.findViewById(R.id.nema_oglasa);
@@ -273,4 +286,49 @@ public class Pocetni extends Fragment {
     }
 
 
+    public void sortOglases(){
+        if(IsConnectedToInternet()) {
+            FirebaseDatabase.getInstance().getReference().child("oglasi").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    List<Oglas> mOglas = new ArrayList<>();
+                    for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
+                        Oglas oglas = dataSnapshot.getValue(Oglas.class);
+                        String gradOglasaa = oglas.getGrad();
+                        if (items.contains(gradOglasaa.toLowerCase())) {
+                            mOglas.add(oglas);
+                        }
+                        hideNoOglas(mOglas.size());
+
+                        Comparator<Oglas> cmp = (Oglas a, Oglas b) -> {
+                            if ((b.getBrojOcena()) < ((a.getBrojOcena()))) return 1;
+                            else if ((b.getBrojOcena()) == ((a.getBrojOcena()))) return 0;
+                            return -1;
+                        };
+                        Collections.sort(mOglas, cmp);
+
+                        oglasAdapter = new OglasAdapter(getContext(), mOglas);
+                        recyclerView.setAdapter(oglasAdapter);
+                    }
+                }
+            });
+        }
+    }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String textFromSpinner = adapterView.getItemAtPosition(i).toString();
+        if(textFromSpinner.equals("Po Ceni Rastuće")){
+            sortingVariable = 1;
+            sortOglases();
+        }else{
+            sortingVariable = 0;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }

@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +87,7 @@ public class Podesavanja extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_podesavanja, container, false);
-        Button dugme_login = view.findViewById(R.id.dugme_login);
+        Button dugme_login = view.findViewById(R.id.goToLoginIfDidnt);
         dugme_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
