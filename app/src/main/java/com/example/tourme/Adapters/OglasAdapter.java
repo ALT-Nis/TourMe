@@ -47,6 +47,7 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
 
         holder.deskripcija.setText(oglas.getOpis());
         holder.username.setText(oglas.getUsername());
+        holder.cena.setText(""+oglas.getCenaOglasa());
 
         if(oglas.getImageurl().equals("default")){
             holder.oglas_image.setImageResource(R.mipmap.ic_launcher);
@@ -63,8 +64,6 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
                 mContext.startActivity(intent);
             }
         });
-
-        holder.cena.setText(oglas.getCena());
 
     }
 
