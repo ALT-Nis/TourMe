@@ -8,13 +8,6 @@
     tools:context=".Fragments.Pocetni">
 
 
-    <include
-        android:id="@+id/nemaInternet"
-        layout="@layout/nema_internet"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
@@ -50,14 +43,6 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"/>
 
-    <include
-        android:id="@+id/nema_oglasa"
-        layout="@layout/nema_oglas"
-        android:layout_width="413dp"
-        android:layout_height="666dp"
-        android:visibility="gone"
-        tools:layout_editor_absoluteY="62dp" />
-
     <Spinner
         android:id="@+id/sortType"
         android:layout_width="326dp"
@@ -70,5 +55,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchBar"
         app:layout_constraintVertical_bias="0.177" />
+
+    <include
+        android:id="@+id/nema_oglasa"
+        layout="@layout/nema_oglas"
+        android:layout_width="410dp"
+        android:layout_height="539dp"
+        android:visibility="gone"
+        tools:layout_editor_absoluteY="189dp" />
+
+    <include
+        android:id="@+id/nemaInternet"
+        layout="@layout/nema_internet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

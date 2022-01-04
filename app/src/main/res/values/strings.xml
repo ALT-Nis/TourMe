@@ -53,6 +53,8 @@
         <item>Po Relevantnosti</item>
         <item>Po Ceni Rastuće</item>
         <item>Po Ceni Opadajuće</item>
+        <item>Po Oceni Rastuće</item>
+        <item>Po Oceni Opadajuće</item>
     </string-array>
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>

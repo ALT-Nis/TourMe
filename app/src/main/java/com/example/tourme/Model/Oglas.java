@@ -6,6 +6,7 @@ public class Oglas {
     String idOglasa;
     String grad;
     int brojOcena;
+    int cenaOglasa;
     double ocena;
     String userId;
     String opis;
@@ -16,11 +17,12 @@ public class Oglas {
 
     }
 
-    public Oglas(String idOglasa, String grad, double ocena, int brojOcena, String userId, String opis, String imageurl, String username){
+    public Oglas(String idOglasa, String grad, double ocena, int brojOcena, int cenaOglasa, String userId, String opis, String imageurl, String username){
         this.idOglasa = idOglasa;
         this.grad = grad;
         this.ocena = ocena;
         this.brojOcena = brojOcena;
+        this.cenaOglasa = cenaOglasa;
         this.userId = userId;
         this.opis = opis;
         this.imageurl=imageurl;
@@ -86,4 +88,8 @@ public class Oglas {
     public int getBrojOcena() { return brojOcena; }
 
     public void setBrojOcena(int brojOcena) { this.brojOcena = brojOcena; }
+
+    public int getCenaOglasa() { return cenaOglasa; }
+
+    public void setCenaOglasa(int cenaOglasa) { this.cenaOglasa = cenaOglasa; }
 }

@@ -35,6 +35,7 @@ import com.example.tourme.Adapters.OglasAdapter;
 import com.example.tourme.Adapters.UserAdapater;
 import com.example.tourme.Model.Chat;
 import com.example.tourme.Model.Comment;
+import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.Rating;
 import com.example.tourme.Model.User;
@@ -243,6 +244,8 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pregled_jednog_oglasa);
+
+        Gradovi.listOfFragments.add(10);
 
         IDOglasa = getIntent().getStringExtra("IDOglasa");
         nazivGrada = getIntent().getStringExtra("NazivGrada");

@@ -122,6 +122,8 @@ public class Gradovi {
 
     public static String lastSearch = "";
 
+    public static List<Integer> listOfFragments = new ArrayList<>();
+
     public List<String> getAllCities() { return allCities; }
 
     public List<String> getAllCitiesC() { return allCitiesC; }

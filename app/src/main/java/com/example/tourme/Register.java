@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -212,6 +213,8 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        Gradovi.listOfFragments.add(11);
 
         mEmail = findViewById(R.id.email);
         mUserName = findViewById(R.id.CustomName);
