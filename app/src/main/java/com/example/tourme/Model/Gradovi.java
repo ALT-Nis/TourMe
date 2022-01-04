@@ -1,6 +1,8 @@
 package com.example.tourme.Model;
 
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,6 +79,32 @@ public class Gradovi {
 
         public List<String> Search(String inputText){
             return node.Search(inputText, 0);
+        }
+    }
+
+    public static class grad{
+
+        String ime;
+        com.google.android.gms.maps.model.LatLng lokacija;
+
+        public grad(String ime, com.google.android.gms.maps.model.LatLng lokacija){
+            this.ime = ime;
+            this.lokacija = lokacija;
+        }
+        public String getIme() {
+            return ime;
+        }
+
+        public void setIme(String ime) {
+            this.ime = ime;
+        }
+
+        public LatLng getLokacija() {
+            return lokacija;
+        }
+
+        public void setLokacija(LatLng lokacija) {
+            this.lokacija = lokacija;
         }
     }
 

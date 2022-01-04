@@ -8,18 +8,19 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/oglas_image"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@drawable/ic_profp" />
 
         <TextView
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_toEndOf="@id/oglas_image"
             android:text="Ime korisnika"
-            android:textSize="20dp" />
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/deskripcija"
@@ -29,5 +30,17 @@
             android:layout_toEndOf="@id/oglas_image"
             android:layout_below="@id/username"
             android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/cena"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1389"
+            android:layout_toEndOf="@id/oglas_image"
+            android:layout_below="@id/deskripcija"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="25dp"/>
+
 
 </RelativeLayout>

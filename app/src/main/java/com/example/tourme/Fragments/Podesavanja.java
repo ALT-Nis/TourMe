@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.tourme.Login;
 import com.example.tourme.R;
 import com.example.tourme.Register;
+import com.example.tourme.mapaGradovi;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -101,6 +102,15 @@ public class Podesavanja extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), Register.class);
+                startActivity(i);
+            }
+        });
+
+        Button dugme_mape = view.findViewById(R.id.dugme_mape);
+        dugme_mape.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), mapaGradovi.class);
                 startActivity(i);
             }
         });

@@ -64,6 +64,8 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
             }
         });
 
+        holder.cena.setText(oglas.getCena());
+
     }
 
     @Override
@@ -76,6 +78,7 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
         public TextView username;
         public ImageView oglas_image;
         public TextView deskripcija;
+        public TextView cena;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -83,6 +86,7 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
             username = itemView.findViewById(R.id.username);
             oglas_image = itemView.findViewById(R.id.oglas_image);
             deskripcija = itemView.findViewById(R.id.deskripcija);
+            cena = itemView.findViewById(R.id.cena);
 
         }
     }
