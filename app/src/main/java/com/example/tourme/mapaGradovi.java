@@ -3,6 +3,7 @@ package com.example.tourme;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.tourme.Model.Gradovi;
@@ -12,6 +13,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.tourme.databinding.ActivityMapaGradoviBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -101,6 +103,17 @@ public class mapaGradovi extends FragmentActivity implements OnMapReadyCallback 
                     }
 
                 }
+                //centrira mapu u centar srbiju
+                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(@NonNull Marker marker) {
+                        Intent i = new Intent(getApplicationContext(), pregledOglasaGrad.class);
+                        i.putExtra("grad", marker.getTitle());
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(i);
+                        return false;
+                    }
+                });
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(44.010013,20.490270), 6.8f));
             }
 
@@ -109,6 +122,8 @@ public class mapaGradovi extends FragmentActivity implements OnMapReadyCallback 
 
             }
         });
+
+
 
     }
 }
