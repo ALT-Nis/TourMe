@@ -10,12 +10,36 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string-array name="cities">
-        <item>Niš</item>
         <item>Beograd</item>
-        <item>Novi Sad</item>
-        <item>Subotica</item>
-        <item>Aleksinac</item>
+        <item>Bor</item>
+        <item>Jagodina</item>
+        <item>Kikinda</item>
+        <item>Kragujevac</item>
+        <item>Kraljevo</item>
+        <item>Kruševac</item>
         <item>Leskovac</item>
+        <item>Loznica</item>
+        <item>Niš</item>
+        <item>Novi Pazar</item>
+        <item>Novi Sad</item>
+        <item>Pančevo</item>
+        <item>Pirot</item>
+        <item>Požarevac</item>
+        <item>Priština</item>
+        <item>Prokuplje</item>
+        <item>Smederevo</item>
+        <item>Sombor</item>
+        <item>Sremska Mitrovica</item>
+        <item>Subotica</item>
+        <item>Užice</item>
+        <item>Valjevo</item>
+        <item>Vranje</item>
+        <item>Vršac</item>
+        <item>Zaječar</item>
+        <item>Zrenjanin</item>
+        <item>Čačak</item>
+        <item>Šabac</item>
+
     </string-array>
     <string-array name="rating">
         <item>0</item>
