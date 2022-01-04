@@ -80,8 +80,15 @@ public class Gradovi {
         }
     }
 
-    List<String> allCities = Arrays.asList("niš", "beograd", "novi sad", "subotica", "bela palanka", "leskovac");
-    List<String> allCitiesC = Arrays.asList("Niš", "Beograd", "Novi Sad", "Subotica", "Bela Palanka", "Leskovac");
+    List<String> allCities = Arrays.asList("beograd","novi sad", "niš","kragujevac","priština","subotica",
+            "zrenjanin","pančevo","čačak","kruševac","kraljevo","novi pazar","smederevo","leskovac","užice",
+            "vranje","valjevo","šabac","sombor","požarevac","pirot","zaječar","kikinda","sremska mitrovica",
+            "jagodina","vršac","bor","prokuplje","loznica");
+
+    List<String> allCitiesC = Arrays.asList("Beograd","Novi Sad", "Niš","Kragujevac","Priština","Subotica",
+            "Zrenjanin","Pančevo","Čačak","Kruševac","Kraljevo","Novi Pazar","Smederevo","Leskovac","Užice",
+            "Vranje","Valjevo","Šabac","Sombor","Požarevac","Pirot","Zaječar","Kikinda","Sremska Mitrovica",
+            "Jagodina","Vršac","Bor","Prokuplje","Loznica");
 
     Trie trie;
 
