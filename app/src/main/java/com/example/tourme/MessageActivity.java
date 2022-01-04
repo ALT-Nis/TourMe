@@ -27,6 +27,7 @@ import android.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.example.tourme.Adapters.MessageAdapter;
 import com.example.tourme.Model.Chat;
+import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -167,6 +168,8 @@ public class MessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+
+        Gradovi.listOfFragments.add(8);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
 

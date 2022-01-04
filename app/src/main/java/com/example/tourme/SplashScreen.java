@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
+import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -128,6 +129,8 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Gradovi.listOfFragments.add(12);
 
         viewThis = findViewById(R.id.mainActivity);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.tourme.Adapters.CommentAdapter;
 import com.example.tourme.Model.Comment;
+import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,11 +48,11 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
 
     Spinner city;
 
-    EditText editTextForDescribe;
+    EditText editTextForDescribe, editTextForPrice;
 
     boolean isGood = true;
 
-    String textForDescribe;
+    String textForDescribe, textForPrice;
     String cityText;
 
     View viewNoInternet, viewThis, viewNotLoggedIn;
@@ -123,6 +124,11 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
         isGood = false;
     }
 
+    void setPriceError(String errorText){
+        editTextForPrice.setError(errorText);
+        isGood = false;
+    }
+
     public void finishAddingOglas(String userId, String imageurl, String username){
         if(IsConnectedToInternet()){
             mDatabase.child("users").child(userId).child("brojOglasa").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -137,7 +143,8 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
                         if(!numberOfOglas.equals("null")){
                             DatabaseReference ref = mDatabase.child("oglasi").push();
                             String idOglasa = ref.getKey();
-                            Oglas oglas = new Oglas(idOglasa, cityText, 0.0, 0, userId, textForDescribe, imageurl, username);
+                            Integer priceForOglas = Integer.parseInt(textForPrice);
+                            Oglas oglas = new Oglas(idOglasa, cityText, 0.0, 0, priceForOglas, userId, textForDescribe, imageurl, username);
 
                             Integer intNumOfOglas = Integer.parseInt(numberOfOglas) + 1;
                             String newNumberForOglas = intNumOfOglas.toString();
@@ -232,6 +239,8 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_oglas);
 
+        Gradovi.listOfFragments.add(6);
+
         viewThis = findViewById(R.id.dodajOglasActivity);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
         viewNotLoggedIn = (View) findViewById(R.id.nijePrijavljen);
@@ -245,6 +254,7 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
 
         addOglas = findViewById(R.id.addOglas);
         editTextForDescribe = findViewById(R.id.describeOglas);
+        editTextForPrice = findViewById(R.id.priceEditText);
 
         tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
         tryAgainButton.setOnClickListener(new View.OnClickListener() {
@@ -280,8 +290,13 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
 
                     if(fAuth.getCurrentUser()!=null) {
                         textForDescribe = editTextForDescribe.getText().toString().trim();
+                        textForPrice = editTextForPrice.getText().toString().trim();
                         if(TextUtils.isEmpty(textForDescribe)){
                             setDescribeError("Unesite opis oglasa");
+                        }
+
+                        if(TextUtils.isEmpty(textForPrice)){
+                            setPriceError("Unesite cenu oglasa");
                         }
                         if(isGood)
                             startAddingOglas();

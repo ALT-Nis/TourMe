@@ -36,6 +36,7 @@ import com.example.tourme.Model.User;
 import com.example.tourme.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -73,9 +74,51 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
     int reasonForBadConnection = 1;
 
     Spinner spinnerForSorting;
+    ArrayAdapter<CharSequence> adapter;
     int sortingVariable = 0;
 
     View viewNoOglas;
+
+    boolean shouldSearchPrev = true;
+
+    public List<Oglas> sortByVariable(List<Oglas> mOglas){
+        if(sortingVariable == 1) {
+            Comparator<Oglas> cmp1 = (Oglas a, Oglas b) -> {
+                if ((b.getCenaOglasa()) < ((a.getCenaOglasa()))) return 1;
+                else if ((b.getCenaOglasa()) == ((a.getCenaOglasa()))) return 0;
+                return -1;
+            };
+            Collections.sort(mOglas, cmp1);
+        }else if(sortingVariable == 2){
+            Comparator<Oglas> cmp2 = (Oglas a, Oglas b) -> {
+                if ((b.getCenaOglasa()) > ((a.getCenaOglasa()))) return 1;
+                else if ((b.getCenaOglasa()) == ((a.getCenaOglasa()))) return 0;
+                return -1;
+            };
+            Collections.sort(mOglas, cmp2);
+        }else if(sortingVariable == 3){
+            Comparator<Oglas> cmp3 = (Oglas a, Oglas b) -> {
+                if ((b.getOcena()) < ((a.getOcena()))) return 1;
+                else if ((b.getOcena()) == ((a.getOcena()))) return 0;
+                return -1;
+            };
+            Collections.sort(mOglas, cmp3);
+        }else if(sortingVariable == 4){
+            Comparator<Oglas> cmp4 = (Oglas a, Oglas b) -> {
+                if ((b.getOcena()) > ((a.getOcena()))) return 1;
+                else if ((b.getOcena()) == ((a.getOcena()))) return 0;
+                return -1;
+            };
+            Collections.sort(mOglas, cmp4);
+        }
+
+        return mOglas;
+    }
+
+    void resetSpinner(){
+        spinnerForSorting.setSelection(adapter.getPosition("Po Relevantnosti"));
+        sortingVariable = 0;
+    }
 
     void hideProgressShowButton(){
         progressBar.setVisibility(View.GONE);
@@ -148,7 +191,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         List<Oglas> mOglas = new ArrayList<>();
-                        List<String> newItems  = g.Search(inputText);
+                        List<String> newItems = g.Search(inputText);
                         items = newItems;
                         Gradovi.lastSearch = inputText;
 
@@ -159,7 +202,9 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                                 mOglas.add(oglas);
 
                         }
+                        resetSpinner();
                         hideNoOglas(mOglas.size());
+
                         oglasAdapter = new OglasAdapter(getContext(), mOglas);
                         recyclerView.setAdapter(oglasAdapter);
                     }
@@ -183,10 +228,12 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                         if(items.contains(gradOglasaa.toLowerCase())) {
                             mOglas.add(oglas);
                         }
-                        hideNoOglas(mOglas.size());
-                        oglasAdapter = new OglasAdapter(getContext(), mOglas);
-                        recyclerView.setAdapter(oglasAdapter);
                     }
+                    mOglas = sortByVariable(mOglas);
+                    hideNoOglas(mOglas.size());
+
+                    oglasAdapter = new OglasAdapter(getContext(), mOglas);
+                    recyclerView.setAdapter(oglasAdapter);
                 }
 
                 @Override
@@ -209,6 +256,11 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
 
         View view = inflater.inflate(R.layout.fragment_pocetni, container, false);
 
+        Gradovi.listOfFragments.add(1);
+        int len = Gradovi.listOfFragments.size();
+        if(len >= 2 && Gradovi.listOfFragments.get(len - 2) == 1)
+            Gradovi.lastSearch = "";
+
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -221,10 +273,9 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
 
         spinnerForSorting = view.findViewById(R.id.sortType);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sortingType, android.R.layout.simple_spinner_item);
+        adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sortingType, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerForSorting.setAdapter(adapter);
-
         spinnerForSorting.setOnItemSelectedListener(this);
 
         tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
@@ -298,20 +349,17 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                         if (items.contains(gradOglasaa.toLowerCase())) {
                             mOglas.add(oglas);
                         }
-                        hideNoOglas(mOglas.size());
-
-                        Comparator<Oglas> cmp = (Oglas a, Oglas b) -> {
-                            if ((b.getBrojOcena()) < ((a.getBrojOcena()))) return 1;
-                            else if ((b.getBrojOcena()) == ((a.getBrojOcena()))) return 0;
-                            return -1;
-                        };
-                        Collections.sort(mOglas, cmp);
-
-                        oglasAdapter = new OglasAdapter(getContext(), mOglas);
-                        recyclerView.setAdapter(oglasAdapter);
                     }
+                    hideNoOglas(mOglas.size());
+                    mOglas = sortByVariable(mOglas);
+
+                    oglasAdapter = new OglasAdapter(getContext(), mOglas);
+                    recyclerView.setAdapter(oglasAdapter);
                 }
             });
+        }else{
+            HideWithReason(2);
+            resetSpinner();
         }
     }
 
@@ -319,11 +367,27 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String textFromSpinner = adapterView.getItemAtPosition(i).toString();
-        if(textFromSpinner.equals("Po Ceni Rastuće")){
-            sortingVariable = 1;
-            sortOglases();
-        }else{
-            sortingVariable = 0;
+        switch (textFromSpinner) {
+            case "Po Ceni Opadajuće":
+                sortingVariable = 1;
+                sortOglases();
+                break;
+            case "Po Ceni Rastuće":
+                sortingVariable = 2;
+                sortOglases();
+                break;
+            case "Po Oceni Opadajuće":
+                sortingVariable = 3;
+                sortOglases();
+                break;
+            case "Po Oceni Rastuće":
+                sortingVariable = 4;
+                sortOglases();
+                break;
+            default:
+                sortingVariable = 0;
+                sortOglases();
+                break;
         }
     }
 
