@@ -19,10 +19,11 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="144dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchBar"
-        android:layout_marginTop="10dp">
+        app:layout_constraintTop_toTopOf="parent">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -56,5 +57,18 @@
         android:layout_height="666dp"
         android:visibility="gone"
         tools:layout_editor_absoluteY="62dp" />
+
+    <Spinner
+        android:id="@+id/sortType"
+        android:layout_width="326dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.117"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchBar"
+        app:layout_constraintVertical_bias="0.177" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

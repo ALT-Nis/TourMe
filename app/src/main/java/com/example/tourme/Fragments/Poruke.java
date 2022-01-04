@@ -4,31 +4,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.example.tourme.Adapters.OglasAdapter;
 import com.example.tourme.Login;
 import com.example.tourme.Model.Chat;
-import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.User;
 import com.example.tourme.R;
 import com.example.tourme.Adapters.UserAdapater;
-import com.example.tourme.Register;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -56,9 +50,9 @@ public class  Poruke extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    View viewNoInternet, viewThis;
+    View viewNoInternet, viewThis, viewNotLoggedIn;
     ProgressBar progressBar;
-    Button tryAgainButton;
+    Button tryAgainButton, goToLoginButton;
     Handler h = new Handler();
     int reasonForBadConnection = 1;
 
@@ -98,20 +92,23 @@ public class  Poruke extends Fragment {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet)
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn)
                     HideEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.GONE);
         }
     }
 
-    void HideEverything(){
+    void HideEverything(int option){
         HideEverythingRecursion(viewThis);
-        viewNoInternet.setVisibility(View.VISIBLE);
+        if(option == 1)
+            viewNoInternet.setVisibility(View.VISIBLE);
+        else
+            viewNotLoggedIn.setVisibility(View.VISIBLE);
     }
 
     void HideWithReason(int reason){
-        HideEverything();
+        HideEverything(1);
         reasonForBadConnection = reason;
     }
 
@@ -120,7 +117,7 @@ public class  Poruke extends Fragment {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet)
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn)
                     ShowEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.VISIBLE);
@@ -142,32 +139,37 @@ public class  Poruke extends Fragment {
 
     public boolean tryToStart(){
         if(IsConnectedToInternet()){
-            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("chats");
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("chats");
 
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        Chat chat = dataSnapshot.getValue(Chat.class);
+                reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            Chat chat = dataSnapshot.getValue(Chat.class);
 
-                        if(chat.getSender().equals(firebaseUser.getUid())){
-                            usersList.add(chat.getReceiver());
+                            if (chat.getSender().equals(firebaseUser.getUid())) {
+                                usersList.add(chat.getReceiver());
+                            }
+                            if (chat.getReceiver().equals(firebaseUser.getUid())) {
+                                usersList.add(chat.getSender());
+                            }
                         }
-                        if(chat.getReceiver().equals(firebaseUser.getUid())){
-                            usersList.add(chat.getSender());
-                        }
+
+                        readChats();
                     }
 
-                    readChats();
-                }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                    }
 
-                }
-
-            });
+                });
+            }else{
+                HideEverything(2);
+                return false;
+            }
         }else{
             HideWithReason(1);
             return false;
@@ -192,48 +194,45 @@ public class  Poruke extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_poruke, container, false);
 
-        //ovde se proverava da li je korisnik povezan
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            recyclerView = view.findViewById(R.id.recycler_view);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-            usersList = new ArrayList<>();
+        usersList = new ArrayList<>();
 
-            viewThis = view.findViewById(R.id.porukeFragment);
-            viewNoInternet = (View) view.findViewById(R.id.nemaInternet);
-            progressBar = viewNoInternet.findViewById(R.id.progressBar);
+        viewThis = view.findViewById(R.id.porukeFragment);
+        viewNoInternet = (View) view.findViewById(R.id.nemaInternet);
+        viewNotLoggedIn = (View) view.findViewById(R.id.nijePrijavljen);
+        progressBar = viewNoInternet.findViewById(R.id.progressBar);
 
-            tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
-            tryAgainButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    hideButtonShowProgress();
-                    h.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            hideProgressShowButton();
-                            if(reasonForBadConnection == 1) {
-                                if (tryToStart()) ShowEverything();
-                            }else ShowEverything();
-                        }
-                    }, 1000);
-                }
-            });
+        tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
+        tryAgainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideButtonShowProgress();
+                h.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideProgressShowButton();
+                        if(reasonForBadConnection == 1) {
+                            if (tryToStart()) ShowEverything();
+                        }else ShowEverything();
+                    }
+                }, 1000);
+            }
+        });
 
-            tryToStart();
-        }
-        else{
-            view = inflater.inflate(R.layout.not_logged_in, container, false);
-            Button dugme_login = view.findViewById(R.id.dugme_login);
-            dugme_login.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(getActivity(), Login.class);
-                    startActivity(i);
-                }
-            });
-        }
+        goToLoginButton = viewNotLoggedIn.findViewById(R.id.goToLoginIfDidnt);
+        goToLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), Login.class);
+                startActivity(i);
+            }
+        });
+
+        tryToStart();
+
         return view;
     }
 

@@ -25,14 +25,14 @@
         android:gravity="center"/>
 
     <Button
-        android:id="@+id/dugme_login"
+        android:id="@+id/goToLoginIfDidnt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Prijavite se"
-        android:backgroundTint="?attr/colorSecondary"
-        android:textColor="@color/white"
-        android:layout_marginTop="40dp"
         android:layout_below="@id/not_logged"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="?attr/colorSecondary"
+        android:text="Prijavite se"
+        android:textColor="@color/white" />
 
 </RelativeLayout>
