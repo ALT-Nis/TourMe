@@ -19,9 +19,4 @@
         android:name="com.example.tourme.Fragments.Obavestenja"
         android:label="fragment_obavestenja"
         tools:layout="@layout/fragment_obavestenja" />
-    <fragment
-        android:id="@+id/podesavanja"
-        android:name="com.example.tourme.Fragments.Podesavanja"
-        android:label="fragment_podesavanja"
-        tools:layout="@layout/fragment_podesavanja" />
 </navigation>

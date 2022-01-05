@@ -27,7 +27,13 @@
             />
 
         <item
-            android:id="@+id/podesavanja"
+            android:id="@+id/mape"
+            android:icon="@drawable/ic_map"
+            android:title="Mapa oglasa"
+            />
+
+        <item
+            android:id="@+id/settings"
             android:icon="@drawable/ic_settings"
             android:title="Podešavanja"
             />
@@ -37,6 +43,7 @@
             android:icon="@drawable/ic_login"
             android:title="Odjavite se"
             />
+
 
     </group>
 

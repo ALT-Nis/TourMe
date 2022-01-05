@@ -50,6 +50,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
         app:navGraph="@navigation/my_nav"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:layout_gravity="right" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

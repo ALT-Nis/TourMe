@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:id="@+id/porukeFragment"
     tools:context=".Fragments.Poruke"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:layout_gravity="right">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

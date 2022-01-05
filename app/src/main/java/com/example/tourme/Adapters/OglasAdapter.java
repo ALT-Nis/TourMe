@@ -44,7 +44,7 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
 
         holder.deskripcija.setText(oglas.getOpis());
         holder.username.setText(oglas.getUsername());
-        holder.cena.setText(""+oglas.getCenaOglasa());
+        holder.cena.setText(oglas.getCenaOglasa()+" rsd");
 
         if(oglas.getImageurl().equals("default")){
             holder.oglas_image.setImageResource(R.mipmap.ic_launcher);
