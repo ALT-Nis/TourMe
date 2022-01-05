@@ -49,6 +49,7 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+    <string name="hintSortiranje">Po relevantnosti</string>
     <string-array name="sortingType">
         <item>Po Relevantnosti</item>
         <item>Po Ceni Rastuće</item>
