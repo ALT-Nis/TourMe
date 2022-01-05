@@ -9,7 +9,7 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_nema_gradova"></ImageView>
+        android:src="@drawable/ic_nema_gradova"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,6 +23,6 @@
         android:gravity="center"
         android:text="Za izabrani grad ne postoji nijedan oglas."
         android:textSize="20sp"
-        android:textStyle="bold"></TextView>
+        android:textStyle="bold"/>
 
 </RelativeLayout>

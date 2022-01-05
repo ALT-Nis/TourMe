@@ -95,9 +95,7 @@
         layout="@layout/nema_internet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        tools:layout_editor_absoluteX="35dp"
-        tools:layout_editor_absoluteY="35dp" />
+        android:visibility="gone"/>
 
     <include
         layout="@layout/not_logged_in"
