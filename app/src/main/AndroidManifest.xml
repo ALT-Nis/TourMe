@@ -47,7 +47,7 @@
             android:name=".dodajOglas"
             android:exported="false" />
         <activity
-            android:name=".pregled_jednog_oglasa"
+            android:name=".pregledJednogOglasa"
             android:exported="false" />
         <activity
             android:name=".MessageActivity"

@@ -1,6 +1,7 @@
 package com.example.tourme.Model;
 
 public class Rating {
+
     double rating;
     String ratingDescription;
 

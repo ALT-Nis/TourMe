@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.example.tourme.Login;
 import com.example.tourme.Model.Gradovi;
+import com.example.tourme.Model.StaticVars;
 import com.example.tourme.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -66,7 +67,7 @@ public class Obavestenja extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_obavestenja, container, false);
-        Gradovi.listOfFragments.add(3);
+        StaticVars.listOfFragments.add(3);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 

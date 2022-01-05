@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import com.example.tourme.Login;
 import com.example.tourme.Model.Chat;
 import com.example.tourme.Model.Gradovi;
+import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
 import com.example.tourme.R;
 import com.example.tourme.Adapters.UserAdapater;
@@ -195,7 +196,7 @@ public class  Poruke extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_poruke, container, false);
 
-        Gradovi.listOfFragments.add(2);
+        StaticVars.listOfFragments.add(2);
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);

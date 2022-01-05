@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.example.tourme.Adapters.OglasAdapter;
 import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
+import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,26 +54,26 @@ import java.util.UUID;
 
 public class MyAccount extends AppCompatActivity {
 
+
+    //View
     ImageView imageView;
     TextView textView;
     RecyclerView recyclerView;
+    View viewNoInternet, viewThis, viewNotLoggedIn;
+    ProgressBar progressBar;
+    Button tryAgainButton, goToLoginButton;
+    Uri imageUri;
 
+    //FireBase
     DatabaseReference reference;
     FirebaseUser firebaseUser;
     FirebaseStorage storage;
     StorageReference storageReference;
 
-    View viewNoInternet, viewThis, viewNotLoggedIn;
-    ProgressBar progressBar;
-    Button tryAgainButton, goToLoginButton;
+    //Variables
     Handler h = new Handler();
-    int reasonForBadConnection = 1;
-
+    int reasonForBadConnection = 1, numberOfOglases;
     OglasAdapter oglasAdapter;
-
-    Uri imageUri;
-
-    int numberOfOglases;
 
     void hideProgressShowButton(){
         progressBar.setVisibility(View.GONE);
@@ -167,33 +168,37 @@ public class MyAccount extends AppCompatActivity {
         });
     }
 
+    public void setupFireBase(){
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid());
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                textView.setText(user.getUsername());
+                if (user.getImageurl().equals("default"))
+                    imageView.setImageResource(R.mipmap.ic_launcher);
+                else
+                    Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
+
+                showOglas(user.getId());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public boolean tryToStart(){
         if(IsConnectedToInternet()) {
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                reference = FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid());
-
-                storage = FirebaseStorage.getInstance();
-                storageReference = storage.getReference();
-
-                reference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User user = snapshot.getValue(User.class);
-                        textView.setText(user.getUsername());
-                        if (user.getImageurl().equals("default"))
-                            imageView.setImageResource(R.mipmap.ic_launcher);
-                        else
-                            Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
-
-                        showOglas(user.getId());
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                setupFireBase();
             }else{
                 HideEverything(2);
                 return false;
@@ -205,12 +210,8 @@ public class MyAccount extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_myaccount);
-
-        Gradovi.listOfFragments.add(9);
+    public void setupView(){
+        StaticVars.listOfFragments.add(9);
 
         imageView = findViewById(R.id.profile_image);
         textView = findViewById(R.id.username);
@@ -262,8 +263,14 @@ public class MyAccount extends AppCompatActivity {
         });
 
         tryToStart();
+    }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_myaccount);
 
+        setupView();
     }
 
     private void choseImage(){

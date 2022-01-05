@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.example.tourme.Model.Gradovi;
+import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,11 +33,14 @@ import com.google.firebase.storage.FirebaseStorage;
 
 public class SplashScreen extends AppCompatActivity {
 
+    //View
     View viewNoInternet, viewThis;
     ProgressBar progressBar;
     Button tryAgainButton;
 
+    //Variables
     int reasonForBadConnection = 1;
+    Handler h = new Handler();
 
     void hideProgressShowButton(){
         progressBar.setVisibility(View.GONE);
@@ -93,8 +97,6 @@ public class SplashScreen extends AppCompatActivity {
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 
-    Handler h = new Handler();
-
     public boolean tryToStart(){
         if(IsConnectedToInternet()) {
             FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener() {
@@ -106,6 +108,16 @@ public class SplashScreen extends AppCompatActivity {
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
 
+                }
+            });
+
+            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                @Override
+                public void onComplete(@NonNull Task<String> task) {
+                    if(task.isSuccessful()){
+                        String token = task.getResult().toString();
+                        Log.d("Token", "token:" + token );
+                    }
                 }
             });
 
@@ -131,12 +143,8 @@ public class SplashScreen extends AppCompatActivity {
         },3000);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Gradovi.listOfFragments.add(12);
+    public void setupView(){
+        StaticVars.listOfFragments.add(12);
 
         viewThis = findViewById(R.id.mainActivity);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
@@ -159,16 +167,13 @@ public class SplashScreen extends AppCompatActivity {
         });
 
         continueStarting();
+    }
 
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-            @Override
-            public void onComplete(@NonNull Task<String> task) {
-                if(task.isSuccessful()){
-                    String token = task.getResult().toString();
-                    Log.d("Token", "token:" + token );
-                }
-            }
-        });
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
+        setupView();
     }
 }

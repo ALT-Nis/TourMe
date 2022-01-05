@@ -3,6 +3,7 @@ package com.example.tourme.Model;
 import java.util.HashMap;
 
 public class Oglas {
+
     String idOglasa;
     String grad;
     int brojOcena;
@@ -28,18 +29,6 @@ public class Oglas {
         this.imageurl=imageurl;
         this.username = username;
     }
-
-    public Oglas(HashMap<String, Object> hm){
-        this.idOglasa = (String) hm.get("idOglasa");
-        this.imageurl = (String) hm.get("imageurl");
-        this.userId = (String) hm.get("userId");
-        this.grad = (String) hm.get("grad");
-        this.opis = (String) hm.get("opis");
-        this.ocena = Double.parseDouble(String.valueOf(hm.get("ocena")));
-        this.brojOcena = Integer.parseInt(String.valueOf(hm.get("brojOcena")));
-        this.username = (String) hm.get("username");
-    }
-
 
     public String getIdOglasa() { return idOglasa; }
 

@@ -12,12 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.tourme.MessageActivity;
-import com.example.tourme.Model.Chat;
 import com.example.tourme.Model.Oglas;
-import com.example.tourme.Model.User;
 import com.example.tourme.R;
-import com.example.tourme.pregled_jednog_oglasa;
+import com.example.tourme.pregledJednogOglasa;
 
 import java.util.List;
 
@@ -58,7 +55,7 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, pregled_jednog_oglasa.class);
+                Intent intent = new Intent(mContext, pregledJednogOglasa.class);
                 intent.putExtra("IDOglasa",oglas.getIdOglasa());
                 intent.putExtra("NazivGrada", oglas.getGrad());
                 mContext.startActivity(intent);

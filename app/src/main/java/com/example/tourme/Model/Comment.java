@@ -6,13 +6,14 @@ public class Comment {
     private String ratingDescription;
     private String userid;
 
+    public Comment(){
+
+    }
+
     public Comment(double rating, String ratingDescription, String userid) {
         this.rating = rating;
         this.ratingDescription = ratingDescription;
         this.userid = userid;
-    }
-    public Comment(){
-
     }
 
     public double getRating() {
@@ -27,9 +28,7 @@ public class Comment {
         return ratingDescription;
     }
 
-    public void setRatingDescription(String ratingDescription) {
-        this.ratingDescription = ratingDescription;
-    }
+    public void setRatingDescription(String ratingDescription) { this.ratingDescription = ratingDescription; }
 
     public String getUserid() {
         return userid;

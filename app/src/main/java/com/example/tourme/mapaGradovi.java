@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
+import com.example.tourme.Model.StaticVars;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,16 +25,22 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class mapaGradovi extends FragmentActivity implements OnMapReadyCallback {
 
+    //View
+
+    //Firebase
     private GoogleMap mMap;
     private ActivityMapaGradoviBinding binding;
+
+    //Variables
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        StaticVars.listOfFragments.add(14);
 
         binding = ActivityMapaGradoviBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -57,35 +64,35 @@ public class mapaGradovi extends FragmentActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        final List<Gradovi.grad> lokacija  = Arrays.asList(
-        new Gradovi.grad("Beograd", new LatLng(44.8167, 20.4667)),
-        new Gradovi.grad("Novi Sad", new LatLng(45.2644, 19.8317)),
-        new Gradovi.grad("Niš", new LatLng(43.3192, 21.8961)),
-        new Gradovi.grad("Kragujevac", new LatLng(44.0142, 20.9394)),
-        new Gradovi.grad("Priština", new LatLng(42.667542, 21.166191)),
-        new Gradovi.grad("Subotica", new LatLng(46.0983, 19.6700)),
-        new Gradovi.grad("Zrenjanin", new LatLng(45.3778, 20.3861)),
-        new Gradovi.grad("Pančevo", new LatLng(44.8739, 20.6519)),
-        new Gradovi.grad("Čačak", new LatLng(43.8914, 20.3497)),
-        new Gradovi.grad("Kruševac", new LatLng(43.5833, 21.3267)),
-        new Gradovi.grad("Kraljevo", new LatLng(43.7234, 20.6870)),
-        new Gradovi.grad("Novi Pazar", new LatLng(43.1500, 20.5167)),
-        new Gradovi.grad("Smederevo", new LatLng(44.66278, 20.93)),
-        new Gradovi.grad("Leskovac", new LatLng(42.9981, 21.9461)),
-        new Gradovi.grad("Užice", new LatLng(43.8500, 19.8500)),
-        new Gradovi.grad("Vranje", new LatLng(42.5542, 21.8972)),
-        new Gradovi.grad("Valjevo", new LatLng(44.2667, 19.8833)),
-        new Gradovi.grad("Šabac", new LatLng(44.748861, 19.690788)),
-        new Gradovi.grad("Sombor", new LatLng(45.7800, 19.1200)),
-        new Gradovi.grad("Požarevac", new LatLng(44.62133, 21.18782)),
-        new Gradovi.grad("Pirot", new LatLng(43.15306, 22.58611)),
-        new Gradovi.grad("Zaječar", new LatLng(43.90358, 22.26405)),
-        new Gradovi.grad("Kikinda", new LatLng(45.8244, 20.4592)),
-        new Gradovi.grad("Sremska Mitrovica", new LatLng(44.8167, 20.4667)), //fali
-        new Gradovi.grad("Vršac", new LatLng(45.1206, 21.2986)),
-        new Gradovi.grad("Bor", new LatLng(44.07488, 22.09591)),
-        new Gradovi.grad("Prokuplje", new LatLng(43.23417, 21.58806)),
-        new Gradovi.grad("Loznica", new LatLng(44.5333, 19.2258)));
+        final List<Gradovi.Grad> lokacija  = Arrays.asList(
+        new Gradovi.Grad("Beograd", new LatLng(44.8167, 20.4667)),
+        new Gradovi.Grad("Novi Sad", new LatLng(45.2644, 19.8317)),
+        new Gradovi.Grad("Niš", new LatLng(43.3192, 21.8961)),
+        new Gradovi.Grad("Kragujevac", new LatLng(44.0142, 20.9394)),
+        new Gradovi.Grad("Priština", new LatLng(42.667542, 21.166191)),
+        new Gradovi.Grad("Subotica", new LatLng(46.0983, 19.6700)),
+        new Gradovi.Grad("Zrenjanin", new LatLng(45.3778, 20.3861)),
+        new Gradovi.Grad("Pančevo", new LatLng(44.8739, 20.6519)),
+        new Gradovi.Grad("Čačak", new LatLng(43.8914, 20.3497)),
+        new Gradovi.Grad("Kruševac", new LatLng(43.5833, 21.3267)),
+        new Gradovi.Grad("Kraljevo", new LatLng(43.7234, 20.6870)),
+        new Gradovi.Grad("Novi Pazar", new LatLng(43.1500, 20.5167)),
+        new Gradovi.Grad("Smederevo", new LatLng(44.66278, 20.93)),
+        new Gradovi.Grad("Leskovac", new LatLng(42.9981, 21.9461)),
+        new Gradovi.Grad("Užice", new LatLng(43.8500, 19.8500)),
+        new Gradovi.Grad("Vranje", new LatLng(42.5542, 21.8972)),
+        new Gradovi.Grad("Valjevo", new LatLng(44.2667, 19.8833)),
+        new Gradovi.Grad("Šabac", new LatLng(44.748861, 19.690788)),
+        new Gradovi.Grad("Sombor", new LatLng(45.7800, 19.1200)),
+        new Gradovi.Grad("Požarevac", new LatLng(44.62133, 21.18782)),
+        new Gradovi.Grad("Pirot", new LatLng(43.15306, 22.58611)),
+        new Gradovi.Grad("Zaječar", new LatLng(43.90358, 22.26405)),
+        new Gradovi.Grad("Kikinda", new LatLng(45.8244, 20.4592)),
+        new Gradovi.Grad("Sremska Mitrovica", new LatLng(44.8167, 20.4667)), //fali
+        new Gradovi.Grad("Vršac", new LatLng(45.1206, 21.2986)),
+        new Gradovi.Grad("Bor", new LatLng(44.07488, 22.09591)),
+        new Gradovi.Grad("Prokuplje", new LatLng(43.23417, 21.58806)),
+        new Gradovi.Grad("Loznica", new LatLng(44.5333, 19.2258)));
 
         FirebaseDatabase.getInstance().getReference("oglasi").addValueEventListener(new ValueEventListener() {
             @Override

@@ -26,6 +26,7 @@ import com.example.tourme.Adapters.CommentAdapter;
 import com.example.tourme.Model.Comment;
 import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
+import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,22 +43,20 @@ import java.util.List;
 
 public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    Button addOglas;
+    //View
+    Button addOglas, tryAgainButton, goToLoginButton;
+    EditText editTextForDescribe, editTextForPrice;
+    View viewNoInternet, viewThis, viewNotLoggedIn;
+    Spinner city;
+    ProgressBar progressBar;
+
+    //Firebase
     private DatabaseReference mDatabase;
     FirebaseAuth fAuth;
 
-    Spinner city;
-
-    EditText editTextForDescribe, editTextForPrice;
-
+    //Variables
     boolean isGood = true;
-
-    String textForDescribe, textForPrice;
-    String cityText;
-
-    View viewNoInternet, viewThis, viewNotLoggedIn;
-    ProgressBar progressBar;
-    Button tryAgainButton, goToLoginButton;
+    String textForDescribe, textForPrice, cityText;
     Handler h = new Handler();
     int reasonForBadConnection = 1;
 
@@ -65,6 +64,7 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
         progressBar.setVisibility(View.GONE);
         tryAgainButton.setVisibility(View.VISIBLE);
     }
+
     void hideButtonShowProgress(){
         progressBar.setVisibility(View.VISIBLE);
         tryAgainButton.setVisibility(View.GONE);
@@ -72,7 +72,7 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
 
     private void HideEverythingRecursion(View v) {
         ViewGroup viewgroup=(ViewGroup)v;
-        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+        for (int i = 0 ; i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
                 if(v1 != viewNoInternet && v1 != viewNotLoggedIn)
@@ -97,7 +97,7 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
 
     private void ShowEverythingRecursion(View v) {
         ViewGroup viewgroup=(ViewGroup)v;
-        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+        for (int i = 0 ; i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
                 if(v1 != viewNoInternet && v1 != viewNotLoggedIn) {
@@ -129,14 +129,17 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
         isGood = false;
     }
 
+    void createToast(String toastText){
+        Toast.makeText(dodajOglas.this, toastText, Toast.LENGTH_LONG).show();
+    }
+
     public void finishAddingOglas(String userId, String imageurl, String username){
         if(IsConnectedToInternet()){
             mDatabase.child("users").child(userId).child("brojOglasa").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (!task.isSuccessful()) {
+                    if (!task.isSuccessful())
                         HideWithReason(2);
-                    }
                     else {
                         String numberOfOglas = String.valueOf(task.getResult().getValue());
 
@@ -152,18 +155,14 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
                             mDatabase.child("oglasi").child(idOglasa).setValue(oglas);
                             mDatabase.child("users").child(userId).child("brojOglasa").setValue(newNumberForOglas);
                             mDatabase.child("users").child(userId).child("oglas").child(cityText).setValue(idOglasa);
-
-                            Toast.makeText(dodajOglas.this, "Uspesno ste kreirali oglas", Toast.LENGTH_LONG).show();
-                        }else{
+                            createToast("Uspesno ste kreirali oglas");
+                        }else
                             HideWithReason(2);
-                        }
                     }
                 }
             });
-        }else{
+        }else
             HideWithReason(2);
-        }
-
     }
 
     public void continueAddingOglas(String userId, String imageurl, String username){
@@ -171,22 +170,19 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
             mDatabase.child("users").child(userId).child("oglas").child(cityText).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (!task.isSuccessful()) {
+                    if (!task.isSuccessful())
                         HideWithReason(2);
-                    }
                     else {
                         String existsOglas = String.valueOf(task.getResult().getValue());
-                        if(existsOglas.equals("null")){
+                        if(existsOglas.equals("null"))
                             finishAddingOglas(userId, imageurl, username);
-                        }else{
-                            Toast.makeText(dodajOglas.this, "vec postoji oglas sa ovim gradom", Toast.LENGTH_LONG).show();
-                        }
+                        else
+                            createToast("vec postoji oglas sa ovim gradom");
                     }
                 }
             });
-        }else{
+        }else
             HideWithReason(2);
-        }
     }
 
     public void startAddingOglas(){
@@ -195,9 +191,8 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
             mDatabase.child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (!task.isSuccessful()) {
+                    if (!task.isSuccessful())
                         HideWithReason(2);
-                    }
                     else {
                         User user = task.getResult().getValue(User.class);
 
@@ -205,24 +200,24 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
                             String imageurl = user.getImageurl();
                             String username = user.getUsername();
                             continueAddingOglas(userId, imageurl, username);
-                        }else{
-                            Toast.makeText(dodajOglas.this, "ne postoji ovakav nalog", Toast.LENGTH_LONG).show();
-                        }
-
+                        }else
+                            createToast("ne postoji ovakav nalog");
                     }
                 }
             });
-        }else{
+        }else
             HideWithReason(2);
-        }
+    }
 
+    public void setupFireBase(){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        fAuth = FirebaseAuth.getInstance();
     }
 
     public boolean tryToStart(){
         if(IsConnectedToInternet()) {
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                mDatabase = FirebaseDatabase.getInstance().getReference();
-                fAuth = FirebaseAuth.getInstance();
+                setupFireBase();
             }else{
                 HideEverything(2);
                 return false;
@@ -234,12 +229,8 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
         return true;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dodaj_oglas);
-
-        Gradovi.listOfFragments.add(6);
+    public void setupView(){
+        StaticVars.listOfFragments.add(6);
 
         viewThis = findViewById(R.id.dodajOglasActivity);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
@@ -291,24 +282,29 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
                     if(fAuth.getCurrentUser()!=null) {
                         textForDescribe = editTextForDescribe.getText().toString().trim();
                         textForPrice = editTextForPrice.getText().toString().trim();
-                        if(TextUtils.isEmpty(textForDescribe)){
+                        if(TextUtils.isEmpty(textForDescribe))
                             setDescribeError("Unesite opis oglasa");
-                        }
 
-                        if(TextUtils.isEmpty(textForPrice)){
+                        if(TextUtils.isEmpty(textForPrice))
                             setPriceError("Unesite cenu oglasa");
-                        }
+
                         if(isGood)
                             startAddingOglas();
                     }
-                }else{
+                }else
                     HideWithReason(2);
-                }
-
             }
         });
 
         tryToStart();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dodaj_oglas);
+
+        setupView();
     }
 
     @Override
@@ -330,7 +326,6 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
 
             reference.updateChildren(hashMap);
         }
-
     }
 
     @Override

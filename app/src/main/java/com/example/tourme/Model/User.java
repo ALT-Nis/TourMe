@@ -9,6 +9,10 @@ public class User {
     private String brojOglasa;
     private String status;
 
+    public User(){
+
+    }
+
     public User(String id, String email, String username, String imageurl, String brojOglasa, String status){
         this.id = id;
         this.email = email;
@@ -16,10 +20,6 @@ public class User {
         this.imageurl = imageurl;
         this.brojOglasa = brojOglasa;
         this.status = status;
-    }
-
-    public User(){
-
     }
 
     public String getId() {
@@ -46,21 +46,15 @@ public class User {
         this.username = username;
     }
 
-    public String getImageurl() {
-        return imageurl;
-    }
+    public String getImageurl() { return imageurl; }
 
-    public void setImageurl(String imageurl) {
-        this.imageurl = imageurl;
-    }
+    public void setImageurl(String imageurl) { this.imageurl = imageurl; }
 
     public void setBrojOglasa(String brojOglasa) { this.brojOglasa = brojOglasa; }
 
     public String getBrojOglasa() { return brojOglasa; }
 
-    public String getStatus() {
-        return status;
-    }
+    public String getStatus() { return status; }
 
     public void setStatus(String status) {
         this.status = status;

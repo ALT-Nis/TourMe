@@ -12,37 +12,27 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.tourme.Adapters.CommentAdapter;
-import com.example.tourme.Adapters.MessageAdapter;
-import com.example.tourme.Adapters.OglasAdapter;
-import com.example.tourme.Adapters.UserAdapater;
-import com.example.tourme.Model.Chat;
 import com.example.tourme.Model.Comment;
 import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
-import com.example.tourme.Model.Rating;
-import com.example.tourme.Model.User;
+import com.example.tourme.Model.StaticVars;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,33 +43,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class pregledJednogOglasa extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    //View
     Spinner rating;
-
-    String newRating, newRatingText;
-    String IDOglasa, nazivGrada;
-
-    Button buttonAddRating;
-    Button sendMessage;
-
+    Button sendMessage, buttonAddRating, tryAgainButton;
     ImageView profile_image;
     TextView username, opis, grad;
     EditText textForRating;
-
     View viewNoInternet, viewThis;
     ProgressBar progressBar;
-    Button tryAgainButton;
-    Handler h = new Handler();
 
+    //FireBase
+    private DatabaseReference mDatabase;
+
+    //Variables
+    String newRating, newRatingText;
+    String IDOglasa, nazivGrada;
+    Handler h = new Handler();
     RecyclerView recyclerView;
     CommentAdapter commentAdapter;
-
     int reasonForBadConnection = 1;
-
     boolean isGood = true;
 
-    private DatabaseReference mDatabase;
 
     void setRatingTextError(String errorText){
         textForRating.setError(errorText);
@@ -164,7 +150,7 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
                             mDatabase.child("oglasi").child(IDOglasa).child("ocena").setValue(ocena);
                             mDatabase.child("oglasi").child(IDOglasa).child("oceneOglasa").child(brojOcena.toString()).setValue(comment);
                         }else{
-                            Toast.makeText(pregled_jednog_oglasa.this, "ne postoji ovakav oglas", Toast.LENGTH_LONG).show();
+                            Toast.makeText(pregledJednogOglasa.this, "ne postoji ovakav oglas", Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -176,62 +162,65 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
 
     }
 
+    public void setupFireBase(){
+        FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Oglas oglas = snapshot.getValue(Oglas.class);
+                username.setText(oglas.getUsername());
+                username.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openAccount(oglas.getUserId());
+                    }
+                });
+
+                opis.setText(oglas.getOpis());
+                grad.setText(oglas.getGrad());
+
+                if (oglas.getImageurl().equals("default"))
+                    profile_image.setImageResource(R.mipmap.ic_launcher);
+                else
+                    Glide.with(getApplicationContext()).load(oglas.getImageurl()).into(profile_image);
+
+                profile_image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openAccount(oglas.getUserId());
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).child("oceneOglasa");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Comment> mComment = new ArrayList<>();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Comment comment = dataSnapshot.getValue(Comment.class);
+                    mComment.add(comment);
+                }
+                commentAdapter = new CommentAdapter(getApplicationContext(), mComment);
+                recyclerView.setAdapter(commentAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public boolean tryToStart(){
         if(IsConnectedToInternet()) {
-            FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Oglas oglas = snapshot.getValue(Oglas.class);
-                    username.setText(oglas.getUsername());
-                    username.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            openAccount(oglas.getUserId());
-                        }
-                    });
-
-                    opis.setText(oglas.getOpis());
-                    grad.setText(oglas.getGrad());
-
-                    if (oglas.getImageurl().equals("default"))
-                        profile_image.setImageResource(R.mipmap.ic_launcher);
-                    else
-                        Glide.with(getApplicationContext()).load(oglas.getImageurl()).into(profile_image);
-
-                    profile_image.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            openAccount(oglas.getUserId());
-                        }
-                    });
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).child("oceneOglasa");
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    List<Comment> mComment = new ArrayList<>();
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        Comment comment = dataSnapshot.getValue(Comment.class);
-                        mComment.add(comment);
-                    }
-                    commentAdapter = new CommentAdapter(getApplicationContext(), mComment);
-                    recyclerView.setAdapter(commentAdapter);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
+            setupFireBase();
         }else{
             HideWithReason(1);
             return false;
@@ -239,13 +228,8 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
         return true;
     }
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pregled_jednog_oglasa);
-
-        Gradovi.listOfFragments.add(10);
+    public void setupView(){
+        StaticVars.listOfFragments.add(10);
 
         IDOglasa = getIntent().getStringExtra("IDOglasa");
         nazivGrada = getIntent().getStringExtra("NazivGrada");
@@ -316,6 +300,14 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
         tryToStart();
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pregled_jednog_oglasa);
+
+        setupView();
+    }
+
     private void openAccount(String userid){
         Intent intent = new Intent(getApplicationContext(), Account.class);
         intent.putExtra("userid",userid);
@@ -329,7 +321,7 @@ public class pregled_jednog_oglasa extends AppCompatActivity implements AdapterV
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     Oglas oglas = task.getResult().getValue(Oglas.class);
 
-                    Intent i = new Intent(pregled_jednog_oglasa.this, MessageActivity.class);
+                    Intent i = new Intent(pregledJednogOglasa.this, MessageActivity.class);
                     i.putExtra("userid", oglas.getUserId());
                     startActivity(i);
                 }

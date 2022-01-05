@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.tourme.Adapters.OglasAdapter;
 import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
+import com.example.tourme.Model.StaticVars;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,6 +58,8 @@ public class pregledOglasaGrad extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pregled_oglasa_grad);
+
+        StaticVars.listOfFragments.add(13);
 
         String grad = getIntent().getStringExtra("grad");
 

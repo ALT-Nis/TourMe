@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tourme.Model.Gradovi;
+import com.example.tourme.Model.StaticVars;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -35,22 +36,21 @@ import java.util.HashMap;
 
 public class Login extends AppCompatActivity {
 
+    //View
     EditText mEmail, mPassword;
-    Button login_dugme, buttonShowHidePassword;
+    Button login_dugme, buttonShowHidePassword, tryAgainButton;
     TextView registerButton;
-    FirebaseAuth fAuth;
-
     View viewNoInternet, viewThis;
     ProgressBar progressBar;
-    Button tryAgainButton;
-    Handler h = new Handler();
-    int reasonForBadConnection = 1;
 
-    boolean didFindError = false;
-    boolean isPasswordHidden = true;
-
+    //Firebase
+    FirebaseAuth fAuth;
     private DatabaseReference mDatabase;
 
+    //Variables
+    Handler h = new Handler();
+    int reasonForBadConnection = 1;
+    boolean didFindError = false, isPasswordHidden = true;
     String patternForEmail = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
 
     void setEmailError(String errorText){
@@ -79,7 +79,7 @@ public class Login extends AppCompatActivity {
 
     private void HideEverythingRecursion(View v) {
         ViewGroup viewgroup=(ViewGroup)v;
-        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+        for (int i = 0 ; i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
                 if(v1 != viewNoInternet)
@@ -101,7 +101,7 @@ public class Login extends AppCompatActivity {
 
     private void ShowEverythingRecursion(View v) {
         ViewGroup viewgroup=(ViewGroup)v;
-        for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
+        for (int i = 0 ; i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
                 if(v1 != viewNoInternet)
@@ -131,8 +131,7 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(Login.this,"Uspesno",Toast.LENGTH_LONG).show();
                         Intent i = new Intent(Login.this, Glavni_ekran.class);
                         startActivity(i);
-                    }
-                    else{
+                    } else{
                         String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
                         Log.e("gf", errorCode);
                         if(errorCode.equals("ERROR_USER_NOT_FOUND")){
@@ -157,8 +156,7 @@ public class Login extends AppCompatActivity {
                 public void onComplete(@NonNull Task<DataSnapshot> task) {
                     if (!task.isSuccessful()) {
                         HideWithReason(2);
-                    }
-                    else {
+                    } else {
                         String emailFromDatabase = String.valueOf(task.getResult().getValue());
                         if(!emailFromDatabase.equals("null")){
                             finishSigningIn(emailFromDatabase, password);
@@ -185,31 +183,33 @@ public class Login extends AppCompatActivity {
                 mDatabase.child("usersID").child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
-                        if (!task.isSuccessful()) {
+                        if (!task.isSuccessful())
                             HideWithReason(2);
-                        }
                         else {
                             String IDFromDatabase = String.valueOf(task.getResult().getValue());
-                            if(!IDFromDatabase.equals("null")){
+                            if(!IDFromDatabase.equals("null"))
                                 continueSignIn(IDFromDatabase, password);
-                            }else{
+                            else
                                 setEmailError("Ne postoji ovakvo korisnicko ime");
-                            }
                         }
                     }
                 });
-            }else{
+            }else {
                 HideWithReason(2);
             }
-        }else{
+        }else {
             finishSigningIn(email, password);
         }
     }
 
+    public void setupFireBase(){
+        fAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+    }
+
     public boolean tryToStart(){
         if(IsConnectedToInternet()){
-            fAuth = FirebaseAuth.getInstance();
-            mDatabase = FirebaseDatabase.getInstance().getReference();
+            setupFireBase();
         }else{
             HideWithReason(1);
             return false;
@@ -217,12 +217,8 @@ public class Login extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        Gradovi.listOfFragments.add(7);
+    public void setupView(){
+        StaticVars.listOfFragments.add(7);
 
         mEmail = findViewById(R.id.email_login);
         mPassword = findViewById(R.id.password_login);
@@ -297,7 +293,16 @@ public class Login extends AppCompatActivity {
 
             }
         });
+
         tryToStart();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        setupView();
     }
 
     private void status(String status){
@@ -309,7 +314,6 @@ public class Login extends AppCompatActivity {
 
             reference.updateChildren(hashMap);
         }
-
     }
 
     @Override

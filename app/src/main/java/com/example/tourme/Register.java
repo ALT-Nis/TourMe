@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 
 import com.example.tourme.Model.Gradovi;
+import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,28 +40,23 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
 
+    //View
     EditText mEmail, mUserName, mPassword, mConfirmPassword;
-
-    Button registerButton, buttonShowHidePassword, buttonShowHideConfirmPassword;
+    Button registerButton, buttonShowHidePassword, buttonShowHideConfirmPassword, tryAgainButton;
     TextView loginButton;
-
     FirebaseAuth fAuth;
-
     View viewNoInternet, viewThis;
     ProgressBar progressBar;
-    Button tryAgainButton;
-    Handler h = new Handler();
 
+    //FireBase
     private DatabaseReference mDatabase;
 
+    //Variables
+    Handler h = new Handler();
     String patternForEmail = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
     String patternForUsername = "^[a-zA-Z0-9]+$";
     String email, username, password, confirm_password;
-
-    boolean didFindError = false;
-    boolean isPasswordHidden = true;
-    boolean isConfirmPasswordHidden = true;
-
+    boolean didFindError = false, isPasswordHidden = true, isConfirmPasswordHidden = true;
     int reasonForBadConnection = 1;
 
     void setEmailError(String errorText){
@@ -198,10 +194,14 @@ public class Register extends AppCompatActivity {
         }
     }
 
+    public void setupFireBase(){
+        fAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+    }
+
     public boolean tryToStart(){
         if(IsConnectedToInternet()){
-            fAuth = FirebaseAuth.getInstance();
-            mDatabase = FirebaseDatabase.getInstance().getReference();
+            setupFireBase();
         }else{
             HideWithReason(1);
             return false;
@@ -209,12 +209,8 @@ public class Register extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-
-        Gradovi.listOfFragments.add(11);
+    public void setupView(){
+        StaticVars.listOfFragments.add(11);
 
         mEmail = findViewById(R.id.email);
         mUserName = findViewById(R.id.CustomName);
@@ -342,6 +338,14 @@ public class Register extends AppCompatActivity {
         });
 
         tryToStart();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+
+        setupView();
 
     }
 

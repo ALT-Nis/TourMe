@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.example.tourme.Adapters.OglasAdapter;
 import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
+import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -159,7 +160,7 @@ public class Account extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        Gradovi.listOfFragments.add(5);
+        StaticVars.listOfFragments.add(5);
 
         imageView = findViewById(R.id.profile_image);
         textView = findViewById(R.id.username);

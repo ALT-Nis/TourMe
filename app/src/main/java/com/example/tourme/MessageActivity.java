@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide;
 import com.example.tourme.Adapters.MessageAdapter;
 import com.example.tourme.Model.Chat;
 import com.example.tourme.Model.Gradovi;
+import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,31 +44,28 @@ import java.util.List;
 
 public class MessageActivity extends AppCompatActivity {
 
+    //View
     ImageView profile_image;
     TextView username;
-
-    FirebaseUser fUser;
-    DatabaseReference reference;
-
-    MessageAdapter messageAdapter;
-    List<Chat> mChat;
-
     RecyclerView recyclerView;
-
     View viewNoInternet, viewThis, viewNotLoggedIn;
     ProgressBar progressBar;
     Button tryAgainButton, goToLoginButton;
-    Handler h = new Handler();
-    int reasonForBadConnection = 1;
-
     Intent intent;
-
-    String userid;
-
     ImageButton button_send;
     EditText text_send;
-
     ValueEventListener seenListener;
+
+    //Firebase
+    FirebaseUser fUser;
+    DatabaseReference reference;
+
+    //Variables
+    MessageAdapter messageAdapter;
+    List<Chat> mChat;
+    Handler h = new Handler();
+    int reasonForBadConnection = 1;
+    String userid;
 
     void hideProgressShowButton(){
         progressBar.setVisibility(View.GONE);
@@ -126,33 +124,37 @@ public class MessageActivity extends AppCompatActivity {
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 
+    public void setupFireBase(){
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        reference = FirebaseDatabase.getInstance().getReference("users").child(userid);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                username.setText(user.getUsername());
+                if (user.getImageurl().equals("default")) {
+                    profile_image.setImageResource(R.mipmap.ic_launcher);
+                } else {
+                    Glide.with(getApplicationContext()).load(user.getImageurl()).into(profile_image);
+                }
+
+                readMessages(fUser.getUid(), userid, user.getImageurl());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        seenMessage(userid);
+    }
+
     public boolean tryToStart(){
         if(IsConnectedToInternet()){
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                fUser = FirebaseAuth.getInstance().getCurrentUser();
-
-                reference = FirebaseDatabase.getInstance().getReference("users").child(userid);
-                reference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User user = snapshot.getValue(User.class);
-                        username.setText(user.getUsername());
-                        if (user.getImageurl().equals("default")) {
-                            profile_image.setImageResource(R.mipmap.ic_launcher);
-                        } else {
-                            Glide.with(getApplicationContext()).load(user.getImageurl()).into(profile_image);
-                        }
-
-                        readMessages(fUser.getUid(), userid, user.getImageurl());
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-                seenMessage(userid);
+                setupFireBase();
             }else{
                 HideEverything(2);
                 return false;
@@ -164,12 +166,8 @@ public class MessageActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_message);
-
-        Gradovi.listOfFragments.add(8);
+    public void setupView(){
+        StaticVars.listOfFragments.add(8);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
 
@@ -251,6 +249,14 @@ public class MessageActivity extends AppCompatActivity {
         });
 
         tryToStart();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_message);
+
+        setupView();
 
     }
 

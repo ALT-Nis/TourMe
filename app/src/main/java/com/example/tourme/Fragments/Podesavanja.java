@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.tourme.Login;
 import com.example.tourme.Model.Gradovi;
+import com.example.tourme.Model.StaticVars;
 import com.example.tourme.R;
 import com.example.tourme.Register;
 import com.example.tourme.mapaGradovi;
@@ -89,7 +90,7 @@ public class Podesavanja extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_podesavanja, container, false);
-        Gradovi.listOfFragments.add(4);
+        StaticVars.listOfFragments.add(4);
 
         Button dugme_login = view.findViewById(R.id.goToLoginIfDidnt);
         dugme_login.setOnClickListener(new View.OnClickListener() {

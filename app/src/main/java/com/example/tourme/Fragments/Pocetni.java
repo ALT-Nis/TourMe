@@ -32,6 +32,7 @@ import com.bumptech.glide.Glide;
 import com.example.tourme.Adapters.OglasAdapter;
 import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
+import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
 import com.example.tourme.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -193,7 +194,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                         List<Oglas> mOglas = new ArrayList<>();
                         List<String> newItems = g.Search(inputText);
                         items = newItems;
-                        Gradovi.lastSearch = inputText;
+                        StaticVars.lastSearch = inputText;
 
                         for(DataSnapshot dataSnapshot : task.getResult().getChildren()){
                             Oglas oglas = dataSnapshot.getValue(Oglas.class);
@@ -210,7 +211,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                     }
                 });
             }else{
-                HideWithReason(2);
+                HideWithReason(1);
             }
         }
     }
@@ -241,8 +242,6 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
 
                 }
             });
-
-
         }else{
             HideWithReason(1);
             return false;
@@ -256,10 +255,10 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
 
         View view = inflater.inflate(R.layout.fragment_pocetni, container, false);
 
-        Gradovi.listOfFragments.add(1);
-        int len = Gradovi.listOfFragments.size();
-        if(len >= 2 && Gradovi.listOfFragments.get(len - 2) == 1)
-            Gradovi.lastSearch = "";
+        StaticVars.listOfFragments.add(1);
+        int len = StaticVars.listOfFragments.size();
+        if(len >= 2 && StaticVars.listOfFragments.get(len - 2) == 1)
+            StaticVars.lastSearch = "";
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -318,8 +317,8 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
             }
         });
 
-        if(!Gradovi.lastSearch.equals("")){
-            String f = Gradovi.lastSearch;
+        if(!StaticVars.lastSearch.equals("")){
+            String f = StaticVars.lastSearch;
             searchBar.setText(f);
             search();
         }
@@ -331,7 +330,6 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                 search();
             }
         });
-
 
         return view;
     }
@@ -358,7 +356,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                 }
             });
         }else{
-            HideWithReason(2);
+            HideWithReason(1);
             resetSpinner();
         }
     }
