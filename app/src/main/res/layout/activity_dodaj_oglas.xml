@@ -12,10 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="35dp"
-        android:background="?attr/colorPrimary"
-        android:visibility="visible"
-        tools:layout_editor_absoluteX="35dp"
-        tools:layout_editor_absoluteY="35dp">
+        android:background="@drawable/bg"
+        android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,67 +24,91 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/form_bg"
+            android:layout_marginBottom="20dp"
+            android:padding="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/describeOglas">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/grad"
+                android:text="Grad" />
+
+            <Spinner
+                android:id="@+id/cityForOglas"
+                android:layout_width="260dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/grad"/>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/form_bg"
+            android:padding="10dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/describeOglas">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Opis"
+                android:id="@+id/opis_oglasa"/>
+
+            <EditText
+                android:layout_width="260dp"
+                android:layout_height="100dp"
+                android:gravity="bottom"
+                android:backgroundTint="#00000000"
+                android:layout_below="@id/opis_oglasa"
+                android:inputType="text|textMultiLine|textCapSentences" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/form_bg"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/describeOglas"
+            android:id="@+id/cena">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cena"/>
+
+            <EditText
+                android:id="@+id/priceEditText"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:backgroundTint="#00000000"
+                android:layout_below="@id/textView"/>
+
+        </RelativeLayout>
+
         <Button
             android:id="@+id/addOglas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/describeOglas"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="90dp"
-            android:layout_marginTop="138dp"
-            android:layout_marginEnd="92dp"
-            android:backgroundTint="?attr/colorSecondary"
-            android:text="dodajte Oglas"
+            android:layout_below="@+id/cena"
+            android:layout_alignStart="@id/cena"
+            android:layout_alignEnd="@id/cena"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="?attr/colorPrimary"
+            android:text="Postavite oglas"
             android:textColor="@color/white" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/cityForOglas"
-            android:layout_alignStart="@id/cityForOglas"
-            android:text="Izaberite grad:" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/cityForOglas"
-            android:layout_alignStart="@id/cityForOglas"
-            android:layout_marginStart="0dp"
-            android:layout_marginBottom="-268dp"
-            android:text="Unesite cenu:" />
-
-        <Spinner
-            android:id="@+id/cityForOglas"
-            android:layout_width="260dp"
-            android:layout_height="30dp"
-            android:layout_above="@+id/describeOglas"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp" />
-
-        <EditText
-            android:id="@+id/describeOglas"
-            android:layout_width="260dp"
-            android:layout_height="150dp"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="30dp"
-            android:gravity="bottom"
-            android:hint="Dodajte opis svom oglasu"
-            android:inputType="text|textMultiLine|textCapSentences" />
-
-        <EditText
-            android:id="@+id/priceEditText"
-            android:layout_width="259dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="42dp"
-            android:layout_marginBottom="150dp"
-            android:ems="10"
-            android:inputType="number" />
 
     </RelativeLayout>
 
