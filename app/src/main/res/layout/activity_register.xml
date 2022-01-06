@@ -19,9 +19,9 @@
             android:layout_width="40dp"
             android:layout_height="45dp"
             android:layout_alignBottom="@id/confirm_password"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/confirm_password"
-            android:drawableBottom="@drawable/ic_eye"
-            android:layout_marginLeft="10dp"/>
+            android:drawableBottom="@drawable/ic_eye" />
 
         <TextView
             android:id="@+id/textView7"
@@ -119,9 +119,9 @@
             android:layout_width="40dp"
             android:layout_height="45dp"
             android:layout_alignBottom="@id/password"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/password"
-            android:drawableBottom="@drawable/ic_eye"
-            android:layout_marginLeft="10dp"/>
+            android:drawableBottom="@drawable/ic_eye" />
 
         <LinearLayout
             android:layout_width="wrap_content"

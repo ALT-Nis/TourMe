@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.tourme.Fragments.Obavestenja;
 import com.example.tourme.Fragments.Pocetni;
 import com.example.tourme.Fragments.Poruke;
+import com.example.tourme.Model.StaticVars;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,17 +33,19 @@ import java.util.Set;
 public class Glavni_ekran extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_main);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
 
         //noviOglas
 
@@ -122,6 +125,9 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.podesavanja:
                 drawerLayout.openDrawer(Gravity.RIGHT);
+                int len = StaticVars.listOfFragments.size();
+                if(len >= 1)
+                    return false;
                 break;
             case R.id.noviOglas:
                 drawerLayout.closeDrawer(Gravity.RIGHT);

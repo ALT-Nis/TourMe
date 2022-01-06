@@ -34,16 +34,16 @@
             android:layout_above="@id/describe_Oglas">
 
             <TextView
+                android:id="@+id/grad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/grad"
                 android:text="Grad" />
 
             <Spinner
                 android:id="@+id/cityForOglas"
                 android:layout_width="260dp"
                 android:layout_height="40dp"
-                android:layout_below="@id/grad"/>
+                android:layout_below="@id/grad" />
 
         </RelativeLayout>
 
@@ -63,12 +63,12 @@
                 android:id="@+id/opis_oglasa"/>
 
             <EditText
+                android:id="@+id/describeOglas"
                 android:layout_width="260dp"
                 android:layout_height="100dp"
-                android:id="@+id/describeOglas"
-                android:gravity="bottom"
-                android:backgroundTint="#00000000"
                 android:layout_below="@id/opis_oglasa"
+                android:backgroundTint="#00000000"
+                android:gravity="bottom"
                 android:inputType="text|textMultiLine|textCapSentences" />
 
         </RelativeLayout>

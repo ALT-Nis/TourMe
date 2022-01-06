@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,7 +28,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.tourme.Adapters.CommentAdapter;
 import com.example.tourme.Model.Comment;
-import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.StaticVars;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,7 +47,7 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
 
     //View
     Spinner rating;
-    Button sendMessage, buttonAddRating, tryAgainButton;
+    Button sendMessage, buttonAddRating, tryAgainButton, editOglasButton, deleteOglasButton;
     ImageView profile_image;
     TextView username, opis, grad;
     EditText textForRating;
@@ -59,7 +59,8 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
 
     //Variables
     String newRating, newRatingText;
-    String IDOglasa, nazivGrada;
+    String IDOglasa, nazivGrada, IDUser;
+    String opisString, gradString, cenaString;
     Handler h = new Handler();
     RecyclerView recyclerView;
     CommentAdapter commentAdapter;
@@ -163,33 +164,45 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
     }
 
     public void setupFireBase(){
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            if(FirebaseAuth.getInstance().getUid().equals(IDUser)){
+                deleteOglasButton.setVisibility(View.VISIBLE);
+                editOglasButton.setVisibility(View.VISIBLE);
+            }
+        }
+
         FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Oglas oglas = snapshot.getValue(Oglas.class);
-                username.setText(oglas.getUsername());
-                username.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        openAccount(oglas.getUserId());
-                    }
-                });
+                if(oglas != null){
+                    username.setText(oglas.getUsername());
+                    username.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            openAccount(oglas.getUserId());
+                        }
+                    });
 
-                opis.setText(oglas.getOpis());
-                grad.setText(oglas.getGrad());
+                    opisString = oglas.getOpis();
+                    gradString = oglas.getGrad();
+                    cenaString = String.valueOf(oglas.getCenaOglasa());
 
-                if (oglas.getImageurl().equals("default"))
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
-                else
-                    Glide.with(getApplicationContext()).load(oglas.getImageurl()).into(profile_image);
+                    opis.setText(opisString);
+                    grad.setText(gradString);
 
-                profile_image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        openAccount(oglas.getUserId());
-                    }
-                });
+                    if (oglas.getImageurl().equals("default"))
+                        profile_image.setImageResource(R.mipmap.ic_launcher);
+                    else
+                        Glide.with(getApplicationContext()).load(oglas.getImageurl()).into(profile_image);
 
+                    profile_image.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            openAccount(oglas.getUserId());
+                        }
+                    });
+                }
             }
 
             @Override
@@ -233,10 +246,58 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
 
         IDOglasa = getIntent().getStringExtra("IDOglasa");
         nazivGrada = getIntent().getStringExtra("NazivGrada");
+        IDUser = getIntent().getStringExtra("IDUser");
 
         viewThis = findViewById(R.id.PregledJednogOglasaActivity);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
+
+        editOglasButton = findViewById(R.id.editButton);
+        editOglasButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(pregledJednogOglasa.this, editOglas.class);
+                i.putExtra("opis", opisString);
+                i.putExtra("grad", gradString);
+                i.putExtra("cena", cenaString);
+                i.putExtra("id", IDOglasa);
+                startActivity(i);
+            }
+        });
+
+        deleteOglasButton = findViewById(R.id.deleteThisButton);
+        deleteOglasButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(IsConnectedToInternet()){
+                    mDatabase.child("users").child(IDUser).child("brojOglasa").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            if (!task.isSuccessful())
+                                HideWithReason(2);
+                            else {
+                                String numberOfOglas = String.valueOf(task.getResult().getValue());
+
+                                if(!numberOfOglas.equals("null")){
+                                    Integer intNumOfOglas = Integer.parseInt(numberOfOglas) - 1;
+                                    String newNumberForOglas = intNumOfOglas.toString();
+
+                                    mDatabase.child("users").child(IDUser).child("brojOglasa").setValue(newNumberForOglas);
+                                    FirebaseDatabase.getInstance().getReference().child("oglasi").child(IDOglasa).removeValue();
+                                    FirebaseDatabase.getInstance().getReference().child("users").child(IDUser).child("oglas").child(nazivGrada).removeValue();
+                                    finish();
+//                                    Intent i = new Intent(pregledJednogOglasa.this, Glavni_ekran.class);
+//                                    startActivity(i);
+                                }else
+                                    HideWithReason(2);
+                            }
+                        }
+                    });
+                }else{
+                    HideWithReason(2);
+                }
+            }
+        });
 
         rating = findViewById(R.id.ratingForOglas);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.rating, android.R.layout.simple_spinner_item);
@@ -251,6 +312,7 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
         username = findViewById(R.id.username);
         opis = findViewById(R.id.opis);
         grad = findViewById(R.id.grad);
+
 
         buttonAddRating = findViewById(R.id.addRatingButton);
         buttonAddRating.setOnClickListener(new View.OnClickListener() {
