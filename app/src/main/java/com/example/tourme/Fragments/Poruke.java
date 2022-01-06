@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,11 @@ import com.example.tourme.Model.Chat;
 import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
+import com.example.tourme.Notifications.Token;
 import com.example.tourme.R;
 import com.example.tourme.Adapters.UserAdapater;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +36,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,6 +173,18 @@ public class  Poruke extends Fragment {
                     }
 
                 });
+
+                FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if(task.isSuccessful()){
+                            String token = task.getResult().toString();
+                            Log.d("Token", "token:" + token );
+                            updateToken(token);
+                        }
+                    }
+                });
+
             }else{
                 HideEverything(2);
                 return false;
@@ -263,6 +280,12 @@ public class  Poruke extends Fragment {
 
             }
         });
+    }
+
+    private void updateToken(String token){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token token1 = new Token(token);
+        reference.child(FirebaseAuth.getInstance().getUid()).setValue(token1);
     }
 
 }

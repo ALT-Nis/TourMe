@@ -30,17 +30,28 @@ import com.example.tourme.Model.Chat;
 import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
+import com.example.tourme.Notifications.APIService;
+import com.example.tourme.Notifications.Client;
+import com.example.tourme.Notifications.Data;
+import com.example.tourme.Notifications.MyResponse;
+import com.example.tourme.Notifications.Sender;
+import com.example.tourme.Notifications.Token;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -68,6 +79,9 @@ public class MessageActivity extends AppCompatActivity {
     String userid;
 
     User senderInfo;
+
+    APIService apiService;
+    boolean notify = false;
 
     void hideProgressShowButton(){
         progressBar.setVisibility(View.GONE);
@@ -211,6 +225,8 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayout linearLayout = new LinearLayout(getApplicationContext());
@@ -229,10 +245,11 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(IsConnectedToInternet()){
+                    notify = true;
                     String msg = text_send.getText().toString();
                     if(!msg.equals("")){
                         sendMessage(fUser.getUid(), userid, msg);
-                        sendNotification(fUser.getUid(), userid);
+                        sendNotification1(fUser.getUid(), userid);
                     }else{
                         Toast.makeText(MessageActivity.this, "Prazana poruka", Toast.LENGTH_LONG).show();
                     }
@@ -304,7 +321,7 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
-    private void sendNotification(String sender, String receiver){
+    private void sendNotification1(String sender, String receiver){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> hashMap1 = new HashMap<>();
@@ -314,6 +331,8 @@ public class MessageActivity extends AppCompatActivity {
         reference.child("notifications").push().setValue(hashMap1);
 
     }
+
+
 
     private void sendMessage(String sender, String receiver, String message){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
@@ -325,6 +344,51 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("isseen",false);
 
         reference.child("chats").push().setValue(hashMap);
+
+        final String msg = message;
+        if (notify) {
+            sendNotification(receiver, senderInfo.getUsername(), msg);
+            notify = false;
+        }
+
+    }
+
+    private void sendNotification(String receiver, String username, String message){
+        DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
+        Query query = tokens.orderByKey().equalTo(receiver);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Token token = dataSnapshot.getValue(Token.class);
+                    Data data = new Data(fUser.getUid(), R.mipmap.ic_launcher,username + " ti je poslao poruku", "Nova poruka", userid);
+
+                    Sender sender = new Sender(data, token.getToken());
+
+                    apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
+                        @Override
+                        public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                            if(response.code()==200){
+                                if(response.body().success == 1){
+                                    Toast.makeText(MessageActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                                    Log.e("Test",response.message());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<MyResponse> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void readMessages(String myid, String userid, String imageurl){
