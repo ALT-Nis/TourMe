@@ -126,6 +126,17 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 
+    private void sendNotification(String receiver){
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        HashMap<String, Object> hashMap1 = new HashMap<>();
+        hashMap1.put("to",receiver);
+        hashMap1.put("title","Nova ocena");
+        hashMap1.put("body","Dobili ste novu ocenu za oglas!");
+        reference.child("notifications").push().setValue(hashMap1);
+
+    }
+
     public void startAddingRating(){
         if(IsConnectedToInternet()){
             mDatabase.child("oglasi").child(IDOglasa).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -149,6 +160,7 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
                             mDatabase.child("oglasi").child(IDOglasa).child("brojOcena").setValue(brojOcena);
                             mDatabase.child("oglasi").child(IDOglasa).child("ocena").setValue(ocena);
                             mDatabase.child("oglasi").child(IDOglasa).child("oceneOglasa").child(brojOcena.toString()).setValue(comment);
+                            sendNotification(oglas.getUserId());
                         }else{
                             Toast.makeText(pregledJednogOglasa.this, "ne postoji ovakav oglas", Toast.LENGTH_LONG).show();
                         }
