@@ -5,93 +5,114 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/editOglasActivity"
+    android:background="?attr/colorSecondaryVariant"
     tools:context=".editOglas">
 
-    <TextView
-        android:id="@+id/editDescription"
-        android:layout_width="38dp"
-        android:layout_height="22dp"
-        android:text="Opis"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.112"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.284" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="35dp"
+        android:background="@drawable/bg"
+        android:visibility="visible">
 
-    <EditText
-        android:id="@+id/describeEditOglas"
-        android:layout_width="313dp"
-        android:layout_height="113dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.428"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDescription" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:text="Izmena oglasa"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/editPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cena"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.11"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/describeEditOglas"
-        app:layout_constraintVertical_bias="0.056" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/form_bg"
+            android:layout_marginBottom="20dp"
+            android:padding="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/describe_Oglas">
 
-    <EditText
-        android:id="@+id/priceEditOglas"
-        android:layout_width="307dp"
-        android:layout_height="65dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.403"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editPrice"
-        app:layout_constraintVertical_bias="0.099" />
+            <TextView
+                android:id="@+id/grad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grad" />
 
-    <Button
-        android:id="@+id/editOglas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
-        android:text="izmeni oglas"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.463"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/priceEditOglas"
-        app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grad"
+                android:textSize="25dp"
+                android:id="@+id/gradEditOglas"/>
 
-    <TextView
-        android:id="@+id/editGrad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Grad"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.11"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.123" />
+        </RelativeLayout>
 
-    <TextView
-        android:id="@+id/gradEditOglas"
-        android:layout_width="298dp"
-        android:layout_height="43dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/editDescription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.371"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editGrad"
-        app:layout_constraintVertical_bias="0.346" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/form_bg"
+            android:padding="10dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/describe_Oglas">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Opis"
+                android:id="@+id/opis_oglasa"/>
+
+            <EditText
+                android:id="@+id/describeEditOglas"
+                android:layout_width="260dp"
+                android:layout_height="100dp"
+                android:layout_below="@id/opis_oglasa"
+                android:backgroundTint="#00000000"
+                android:gravity="bottom"
+                android:inputType="text|textMultiLine|textCapSentences" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/form_bg"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/describe_Oglas"
+            android:id="@+id/cena">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cena"/>
+
+            <EditText
+                android:id="@+id/priceEditOglas"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:backgroundTint="#00000000"
+                android:layout_below="@id/textView"/>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/editOglas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cena"
+            android:layout_alignStart="@id/cena"
+            android:layout_alignEnd="@id/cena"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="?attr/colorPrimary"
+            android:text="Sačuvaj izmene"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
 
     <include
         layout="@layout/nema_internet"
@@ -99,4 +120,5 @@
         android:layout_height="match_parent"
         android:id="@+id/nemaInternet"
         android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

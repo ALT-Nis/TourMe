@@ -11,152 +11,277 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?attr/colorSecondaryVariant"
         android:id="@+id/PregledJednogOglasaActivity">
 
-        <androidx.cardview.widget.CardView
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:src="@drawable/nis"
+            android:scaleType="centerCrop"/>
+
+        <RelativeLayout
             android:id="@+id/user_details"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible">
+            android:layout_height="250dp"
+            android:background="@drawable/bg"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="200dp">
 
-            <RelativeLayout
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_profp"/>
+
+            <TextView
+                android:id="@+id/ime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ime"
+                android:textSize="20sp"
+                android:layout_toEndOf="@id/profile_image"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"/>
+
+            <TextView
+                android:id="@+id/prezime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prezime"
+                android:textSize="20sp"
+                android:layout_toEndOf="@id/ime"
+                android:layout_marginStart="7dp"
+                android:layout_alignTop="@id/ime"/>
+
+            <View
+                android:id="@+id/separator"
+                android:layout_width="2dp"
+                android:layout_height="20dp"
+                android:layout_toEndOf="@id/prezime"
+                android:layout_alignBottom="@id/prezime"
+                android:background="?attr/colorPrimaryVariant"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
+
+            <TextView
+                android:id="@+id/godine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="21"
+                android:layout_toEndOf="@id/separator"
+                android:layout_alignBottom="@id/prezime"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/grad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grad"
+                android:layout_below="@id/ime"
+                android:textSize="25sp"
+                android:layout_alignStart="@id/ime"/>
+
+            <TextView
+                android:id="@+id/opis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Opis oglasa"
+                android:layout_below="@id/profile_image"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"/>
+
+            <Button
+                android:id="@+id/sendMessage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="60dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="?attr/colorSecondary"
+                android:text="Posaljite poruku"
+                android:visibility="visible"/>
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_image"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="50dp"
-                    android:src="@drawable/ic_profp" />
-
-                <TextView
-                    android:id="@+id/username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/profile_image"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="username"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/opis"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/username"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="description"
-                    android:textSize="10dp" />
-
-                <TextView
-                    android:id="@+id/grad"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/opis"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="Nis"
-                    android:textSize="10dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginBottom="5dp"
+                android:visibility="gone">
 
                 <Button
                     android:id="@+id/editButton"
-                    android:layout_width="58dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/grad"
-                    android:layout_alignTop="@+id/profile_image"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="7dp"
-                    android:layout_marginTop="92dp"
-                    android:layout_marginEnd="345dp"
-                    android:layout_marginBottom="53dp"
-                    android:text="..."
-                    android:visibility="gone" />
+                    android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:textColor="?attr/colorPrimary"
+                    app:strokeColor="?attr/colorPrimary"
+                    android:text="Izmeni"/>
 
                 <Button
                     android:id="@+id/deleteThisButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/grad"
-                    android:layout_alignTop="@+id/profile_image"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="72dp"
-                    android:layout_marginTop="92dp"
-                    android:layout_marginEnd="248dp"
-                    android:layout_marginBottom="53dp"
-                    android:text="delete"
-                    android:visibility="gone" />
+                    android:text="izbriši"
+                    android:textColor="?attr/colorSecondary"
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"/>
 
+            </LinearLayout>
 
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
+        </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/OceniOglas"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/user_details"
-            android:layout_marginTop="15dp"
-            android:visibility="visible">
+            android:id="@+id/ocena_korisnika"
+            android:layout_below="@id/user_details">
 
-            <Spinner
-                android:id="@+id/ratingForOglas"
+            <View
+                android:id="@+id/vertikalni"
+                android:layout_width="2dp"
+                android:layout_height="40dp"
+                android:layout_margin="15dp"
+                android:layout_centerHorizontal="true"
+                android:background="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/prosecna_occena"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp" />
+                android:layout_alignBottom="@id/ocena"
+                android:layout_toStartOf="@id/ocena"
+                android:text="Prosečna ocena"
+                android:textSize="15sp" />
+
+            <RatingBar
+                android:id="@+id/ocena_bar"
+                style="?attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/vertikalni"
+                android:layout_alignEnd="@id/prosecna_occena"/>
+
+            <TextView
+                android:id="@+id/ocena"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4,5"
+                android:textSize="35sp"
+                android:layout_toStartOf="@id/vertikalni"
+                android:layout_alignBottom="@id/vertikalni"
+                android:layout_marginStart="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="34"
+                android:textStyle="bold"
+                android:layout_above="@id/ukupan_broj"
+                android:layout_toEndOf="@id/vertikalni"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/ukupan_broj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ukupan broj ocena"
+                android:layout_toEndOf="@id/vertikalni"
+                android:layout_alignBottom="@id/prosecna_occena"/>
+
+            <View
+                android:id="@+id/horiz1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?attr/colorPrimary"
+                android:layout_below="@id/vertikalni"
+                android:layout_marginTop="-5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+
+            <TextView
+                android:id="@+id/ocenite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ocenite korisnika:"
+                android:layout_below="@id/horiz1"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="15sp"/>
+
+            <RatingBar
+                android:id="@+id/ratingForOglas"
+                style="@style/Widget.AppCompat.RatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ocenite"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="15dp"
+                android:scaleX=".7"
+                android:scaleY=".7"
+                android:transformPivotX="240dp"
+                android:transformPivotY="30dp"/>
+
+            <EditText
+                android:id="@+id/textForRatingForOglas"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/addRatingButton"
+                android:layout_below="@id/ocenite"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/bg2"
+                android:hint="Napišite komentar"
+                android:gravity="bottom"
+                android:padding="10dp"
+                android:inputType="text|textMultiLine|textCapSentences" />
 
             <Button
                 android:id="@+id/addRatingButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ratingForOglas"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:backgroundTint="#339933"
-                android:text="dodaj ocenu" />
-
-            <EditText
-                android:id="@+id/textForRatingForOglas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/addRatingButton"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:ems="10"
-                android:inputType="text|textMultiLine|textCapSentences" />
-
-            <Button
-                android:id="@+id/sendMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textForRatingForOglas"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:backgroundTint="#339933"
-                android:text="Posalji poruku" />
-
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:textColor="?attr/colorSecondary"
+                android:text="dodajte ocenu" />
 
         </RelativeLayout>
+
+        <View
+            android:id="@+id/horiz2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?attr/colorPrimary"
+            android:layout_below="@id/ocena_korisnika"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"/>
+
+        <TextView
+            android:id="@+id/ocene"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ocene drugih:"
+            android:layout_below="@id/horiz2"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="15sp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/OceniOglas"
+            android:layout_below="@+id/ocene"
             android:layout_marginTop="15dp"
             android:visibility="visible" />
 

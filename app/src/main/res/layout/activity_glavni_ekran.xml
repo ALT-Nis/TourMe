@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimaryVariant"
+    android:background="?attr/colorSecondaryVariant"
     tools:context=".Glavni_ekran">
 
     <ImageView
@@ -31,8 +31,6 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="55dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,6 +38,8 @@
         app:layout_constraintTop_toBottomOf="@+id/logo"
         app:navGraph="@navigation/my_nav"
         tools:ignore="MissingConstraints"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="55dp"
         android:layout_gravity="right" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
