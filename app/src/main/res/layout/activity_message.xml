@@ -5,18 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/messageActivity"
-    tools:context=".MessageActivity">
+    tools:context=".MessageActivity"
+    android:background="?attr/colorSecondaryVariant">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg"
+        android:layout_marginTop="-30dp"
+        android:paddingTop="30dp"
+        android:paddingBottom="5dp">
 
         <Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/toolbar"
-            android:background="?attr/colorPrimaryVariant">
+            android:id="@+id/toolbar">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
@@ -55,26 +59,24 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:padding="5dp"
-        android:background="?attr/colorPrimaryVariant">
-
+        android:background="?attr/colorSecondaryVariant">
 
         <EditText
             android:id="@+id/text_send"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/button_send"
-            android:background="@android:color/transparent"
-            android:hint="Unesite poruku..." />
+            android:background="@drawable/bg"
+            android:hint="   Unesite poruku..." />
 
         <ImageButton
             android:id="@+id/button_send"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:background="@drawable/ic_send" />
-
 
     </RelativeLayout>
 

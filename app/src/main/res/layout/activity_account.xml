@@ -9,9 +9,33 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:background="?attr/colorSecondaryVariant">
+
+        <TextView
+            android:id="@+id/oglasi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Svi oglasi korisnika" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/oglasi" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="300dp"
         android:id="@+id/user_details"
-        android:background="?attr/colorPrimaryVariant">
+        android:background="@drawable/bg">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
@@ -28,11 +52,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Prosečna ocena:"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="30dp"
+            android:layout_below="@id/username"
+            android:layout_marginTop="15dp"
             android:textSize="15sp"
-            android:layout_toStartOf="@id/ocena"
-            android:layout_alignTop="@id/profile_image"/>
+            android:layout_toStartOf="@id/ocena"/>
 
         <RatingBar
             android:layout_width="wrap_content"
@@ -48,49 +71,73 @@
             android:layout_height="wrap_content"
             android:text="4,5"
             android:textSize="35sp"
+            android:layout_below="@id/username"
             android:layout_marginEnd="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@id/profile_image"/>
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_alignParentEnd="true"/>
 
         <TextView
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profile_image"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="20dp"
-            android:text="Ime korisnika"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
-        android:background="@drawable/bg">
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="30dp"
+            android:text="Korisničko ime"
+            android:textSize="25sp" />
 
         <TextView
-            android:id="@+id/oglasi"
+            android:id="@+id/ime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Ime"
+            android:textSize="30sp"
+            android:layout_below="@id/profile_image"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="Svi oglasi korisnika" />
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/oglasi" />
+        <TextView
+            android:id="@+id/prezime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prezime"
+            android:textSize="30sp"
+            android:layout_below="@id/profile_image"
+            android:layout_toEndOf="@id/ime"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"/>
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="2dp"
+            android:layout_height="30dp"
+            android:layout_toEndOf="@id/prezime"
+            android:layout_alignBottom="@id/prezime"
+            android:background="?attr/colorPrimaryVariant"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"/>
+
+        <TextView
+            android:id="@+id/godine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="21"
+            android:layout_toEndOf="@id/separator"
+            android:layout_alignBottom="@id/prezime"
+            android:textSize="30sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kratak opis vodiča"
+            android:layout_below="@id/ime"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"/>
 
     </RelativeLayout>
-
 
     <include
         android:id="@+id/nemaInternet"

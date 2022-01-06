@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".dodajOglas"
     android:id="@+id/dodajOglasActivity"
-    android:background="?attr/colorPrimaryVariant">
+    android:background="?attr/colorSecondaryVariant">
 
     <RelativeLayout
         android:layout_width="match_parent"
