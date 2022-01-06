@@ -2,6 +2,7 @@ package com.example.tourme.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,11 +70,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         if(position == mChat.size()-1){
             if(chat.isIsseen()){
-                holder.txt_seen.setText("Seen");
+                holder.txt_seen.setText("Pregledano");
             }
             else{
-                holder.txt_seen.setText("Delivered");
+                holder.txt_seen.setText("Poslato");
             }
+
         }
         else {
             holder.txt_seen.setVisibility(View.GONE);

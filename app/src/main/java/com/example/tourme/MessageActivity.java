@@ -67,6 +67,8 @@ public class MessageActivity extends AppCompatActivity {
     int reasonForBadConnection = 1;
     String userid;
 
+    User senderInfo;
+
     void hideProgressShowButton(){
         progressBar.setVisibility(View.GONE);
         tryAgainButton.setVisibility(View.VISIBLE);
@@ -230,6 +232,7 @@ public class MessageActivity extends AppCompatActivity {
                     String msg = text_send.getText().toString();
                     if(!msg.equals("")){
                         sendMessage(fUser.getUid(), userid, msg);
+                        sendNotification(fUser.getUid(), userid);
                     }else{
                         Toast.makeText(MessageActivity.this, "Prazana poruka", Toast.LENGTH_LONG).show();
                     }
@@ -256,6 +259,19 @@ public class MessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
 
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.child("users").child(FirebaseAuth.getInstance().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                senderInfo = user;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         setupView();
 
     }
@@ -288,6 +304,17 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
+    private void sendNotification(String sender, String receiver){
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        HashMap<String, Object> hashMap1 = new HashMap<>();
+        hashMap1.put("to",receiver);
+        hashMap1.put("title","Nova poruka");
+        hashMap1.put("body",senderInfo.getUsername()+" ti je poslao poruku");
+        reference.child("notifications").push().setValue(hashMap1);
+
+    }
+
     private void sendMessage(String sender, String receiver, String message){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
@@ -310,8 +337,6 @@ public class MessageActivity extends AppCompatActivity {
                 mChat.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Chat chat = dataSnapshot.getValue(Chat.class);
-                    Log.e("CHAT", "R: " + chat.getReceiver());
-                    Log.e("CHAT", "S: " + chat.getSender());
                     if(chat.getReceiver().equals(myid) && chat.getSender().equals(userid) || chat.getReceiver().equals(userid) && chat.getSender().equals(myid)){
                         mChat.add(chat);
                     }
@@ -348,7 +373,7 @@ public class MessageActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-//        reference.removeEventListener(seenListener);
+        reference.removeEventListener(seenListener);
         status("offline");
     }
 

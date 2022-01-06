@@ -3,18 +3,33 @@ package com.example.tourme.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.tourme.Adapters.NotificationAdapter;
+import com.example.tourme.Adapters.UserAdapater;
 import com.example.tourme.Login;
 import com.example.tourme.Model.Gradovi;
+import com.example.tourme.Model.Notification;
 import com.example.tourme.Model.StaticVars;
+import com.example.tourme.Model.User;
 import com.example.tourme.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,6 +78,9 @@ public class Obavestenja extends Fragment {
         }
     }
 
+    private RecyclerView recyclerView;
+    private NotificationAdapter notificationAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,6 +88,34 @@ public class Obavestenja extends Fragment {
         StaticVars.listOfFragments.add(3);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+
+            recyclerView = view.findViewById(R.id.recycler_view);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications");
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    List<Notification> mNotification = new ArrayList<>();
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        Notification notification = dataSnapshot.getValue(Notification.class);
+
+                        if(notification.getTo().equals(FirebaseAuth.getInstance().getUid())){
+                            mNotification.add(notification);
+                        }
+
+                    }
+                    notificationAdapter = new NotificationAdapter(getContext(), mNotification);
+                    recyclerView.setAdapter(notificationAdapter);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
 
         }
         else{

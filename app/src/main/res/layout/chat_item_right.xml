@@ -29,7 +29,7 @@
         android:id="@+id/txt_seen"
         android:layout_below="@+id/show_message"
         android:layout_alignParentEnd="true"
-        android:text="viđeno"
-        android:visibility="gone"/>
+        android:text="Pregledano"
+        android:visibility="visible"/>
 
 </RelativeLayout>
