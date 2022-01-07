@@ -117,7 +117,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
     }
 
     void resetSpinner(){
-        spinnerForSorting.setSelection(adapter.getPosition("Po Relevantnosti"));
+        spinnerForSorting.setSelection(adapter.getPosition("relevantnosti"));
         sortingVariable = 0;
     }
 
@@ -366,19 +366,19 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String textFromSpinner = adapterView.getItemAtPosition(i).toString();
         switch (textFromSpinner) {
-            case "Po Ceni Opadajuće":
+            case "ceni opadajuće":
                 sortingVariable = 1;
                 sortOglases();
                 break;
-            case "Po Ceni Rastuće":
+            case "ceni rastuće":
                 sortingVariable = 2;
                 sortOglases();
                 break;
-            case "Po Oceni Opadajuće":
+            case "oceni opadajuće":
                 sortingVariable = 3;
                 sortOglases();
                 break;
-            case "Po Oceni Rastuće":
+            case "oceni rastuće":
                 sortingVariable = 4;
                 sortOglases();
                 break;
