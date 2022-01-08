@@ -7,57 +7,83 @@
     android:id="@+id/pocetniFragment"
     tools:context=".Fragments.Pocetni">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sortType">
+        app:layout_constraintTop_toTopOf="parent">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <AutoCompleteTextView
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="70dp"
+            android:background="@drawable/bg"
+            android:completionThreshold="1"
+            android:hint="   Odaberite grad" />
 
-    <AutoCompleteTextView
-        android:id="@+id/searchBar"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="70dp"
-        android:completionThreshold="1"
-        android:hint="   Odaberite grad"
-        android:background="@drawable/bg"
-        app:layout_constraintBottom_toBottomOf="@+id/searchButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="40dp"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:backgroundTint="?attr/colorSecondary"
+            android:drawableBottom="@drawable/ic_search" />
 
-    <Button
-        android:id="@+id/searchButton"
-        android:layout_width="40dp"
-        android:layout_height="45dp"
-        android:drawableBottom="@drawable/ic_search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="20dp"
-        android:backgroundTint="?attr/colorSecondary"/>
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchBar"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="13dp"
+            android:text="Sortirajte po" />
 
-    <TextView
-        android:id="@+id/textView2"
+        <Spinner
+            android:id="@+id/sortType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchBar"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/prikazi_mapu"
+            android:layout_toEndOf="@id/textView2" />
+
+        <Button
+            android:id="@+id/prikazi_mapu"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/searchButton"
+            android:layout_alignEnd="@id/searchButton"
+            android:text="Mapa"
+            android:textColor="?attr/colorPrimary"
+            app:strokeColor="?attr/colorPrimary" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/prikazi_mapu">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </RelativeLayout>
+
+    <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sortiranje:"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="15dp"
-        app:layout_constraintStart_toStartOf="@+id/searchBar"
-        app:layout_constraintTop_toBottomOf="@+id/searchBar" />
-
-    <Spinner
-        android:id="@+id/sortType"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/searchBar" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible"
+        android:indeterminateTint="?attr/colorPrimary"/>
 
     <include
         android:id="@+id/nema_oglasa"

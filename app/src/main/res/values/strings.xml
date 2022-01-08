@@ -50,11 +50,11 @@
         <item>5</item>
     </string-array>
     <string-array name="sortingType">
-        <item>Po Relevantnosti</item>
-        <item>Po Ceni Rastuće</item>
-        <item>Po Ceni Opadajuće</item>
-        <item>Po Oceni Rastuće</item>
-        <item>Po Oceni Opadajuće</item>
+        <item>relevantnosti</item>
+        <item>ceni rastuće</item>
+        <item>ceni opadajuće</item>
+        <item>oceni rastuće</item>
+        <item>oceni opadajuće</item>
     </string-array>
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>

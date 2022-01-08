@@ -37,12 +37,13 @@
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_dodaj_oglas.xml" value="0.176" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_edit_oglas.xml" value="0.16052631578947368" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_glavni_ekran.xml" value="0.13968579234972678" />
-        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_login.xml" value="0.13968579234972678" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_izmeni_account.xml" value="0.2" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_login.xml" value="0.16304347826086957" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_main.xml" value="0.16052631578947368" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_mapa_gradovi.xml" value="0.16052631578947368" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_message.xml" value="0.16052631578947368" />
-        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_myaccount.xml" value="0.13797814207650272" />
-        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_pregled_jednog_oglasa.xml" value="0.12670765027322403" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_myaccount.xml" value="0.2" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_pregled_jednog_oglasa.xml" value="0.2" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_pregled_oglasa_grad.xml" value="0.16052631578947368" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_register.xml" value="0.16052631578947368" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/chat_item_left.xml" value="0.16052631578947368" />
@@ -57,6 +58,7 @@
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/nema_oglas.xml" value="0.2" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/not_logged_in.xml" value="0.13797814207650272" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/oglas_item.xml" value="0.16052631578947368" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/stranica_ne_postoji.xml" value="0.21195652173913043" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/users_item.xml" value="0.14105191256830601" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/menu/drawer_menu.xml" value="0.16052631578947368" />
         <entry key="..\:/Skola/PROJEKTI/TourMe/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2890625" />
