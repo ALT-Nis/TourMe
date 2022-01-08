@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="10dp"
     android:background="@drawable/oglas_bg"
-    android:layout_margin="5dp">
+    android:layout_margin="10dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
@@ -16,12 +16,33 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Ime"
+        android:id="@+id/ime"
+        android:layout_toEndOf="@id/profile_image"
+        android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/prezime"
+        android:layout_toEndOf="@id/ime"
+        android:layout_marginStart="5dp"
+        android:text="Prezime"
+        android:layout_centerVertical="true"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Ime korisnika"
         android:id="@+id/username"
         android:layout_toEndOf="@id/profile_image"
         android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:visibility="gone"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="15dp"

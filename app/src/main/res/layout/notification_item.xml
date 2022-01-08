@@ -3,34 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:background="@drawable/oglas_bg"
-    android:layout_marginTop="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginLeft="10dp">
+    android:background="@drawable/bg2"
+    android:layout_margin="10dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_logo" />
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@drawable/ic_profp" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_toEndOf="@id/logo"
+        android:layout_alignTop="@id/logo"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:text="Naziv"
-        android:textSize="25dp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="text"
-        android:layout_toEndOf="@id/logo"
-        android:layout_below="@id/title"
-        android:layout_marginLeft="10dp"/>
+        android:text="Tekst obavestenja"
+        android:textSize="16sp"
+        android:layout_alignStart="@id/title"
+        android:layout_below="@id/title"/>
 
 </RelativeLayout>

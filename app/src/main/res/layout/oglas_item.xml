@@ -4,45 +4,87 @@
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:background="@drawable/oglas_bg"
-    android:layout_marginTop="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginLeft="10dp">
+    android:layout_margin="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/oglas_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:src="@drawable/ic_profp" />
+
+        <RatingBar
+            android:id="@+id/ratingStars"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/oglas_image"
+            android:layout_marginTop="5dp"
+            android:numStars="5"
+            android:rating="0"/>
 
         <TextView
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_alignTop="@id/oglas_image"
             android:layout_toEndOf="@id/oglas_image"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:text="Ime korisnika"
-            android:textSize="15dp" />
+            android:visibility="gone"/>
 
         <TextView
-            android:id="@+id/deskripcija"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="opis oglasa"
+            android:id="@+id/ime"
+            android:layout_alignTop="@id/oglas_image"
             android:layout_toEndOf="@id/oglas_image"
-            android:layout_below="@id/username"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="Ime"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prezime"
+            android:id="@+id/prezime"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/ime"
+            android:layout_alignBottom="@id/ime"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=", 000"
+            android:textSize="20sp"
+            android:layout_toEndOf="@id/prezime"
+            android:layout_alignBottom="@id/ime"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Grad"
+            android:id="@+id/grad"
+            android:layout_below="@id/ime"
+            android:layout_alignStart="@id/ime"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/cena"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1389"
-            android:layout_toEndOf="@id/oglas_image"
-            android:layout_below="@id/deskripcija"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:textSize="25dp"/>
-
+            android:text="1389 rsd"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@id/grad"
+            android:textSize="20sp"/>
 
 </RelativeLayout>

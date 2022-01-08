@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/nema_internet"
-    android:background="?attr/colorPrimary">
+    android:background="?attr/colorSecondaryVariant">
 
     <ImageView
         android:layout_width="150dp"
@@ -30,7 +30,7 @@
         android:layout_below="@+id/problem"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:backgroundTint="?attr/colorSecondary"
+        android:backgroundTint="?attr/colorPrimary"
         android:text="Pokušajte ponovo"
         android:textColor="@color/white"
         android:visibility="visible"/>

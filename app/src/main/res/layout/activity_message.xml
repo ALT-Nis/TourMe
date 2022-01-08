@@ -12,9 +12,7 @@
         android:id="@+id/bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg"
-        android:layout_marginTop="-30dp"
-        android:paddingTop="30dp"
+        android:background="?attr/colorSecondary"
         android:paddingBottom="5dp">
 
         <Toolbar
@@ -22,25 +20,56 @@
             android:layout_height="wrap_content"
             android:id="@+id/toolbar">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:src="@drawable/ic_profp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ime korisnika"
-                android:id="@+id/username"
-                android:layout_toEndOf="@id/profile_image"
-                android:layout_marginLeft="30dp"
-                android:layout_centerVertical="true"
-                android:textSize="20dp"
-                android:focusable="true"
-                android:clickable="true"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/ic_profp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ime korisnika"
+                    android:id="@+id/username"
+                    android:layout_toEndOf="@id/profile_image"
+                    android:layout_marginStart="20dp"
+                    android:layout_centerVertical="true"
+                    android:textSize="20dp"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ime"
+                    android:id="@+id/ime"
+                    android:layout_toEndOf="@id/profile_image"
+                    android:layout_marginStart="20dp"
+                    android:layout_centerVertical="true"
+                    android:textSize="20dp"
+                    android:focusable="true"
+                    android:clickable="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Prezime"
+                    android:id="@+id/prezime"
+                    android:layout_toEndOf="@id/ime"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="8dp"
+                    android:textSize="20dp"
+                    android:focusable="true"
+                    android:clickable="true"/>
+
+            </RelativeLayout>
 
         </Toolbar>
 
@@ -72,8 +101,8 @@
 
         <ImageButton
             android:id="@+id/button_send"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_margin="5dp"
             android:layout_alignParentEnd="true"
             android:background="@drawable/ic_send" />
