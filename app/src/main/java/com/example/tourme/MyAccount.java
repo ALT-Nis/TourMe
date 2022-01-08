@@ -46,9 +46,12 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -57,12 +60,13 @@ public class MyAccount extends AppCompatActivity {
 
     //View
     ImageView imageView;
-    TextView textView;
+    TextView username, ime, prezime, opis, godine;
     RecyclerView recyclerView;
     View viewNoInternet, viewThis, viewNotLoggedIn;
     ProgressBar progressBar;
     Button tryAgainButton, goToLoginButton;
     Uri imageUri;
+    Button izmeniProfil;
 
     //FireBase
     DatabaseReference reference;
@@ -179,7 +183,17 @@ public class MyAccount extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                textView.setText(user.getUsername());
+                username.setText(user.getUsername());
+                ime.setText(user.getIme());
+                prezime.setText(user.getPrezime());
+                opis.setText(user.getOpis());
+                String d1 = user.getDan();
+                String m1 = user.getMesec();
+                String g1 = user.getGodina();
+                String d2 = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
+                String m2 = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
+                String g2 = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
+                godine.setText(String.valueOf(StaticVars.numberOfYears(d1, StaticVars.convertMonth(m1), g1, d2, m2, g2)));
                 if (user.getImageurl().equals("default"))
                     imageView.setImageResource(R.mipmap.ic_launcher);
                 else
@@ -214,7 +228,11 @@ public class MyAccount extends AppCompatActivity {
         StaticVars.listOfFragments.add(9);
 
         imageView = findViewById(R.id.profile_image);
-        textView = findViewById(R.id.username);
+        username = findViewById(R.id.username);
+        ime = findViewById(R.id.ime);
+        prezime = findViewById(R.id.prezime);
+        opis = findViewById(R.id.kratakOpis);
+        godine = findViewById(R.id.godine);
 
         viewThis = findViewById(R.id.MojNalog);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
@@ -251,14 +269,23 @@ public class MyAccount extends AppCompatActivity {
             }
         });
 
-        imageView.setOnClickListener(new View.OnClickListener() {
+//        imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(IsConnectedToInternet())
+//                    choseImage();
+//                else{
+//                    HideWithReason(2);
+//                }
+//            }
+//        });
+
+        izmeniProfil = findViewById(R.id.izmeni);
+        izmeniProfil.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if(IsConnectedToInternet())
-                    choseImage();
-                else{
-                    HideWithReason(2);
-                }
+            public void onClick(View view) {
+                Intent i = new Intent(MyAccount.this, IzmeniAccountActivity.class);
+                startActivity(i);
             }
         });
 
@@ -273,82 +300,82 @@ public class MyAccount extends AppCompatActivity {
         setupView();
     }
 
-    private void choseImage(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, 1);
-    }
+//    private void choseImage(){
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(intent, 1);
+//    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
-            imageUri = data.getData();
-            imageView.setImageURI(imageUri);
-            uploadImage();
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
+//            imageUri = data.getData();
+//            imageView.setImageURI(imageUri);
+//            uploadImage();
+//        }
+//    }
 
-    private void uploadImage(){
-
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading...");
-        progressDialog.show();
-
-        final String randomKey = UUID.randomUUID().toString();
-        StorageReference riversRef = storageReference.child("images/" + randomKey);
-
-        riversRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                progressDialog.dismiss();
-                if (taskSnapshot.getMetadata() != null) {
-                    if (taskSnapshot.getMetadata().getReference() != null) {
-                        Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
-                        result.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                String imageUrl = uri.toString();
-                                FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid()).child("imageurl").setValue(imageUrl);
-                                FirebaseDatabase.getInstance().getReference("oglasi").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                            Oglas oglas = dataSnapshot.getValue(Oglas.class);
-                                            Log.e("2", "test + " + oglas.getUserId());
-                                            Log.e("2", "test + " + firebaseUser.getUid());
-                                            if(oglas.getUserId().equals(firebaseUser.getUid())){
-                                                FirebaseDatabase.getInstance().getReference("oglasi").child(oglas.getIdOglasa()).child("imageurl").setValue(imageUrl);
-                                            }
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-                            }
-                        });
-                    }
-                }
-                Snackbar.make(findViewById(android.R.id.content), "Image uploaded.", Snackbar.LENGTH_LONG).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                progressDialog.setMessage("Percentage: " + (int)progressPercent + "%");
-            }
-        });
-    }
+//    private void uploadImage(){
+//
+//        final ProgressDialog progressDialog = new ProgressDialog(this);
+//        progressDialog.setTitle("Uploading...");
+//        progressDialog.show();
+//
+//        final String randomKey = UUID.randomUUID().toString();
+//        StorageReference riversRef = storageReference.child("images/" + randomKey);
+//
+//        riversRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                progressDialog.dismiss();
+//                if (taskSnapshot.getMetadata() != null) {
+//                    if (taskSnapshot.getMetadata().getReference() != null) {
+//                        Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
+//                        result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                            @Override
+//                            public void onSuccess(Uri uri) {
+//                                String imageUrl = uri.toString();
+//                                FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid()).child("imageurl").setValue(imageUrl);
+//                                FirebaseDatabase.getInstance().getReference("oglasi").addValueEventListener(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+//                                            Oglas oglas = dataSnapshot.getValue(Oglas.class);
+//                                            Log.e("2", "test + " + oglas.getUserId());
+//                                            Log.e("2", "test + " + firebaseUser.getUid());
+//                                            if(oglas.getUserId().equals(firebaseUser.getUid())){
+//                                                FirebaseDatabase.getInstance().getReference("oglasi").child(oglas.getIdOglasa()).child("imageurl").setValue(imageUrl);
+//                                            }
+//                                        }
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                    }
+//                                });
+//                            }
+//                        });
+//                    }
+//                }
+//                Snackbar.make(findViewById(android.R.id.content), "Image uploaded.", Snackbar.LENGTH_LONG).show();
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                progressDialog.dismiss();
+//                Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
+//            }
+//        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+//                double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+//                progressDialog.setMessage("Percentage: " + (int)progressPercent + "%");
+//            }
+//        });
+//    }
 
 
     private void status(String status){

@@ -150,10 +150,11 @@ public class Register extends AppCompatActivity {
                         Toast.makeText(Register.this,"Uspesno ste kreirali nalog",Toast.LENGTH_LONG).show();
 
                         String userId = fAuth.getCurrentUser().getUid();
-                        User user = new User(userId, AccountEmail, username, "default", "0", "offline");
+                        User user = new User(userId, AccountEmail, username, "default", "0", "offline", "", "", "", "01", "Januar", "1900");
                         mDatabase.child("users").child(userId).setValue(user);
-
                         mDatabase.child("usersID").child(username).setValue(userId);
+                        Intent i = new Intent(Register.this, IzmeniAccountActivity.class);
+                        startActivity(i);
                     }
                     else{
                         String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();

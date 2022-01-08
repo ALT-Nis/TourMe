@@ -45,15 +45,18 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 public class Account extends AppCompatActivity {
 
     ImageView imageView;
-    TextView textView;
+    TextView username, ime, prezime, opis, godine;
     RecyclerView recyclerView;
 
     DatabaseReference reference;
@@ -131,13 +134,26 @@ public class Account extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     User user = snapshot.getValue(User.class);
-                    textView.setText(user.getUsername());
+                    username.setText(user.getUsername());
+                    ime.setText(user.getIme());
+                    prezime.setText(user.getPrezime());
+                    opis.setText(user.getOpis());
+                    String d1 = user.getDan();
+                    String m1 = user.getMesec();
+                    String g1 = user.getGodina();
+                    String d2 = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
+                    String m2 = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
+                    String g2 = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
+                    godine.setText(String.valueOf(StaticVars.numberOfYears(d1, StaticVars.convertMonth(m1), g1, d2, m2, g2)));
+
                     if(user.getImageurl().equals("default")){
                         imageView.setImageResource(R.mipmap.ic_launcher);
                     }
                     else{
                         Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
                     }
+
+
 
                     showOglas(user.getId());
 
@@ -163,7 +179,11 @@ public class Account extends AppCompatActivity {
         StaticVars.listOfFragments.add(5);
 
         imageView = findViewById(R.id.profile_image);
-        textView = findViewById(R.id.username);
+        username = findViewById(R.id.username);
+        ime = findViewById(R.id.ime);
+        prezime = findViewById(R.id.prezime);
+        opis = findViewById(R.id.kratakOpis);
+        godine = findViewById(R.id.godine);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -174,6 +194,7 @@ public class Account extends AppCompatActivity {
         viewThis = findViewById(R.id.accountActivity);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
+
 
         tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
         tryAgainButton.setOnClickListener(new View.OnClickListener() {
@@ -195,13 +216,12 @@ public class Account extends AppCompatActivity {
         tryToStart();
     }
     private void showOglas(String userid){
-        List<Oglas> mOglas = new ArrayList<>();
 
         reference = FirebaseDatabase.getInstance().getReference("oglasi");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mOglas.clear();
+                List<Oglas> mOglas = new ArrayList<>();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Oglas oglas = dataSnapshot.getValue(Oglas.class);
                     if(oglas.getUserId().equals(userid)){

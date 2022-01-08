@@ -102,13 +102,13 @@
             android:id="@+id/prezime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Prezime"
-            android:textSize="30sp"
             android:layout_below="@id/profile_image"
-            android:layout_toEndOf="@id/ime"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:textStyle="bold"/>
+            android:layout_toEndOf="@id/ime"
+            android:text="Prezime"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <View
             android:id="@+id/separator"
@@ -124,18 +124,19 @@
             android:id="@+id/godine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="21"
-            android:layout_toEndOf="@id/separator"
             android:layout_alignBottom="@id/prezime"
-            android:textSize="30sp"/>
+            android:layout_toEndOf="@id/separator"
+            android:text="21"
+            android:textSize="30sp" />
 
         <TextView
+            android:id="@+id/kratakOpis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kratak opis vodiča"
             android:layout_below="@id/ime"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:text="Kratak opis vodiča" />
 
     </RelativeLayout>
 

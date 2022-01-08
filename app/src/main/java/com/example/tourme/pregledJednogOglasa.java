@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.example.tourme.Adapters.CommentAdapter;
 import com.example.tourme.Model.Comment;
 import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.StaticVars;
+import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,26 +41,30 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
-public class pregledJednogOglasa extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class pregledJednogOglasa extends AppCompatActivity {
 
     //View
-    Spinner rating;
-    Button sendMessage, buttonAddRating, tryAgainButton, editOglasButton, deleteOglasButton;
+//    Spinner rating;
+    Button sendMessage, buttonAddRating, tryAgainButton, editOglasButton, deleteOglasButton, backButton;
     ImageView profile_image;
-    TextView username, opis, grad;
-    EditText textForRating;
-    View viewNoInternet, viewThis;
+    TextView ime, prezime, opis, grad, starost, cena, averageRatingText, numberOfRatingsText;
+    EditText textForNewRating;
+    RatingBar newRatingBar, averageRatingBar;
+    View viewNoInternet, viewNoPage, viewThis, viewDodajOcenu;
     ProgressBar progressBar;
 
     //FireBase
     private DatabaseReference mDatabase;
 
     //Variables
-    String newRating, newRatingText;
+    String newRatingText;
     String IDOglasa, nazivGrada, IDUser;
     String opisString, gradString, cenaString;
     Handler h = new Handler();
@@ -69,7 +75,7 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
 
 
     void setRatingTextError(String errorText){
-        textForRating.setError(errorText);
+        textForNewRating.setError(errorText);
         isGood = false;
     }
 
@@ -87,7 +93,7 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet)
+                if(v1 != viewNoInternet && v1 != viewNoPage)
                     HideEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.GONE);
@@ -109,7 +115,7 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet)
+                if(v1 != viewNoInternet && v1 != viewNoPage)
                     ShowEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.VISIBLE);
@@ -152,10 +158,10 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
                         if(oglas != null){
                             Integer brojOcena = oglas.getBrojOcena() + 1;
                             double ocena = oglas.getOcena();
-                            double doubleNewRating = (double)(Integer.parseInt(newRating));
+                            double doubleNewRating = (double)(newRatingBar.getRating());
 
                             ocena = (((double)brojOcena - 1) * ocena + doubleNewRating) / ((double)brojOcena);
-                            ocena = Math.round(ocena * 100.0) / 100.0;
+                            ocena = Math.round(ocena * 10.0) / 10.0;
                             Comment comment = new Comment(doubleNewRating,newRatingText,FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                             mDatabase.child("oglasi").child(IDOglasa).child("brojOcena").setValue(brojOcena);
@@ -180,29 +186,39 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
             if(FirebaseAuth.getInstance().getUid().equals(IDUser)){
                 deleteOglasButton.setVisibility(View.VISIBLE);
                 editOglasButton.setVisibility(View.VISIBLE);
+                sendMessage.setVisibility(View.GONE);
+                viewDodajOcenu.setVisibility(View.GONE);
             }
         }
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        FirebaseDatabase.getInstance().getReference().child("users").child(IDUser).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                ime.setText(user.getIme());
+                prezime.setText(user.getPrezime());
+                String d1 = user.getDan();
+                String m1 = user.getMesec();
+                String g1 = user.getGodina();
+                String d2 = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
+                String m2 = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
+                String g2 = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
+
+                starost.setText(String.valueOf(StaticVars.numberOfYears(d1, StaticVars.convertMonth(m1), g1, d2, m2, g2)));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         FirebaseDatabase.getInstance().getReference("oglasi").child(IDOglasa).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Oglas oglas = snapshot.getValue(Oglas.class);
                 if(oglas != null){
-                    username.setText(oglas.getUsername());
-                    username.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            openAccount(oglas.getUserId());
-                        }
-                    });
-
-                    opisString = oglas.getOpis();
-                    gradString = oglas.getGrad();
-                    cenaString = String.valueOf(oglas.getCenaOglasa());
-
-                    opis.setText(opisString);
-                    grad.setText(gradString);
-
                     if (oglas.getImageurl().equals("default"))
                         profile_image.setImageResource(R.mipmap.ic_launcher);
                     else
@@ -214,6 +230,23 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
                             openAccount(oglas.getUserId());
                         }
                     });
+
+                    opisString = oglas.getOpis();
+                    gradString = oglas.getGrad();
+                    cenaString = String.valueOf(oglas.getCenaOglasa());
+
+                    numberOfRatingsText.setText(String.valueOf(oglas.getBrojOcena()));
+                    averageRatingText.setText(String.valueOf(oglas.getOcena()));
+                    averageRatingBar.setRating((float) oglas.getOcena());
+
+                    opis.setText(opisString);
+                    grad.setText(gradString);
+                    cena.setText(cenaString + "RSD");
+
+                }else{
+                    HideEverything();
+                    viewNoInternet.setVisibility(View.GONE);
+                    viewNoPage.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -262,6 +295,8 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
 
         viewThis = findViewById(R.id.PregledJednogOglasaActivity);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
+        viewDodajOcenu = (View) findViewById(R.id.dodaj_ocenu);
+        viewNoPage = (View) findViewById(R.id.nemaStranice);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
 
         editOglasButton = findViewById(R.id.editButton);
@@ -274,6 +309,14 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
                 i.putExtra("cena", cenaString);
                 i.putExtra("id", IDOglasa);
                 startActivity(i);
+            }
+        });
+
+        backButton = viewNoPage.findViewById(R.id.backButttonNoPage);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
@@ -298,8 +341,7 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
                                     FirebaseDatabase.getInstance().getReference().child("oglasi").child(IDOglasa).removeValue();
                                     FirebaseDatabase.getInstance().getReference().child("users").child(IDUser).child("oglas").child(nazivGrada).removeValue();
                                     finish();
-//                                    Intent i = new Intent(pregledJednogOglasa.this, Glavni_ekran.class);
-//                                    startActivity(i);
+
                                 }else
                                     HideWithReason(2);
                             }
@@ -311,27 +353,26 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
             }
         });
 
-        rating = findViewById(R.id.ratingForOglas);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.rating, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        rating.setAdapter(adapter);
-        rating.setOnItemSelectedListener(this);
-
-        textForRating = findViewById(R.id.textForRatingForOglas);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         profile_image = findViewById(R.id.profile_image);
-        username = findViewById(R.id.username);
+        ime = findViewById(R.id.ime);
+        prezime = findViewById(R.id.prezime);
         opis = findViewById(R.id.opis);
         grad = findViewById(R.id.grad);
-
+        cena = findViewById(R.id.cena2);
+        textForNewRating = findViewById(R.id.textForRatingForOglas);
+        starost = findViewById(R.id.godine);
+        newRatingBar = findViewById(R.id.ratingForOglas);
+        averageRatingBar = findViewById(R.id.ocena_bar);
+        averageRatingText = findViewById(R.id.ocena);
+        numberOfRatingsText = findViewById(R.id.ukupanBrojOcena);
 
         buttonAddRating = findViewById(R.id.addRatingButton);
         buttonAddRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 isGood = true;
-                newRatingText = textForRating.getText().toString().trim();
+                newRatingText = textForNewRating.getText().toString().trim();
                 if(TextUtils.isEmpty(newRatingText)){
                     setRatingTextError("Dodajte opis ocene za ovaj oglas");
                 }
@@ -403,16 +444,6 @@ public class pregledJednogOglasa extends AppCompatActivity implements AdapterVie
         }else{
             HideWithReason(2);
         }
-
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        newRating = adapterView.getItemAtPosition(i).toString();
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
 

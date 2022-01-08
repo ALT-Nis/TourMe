@@ -8,18 +8,28 @@ public class User {
     private String imageurl;
     private String brojOglasa;
     private String status;
+    private String ime;
+    private String prezime;
+    private String opis;
+    private String dan, mesec, godina;
 
     public User(){
 
     }
 
-    public User(String id, String email, String username, String imageurl, String brojOglasa, String status){
+    public User(String id, String email, String username, String imageurl, String brojOglasa, String status, String ime, String prezime, String opis, String dan, String mesec, String godina){
         this.id = id;
         this.email = email;
         this.username = username;
         this.imageurl = imageurl;
         this.brojOglasa = brojOglasa;
         this.status = status;
+        this.ime = ime;
+        this.prezime = prezime;
+        this.opis = opis;
+        this.dan = dan;
+        this.mesec = mesec;
+        this.godina = godina;
     }
 
     public String getId() {
@@ -59,4 +69,28 @@ public class User {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getIme() { return ime; }
+
+    public void setIme(String ime) { this.ime = ime; }
+
+    public String getPrezime() { return prezime; }
+
+    public void setPrezime(String prezime) { this.prezime = prezime; }
+
+    public String getOpis() { return opis; }
+
+    public void setOpis(String opis) { this.opis = opis; }
+
+    public String getDan() { return dan; }
+
+    public void setDan(String dan) { this.dan = dan; }
+
+    public String getGodina() { return godina; }
+
+    public void setGodina(String godina) { this.godina = godina; }
+
+    public String getMesec() { return mesec; }
+
+    public void setMesec(String mesec) { this.mesec = mesec; }
 }

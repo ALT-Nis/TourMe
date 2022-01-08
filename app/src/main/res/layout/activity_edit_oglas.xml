@@ -40,11 +40,11 @@
                 android:text="Grad" />
 
             <TextView
+                android:id="@+id/gradEditOglas"
                 android:layout_width="260dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/grad"
-                android:textSize="25dp"
-                android:id="@+id/gradEditOglas"/>
+                android:textSize="25dp" />
 
         </RelativeLayout>
 

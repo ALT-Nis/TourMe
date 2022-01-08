@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/izmeniAccountActivity"
     tools:context=".IzmeniAccountActivity"
     android:background="?attr/colorSecondaryVariant">
 
@@ -42,10 +43,10 @@
                 android:layout_alignEnd="@id/podesi_ime">
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profilna"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:id="@+id/profilna"
-                    android:src="@drawable/ic_profp"/>
+                    android:src="@drawable/ic_profp" />
 
                 <Button
                     android:id="@+id/izmeni"
@@ -54,8 +55,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text="Izaberi drugu"
-                    android:textSize="12dp"
                     android:textColor="?attr/colorPrimary"
+                    android:textSize="12dp"
                     app:strokeColor="?attr/colorPrimary" />
 
                 <Button
@@ -64,11 +65,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/izmeni"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignStart="@id/izmeni"
+                    android:layout_alignParentEnd="true"
                     android:text="Izbriši"
-                    android:textSize="12dp"
                     android:textColor="#FF4141"
+                    android:textSize="12dp"
                     app:strokeColor="#FF4141" />
 
             </RelativeLayout>
@@ -94,7 +95,7 @@
                     android:id="@+id/dan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/datumtext"/>
+                    android:layout_below="@id/datumtext" />
 
                 <Spinner
                     android:id="@+id/mesec"
@@ -102,14 +103,14 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/datumtext"
                     android:layout_toStartOf="@id/godina"
-                    android:layout_toEndOf="@id/dan"/>
+                    android:layout_toEndOf="@id/dan" />
 
                 <Spinner
                     android:id="@+id/godina"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/datumtext"
-                    android:layout_alignParentEnd="true"/>
+                    android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
 
@@ -132,9 +133,9 @@
                     android:id="@+id/ime"
                     android:layout_width="260dp"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
+                    android:layout_below="@id/imetext"
                     android:backgroundTint="#00000000"
-                    android:layout_below="@id/imetext"/>
+                    android:inputType="textPersonName" />
 
             </RelativeLayout>
 
@@ -158,9 +159,9 @@
                     android:id="@+id/prezime"
                     android:layout_width="260dp"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
+                    android:layout_below="@id/prezimetext"
                     android:backgroundTint="#00000000"
-                    android:layout_below="@id/prezimetext"/>
+                    android:inputType="textPersonName" />
 
             </RelativeLayout>
 
@@ -195,12 +196,12 @@
                 android:id="@+id/sacuvaj"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sačuvajte izmene"
-                android:textColor="?attr/colorSecondary"
                 android:layout_below="@id/podesi_opis"
-                android:layout_marginTop="20dp"
+                android:layout_alignStart="@id/podesi_opis"
                 android:layout_alignEnd="@id/podesi_opis"
-                android:layout_alignStart="@id/podesi_opis"/>
+                android:layout_marginTop="20dp"
+                android:text="Sačuvajte izmene"
+                android:textColor="?attr/colorSecondary" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -215,5 +216,12 @@
         </RelativeLayout>
 
     </ScrollView>
+
+    <include
+        layout="@layout/nema_internet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/nemaInternet"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
