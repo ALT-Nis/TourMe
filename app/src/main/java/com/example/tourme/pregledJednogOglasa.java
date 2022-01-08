@@ -144,6 +144,31 @@ public class pregledJednogOglasa extends AppCompatActivity {
 
     }
 
+    public void updateUser(){
+        if(IsConnectedToInternet()){
+            mDatabase.child("users").child(IDUser).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    User user = task.getResult().getValue(User.class);
+                    Integer brojOcena = user.getBrojOcena() + 1;
+                    double ocena = user.getUkupnaProsecnaOcena();
+                    double doubleNewRating = (double)(newRatingBar.getRating());
+
+                    ocena = (((double)brojOcena - 1) * ocena + doubleNewRating) / ((double)brojOcena);
+                    ocena = Math.round(ocena * 10.0) / 10.0;
+                    FirebaseDatabase.getInstance().getReference().child("users").child(IDUser).child("brojOcena").setValue(brojOcena);
+                    FirebaseDatabase.getInstance().getReference().child("users").child(IDUser).child("ukupnaProsecnaOcena").setValue(ocena);
+
+                    newRatingBar.setRating(0.0F);
+                    textForNewRating.setText("");
+                    Toast.makeText(pregledJednogOglasa.this, "Ocena je uspesno dodata", Toast.LENGTH_LONG).show();
+                }
+            });
+        }else{
+            HideWithReason(2);
+        }
+    }
+
     public void startAddingRating(){
         if(IsConnectedToInternet()){
             mDatabase.child("oglasi").child(IDOglasa).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -167,6 +192,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
                             mDatabase.child("oglasi").child(IDOglasa).child("brojOcena").setValue(brojOcena);
                             mDatabase.child("oglasi").child(IDOglasa).child("ocena").setValue(ocena);
                             mDatabase.child("oglasi").child(IDOglasa).child("oceneOglasa").child(brojOcena.toString()).setValue(comment);
+                            updateUser();
                             sendNotification(oglas.getUserId());
                         }else{
                             Toast.makeText(pregledJednogOglasa.this, "ne postoji ovakav oglas", Toast.LENGTH_LONG).show();

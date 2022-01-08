@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +61,8 @@ public class MyAccount extends AppCompatActivity {
 
     //View
     ImageView imageView;
-    TextView username, ime, prezime, opis, godine;
+    TextView username, ime, prezime, opis, godine, average;
+    RatingBar averageBar;
     RecyclerView recyclerView;
     View viewNoInternet, viewThis, viewNotLoggedIn;
     ProgressBar progressBar;
@@ -187,6 +189,10 @@ public class MyAccount extends AppCompatActivity {
                 ime.setText(user.getIme());
                 prezime.setText(user.getPrezime());
                 opis.setText(user.getOpis());
+                average.setText(String.valueOf(user.getUkupnaProsecnaOcena()));
+                Log.e("111", String.valueOf(user.getUkupnaProsecnaOcena()));
+                averageBar.setRating((float) user.getUkupnaProsecnaOcena());
+                //treba da stoji i ukupan broj ocens
                 String d1 = user.getDan();
                 String m1 = user.getMesec();
                 String g1 = user.getGodina();
@@ -194,6 +200,10 @@ public class MyAccount extends AppCompatActivity {
                 String m2 = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
                 String g2 = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
                 godine.setText(String.valueOf(StaticVars.numberOfYears(d1, StaticVars.convertMonth(m1), g1, d2, m2, g2)));
+                if(ime.getText().toString().trim().equals("") && prezime.getText().toString().trim().equals(""))
+                    if(d1.equals("01") && m1.equals("Januar") && g1.equals("1900"))
+                        godine.setText("");
+
                 if (user.getImageurl().equals("default"))
                     imageView.setImageResource(R.mipmap.ic_launcher);
                 else
@@ -233,6 +243,8 @@ public class MyAccount extends AppCompatActivity {
         prezime = findViewById(R.id.prezime);
         opis = findViewById(R.id.kratakOpis);
         godine = findViewById(R.id.godine);
+        average = findViewById(R.id.ocena);
+        averageBar = findViewById(R.id.ocena_bar);
 
         viewThis = findViewById(R.id.MojNalog);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);

@@ -12,12 +12,14 @@ public class User {
     private String prezime;
     private String opis;
     private String dan, mesec, godina;
+    private int brojOcena;
+    private double ukupnaProsecnaOcena;
 
     public User(){
 
     }
 
-    public User(String id, String email, String username, String imageurl, String brojOglasa, String status, String ime, String prezime, String opis, String dan, String mesec, String godina){
+    public User(String id, String email, String username, String imageurl, String brojOglasa, String status, String ime, String prezime, String opis, String dan, String mesec, String godina, int brojOcena, double ukupnaProsecnaOcena){
         this.id = id;
         this.email = email;
         this.username = username;
@@ -30,6 +32,8 @@ public class User {
         this.dan = dan;
         this.mesec = mesec;
         this.godina = godina;
+        this.brojOcena = brojOcena;
+        this.ukupnaProsecnaOcena = ukupnaProsecnaOcena;
     }
 
     public String getId() {
@@ -93,4 +97,12 @@ public class User {
     public String getMesec() { return mesec; }
 
     public void setMesec(String mesec) { this.mesec = mesec; }
+
+    public int getBrojOcena() { return brojOcena; }
+
+    public void setBrojOcena(int brojOcena) { this.brojOcena = brojOcena; }
+
+    public double getUkupnaProsecnaOcena() { return ukupnaProsecnaOcena; }
+
+    public void setUkupnaProsecnaOcena(double ukupnaProsecnaOcena) { this.ukupnaProsecnaOcena = ukupnaProsecnaOcena; }
 }

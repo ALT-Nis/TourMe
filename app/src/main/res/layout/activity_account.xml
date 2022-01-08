@@ -58,24 +58,25 @@
             android:layout_toStartOf="@id/ocena"/>
 
         <RatingBar
+            android:id="@+id/averageRatubgBar"
+            style="?attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?attr/ratingBarStyleSmall"
             android:layout_below="@id/prosecna_occena"
             android:layout_alignEnd="@id/prosecna_occena"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:id="@+id/ocena"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4,5"
-            android:textSize="35sp"
             android:layout_below="@id/username"
-            android:layout_marginEnd="30dp"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
-            android:layout_alignParentEnd="true"/>
+            android:layout_marginEnd="30dp"
+            android:text="4,5"
+            android:textSize="35sp" />
 
         <TextView
             android:id="@+id/username"
