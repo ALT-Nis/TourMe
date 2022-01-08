@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:background="@drawable/oglas_bg"
+    android:background="@drawable/bg2"
     android:layout_margin="5dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -16,19 +16,48 @@
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_alignTop="@id/comment_image"
         android:layout_toEndOf="@id/comment_image"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:text="Ime korisnika"
-        android:textSize="20dp" />
+        android:visibility="gone"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ime"
+        android:layout_alignTop="@id/comment_image"
+        android:layout_toEndOf="@id/comment_image"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="Ime"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prezime"
+        android:id="@+id/prezime"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@id/ime"
+        android:layout_alignBottom="@id/ime"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/deskripcija"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="opis oglasa"
-        android:layout_toEndOf="@id/comment_image"
-        android:layout_below="@id/username"
-        android:layout_marginLeft="10dp"/>
+        android:text="Komentar"
+        android:textSize="16sp"
+        android:layout_alignStart="@id/ime"
+        android:layout_below="@id/ime"/>
 
     <RatingBar
         android:id="@+id/ratingStars"

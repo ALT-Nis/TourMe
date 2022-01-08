@@ -26,7 +26,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="40dp"
-                android:layout_marginBottom="30dp"
                 android:text="Podešavanje profila"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -35,8 +34,8 @@
                 android:id="@+id/podesi_sliku"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/form_bg"
                 android:layout_marginBottom="10dp"
+                android:layout_marginTop="20dp"
                 android:padding="10dp"
                 android:layout_above="@id/podesi_datum"
                 android:layout_alignStart="@id/podesi_ime"
@@ -202,16 +201,6 @@
                 android:layout_marginTop="20dp"
                 android:text="Sačuvajte izmene"
                 android:textColor="?attr/colorSecondary" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Izbrišite profil"
-                android:textColor="?attr/colorSecondary"
-                android:backgroundTint="#FF4141"
-                android:layout_below="@id/sacuvaj"
-                android:layout_alignEnd="@id/podesi_opis"
-                android:layout_alignStart="@id/podesi_opis"/>
 
         </RelativeLayout>
 

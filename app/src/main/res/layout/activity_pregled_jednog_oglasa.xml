@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="15dp"
                 android:layout_toEndOf="@id/profile_image"
                 android:text="Ime"
                 android:textSize="20sp" />
@@ -82,8 +82,19 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ime"
                 android:layout_alignStart="@id/ime"
+                android:layout_marginTop="5dp"
                 android:text="Grad"
                 android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/cena2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grad"
+                android:layout_alignStart="@id/grad"
+                android:layout_marginTop="5dp"
+                android:textSize="20sp"
+                android:text="300 rsd" />
 
             <TextView
                 android:id="@+id/opis"
@@ -138,16 +149,6 @@
                     android:visibility="gone" />
 
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/cena2"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_alignBottom="@+id/prezime"
-                android:layout_marginStart="11dp"
-                android:layout_marginBottom="0dp"
-                android:layout_toEndOf="@+id/godine"
-                android:text="300RSD" />
 
         </RelativeLayout>
 
