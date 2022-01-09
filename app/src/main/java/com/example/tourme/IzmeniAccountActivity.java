@@ -305,24 +305,6 @@ public class IzmeniAccountActivity extends AppCompatActivity implements AdapterV
                             public void onSuccess(Uri uri) {
                                 String imageUrl = uri.toString();
                                 FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid()).child("imageurl").setValue(imageUrl);
-                                FirebaseDatabase.getInstance().getReference("oglasi").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                            Oglas oglas = dataSnapshot.getValue(Oglas.class);
-                                            Log.e("2", "test + " + oglas.getUserId());
-                                            Log.e("2", "test + " + firebaseUser.getUid());
-                                            if(oglas.getUserId().equals(firebaseUser.getUid())){
-                                                FirebaseDatabase.getInstance().getReference("oglasi").child(oglas.getIdOglasa()).child("imageurl").setValue(imageUrl);
-                                            }
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
                             }
                         });
                     }

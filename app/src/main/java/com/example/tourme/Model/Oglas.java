@@ -11,14 +11,12 @@ public class Oglas {
     double ocena;
     String userId;
     String opis;
-    String imageurl;
-    String username;
 
     public Oglas(){
 
     }
 
-    public Oglas(String idOglasa, String grad, double ocena, int brojOcena, int cenaOglasa, String userId, String opis, String imageurl, String username){
+    public Oglas(String idOglasa, String grad, double ocena, int brojOcena, int cenaOglasa, String userId, String opis){
         this.idOglasa = idOglasa;
         this.grad = grad;
         this.ocena = ocena;
@@ -26,8 +24,6 @@ public class Oglas {
         this.cenaOglasa = cenaOglasa;
         this.userId = userId;
         this.opis = opis;
-        this.imageurl=imageurl;
-        this.username = username;
     }
 
     public String getIdOglasa() { return idOglasa; }
@@ -36,14 +32,6 @@ public class Oglas {
 
     public String getUserId() {
         return userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public void setUserId(String userId) {
@@ -56,14 +44,6 @@ public class Oglas {
 
     public void setOpis(String opis) {
         this.opis = opis;
-    }
-
-    public String getImageurl() {
-        return imageurl;
-    }
-
-    public void setImageurl(String imageurl) {
-        this.imageurl = imageurl;
     }
 
     public void setGrad(String grad) { this.grad = grad; }
@@ -81,4 +61,5 @@ public class Oglas {
     public int getCenaOglasa() { return cenaOglasa; }
 
     public void setCenaOglasa(int cenaOglasa) { this.cenaOglasa = cenaOglasa; }
+
 }

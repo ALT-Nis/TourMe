@@ -54,7 +54,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
 //    Spinner rating;
     Button sendMessage, buttonAddRating, tryAgainButton, editOglasButton, deleteOglasButton, backButton;
     ImageView profile_image;
-    TextView ime, prezime, opis, grad, starost, cena, averageRatingText, numberOfRatingsText;
+    TextView ime, prezime, opis, grad, starost, cena, averageRatingText, numberOfRatingsText, username;
     EditText textForNewRating;
     RatingBar newRatingBar, averageRatingBar;
     View viewNoInternet, viewNoPage, viewThis, viewDodajOcenu;
@@ -222,8 +222,17 @@ public class pregledJednogOglasa extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                ime.setText(user.getIme());
-                prezime.setText(user.getPrezime());
+                if(user.getIme().equals("") || user.getPrezime().equals("")){
+                    username.setVisibility(View.VISIBLE);
+                    username.setText(user.getUsername());
+                    ime.setVisibility(View.INVISIBLE);
+                    prezime.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    ime.setText(user.getIme());
+                    prezime.setText(user.getPrezime());
+                    username.setVisibility(View.GONE);
+                }
                 String d1 = user.getDan();
                 String m1 = user.getMesec();
                 String g1 = user.getGodina();
@@ -231,7 +240,12 @@ public class pregledJednogOglasa extends AppCompatActivity {
                 String m2 = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
                 String g2 = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
 
-                starost.setText(String.valueOf(StaticVars.numberOfYears(d1, StaticVars.convertMonth(m1), g1, d2, m2, g2)));
+                if(StaticVars.numberOfYears(d1, StaticVars.convertMonth(m1), g1, d2, m2, g2) != 122) {
+                    starost.setText(String.valueOf(StaticVars.numberOfYears(d1, StaticVars.convertMonth(m1), g1, d2, m2, g2)));
+                }
+                else{
+                    starost.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -244,36 +258,50 @@ public class pregledJednogOglasa extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Oglas oglas = snapshot.getValue(Oglas.class);
-                if(oglas != null){
-                    if (oglas.getImageurl().equals("default"))
-                        profile_image.setImageResource(R.mipmap.ic_launcher);
-                    else
-                        Glide.with(getApplicationContext()).load(oglas.getImageurl()).into(profile_image);
+                FirebaseDatabase.getInstance().getReference("users").child(oglas.getUserId()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                    profile_image.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            openAccount(oglas.getUserId());
+                        User user = snapshot.getValue(User.class);
+                        if(oglas != null){
+                            if (user.getImageurl().equals("default"))
+                                profile_image.setImageResource(R.drawable.ic_profp);
+                            else
+                                Glide.with(getApplicationContext()).load(user.getImageurl()).into(profile_image);
+
+                            profile_image.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    openAccount(oglas.getUserId());
+                                }
+                            });
+
+                            opisString = oglas.getOpis();
+                            gradString = oglas.getGrad();
+                            cenaString = String.valueOf(oglas.getCenaOglasa());
+
+                            numberOfRatingsText.setText(String.valueOf(oglas.getBrojOcena()));
+                            averageRatingText.setText(String.valueOf(oglas.getOcena()));
+                            averageRatingBar.setRating((float) oglas.getOcena());
+
+                            opis.setText(opisString);
+                            grad.setText(gradString);
+                            cena.setText(cenaString + "RSD");
+
+                        }else{
+                            HideEverything();
+                            viewNoInternet.setVisibility(View.GONE);
+                            viewNoPage.setVisibility(View.VISIBLE);
                         }
-                    });
 
-                    opisString = oglas.getOpis();
-                    gradString = oglas.getGrad();
-                    cenaString = String.valueOf(oglas.getCenaOglasa());
+                    }
 
-                    numberOfRatingsText.setText(String.valueOf(oglas.getBrojOcena()));
-                    averageRatingText.setText(String.valueOf(oglas.getOcena()));
-                    averageRatingBar.setRating((float) oglas.getOcena());
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                    opis.setText(opisString);
-                    grad.setText(gradString);
-                    cena.setText(cenaString + "RSD");
+                    }
+                });
 
-                }else{
-                    HideEverything();
-                    viewNoInternet.setVisibility(View.GONE);
-                    viewNoPage.setVisibility(View.VISIBLE);
-                }
             }
 
             @Override
@@ -291,7 +319,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
                     Comment comment = dataSnapshot.getValue(Comment.class);
                     mComment.add(comment);
                 }
-                commentAdapter = new CommentAdapter(getApplicationContext(), mComment);
+                commentAdapter = new CommentAdapter(pregledJednogOglasa.this, mComment);
                 recyclerView.setAdapter(commentAdapter);
             }
 
@@ -383,6 +411,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
         profile_image = findViewById(R.id.profile_image);
         ime = findViewById(R.id.ime);
         prezime = findViewById(R.id.prezime);
+        username = findViewById(R.id.username);
         opis = findViewById(R.id.opis);
         grad = findViewById(R.id.grad);
         cena = findViewById(R.id.cena2);
@@ -436,7 +465,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(pregledJednogOglasa.this));
 
         tryToStart();
     }
@@ -450,7 +479,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
     }
 
     private void openAccount(String userid){
-        Intent intent = new Intent(getApplicationContext(), Account.class);
+        Intent intent = new Intent(pregledJednogOglasa.this, Account.class);
         intent.putExtra("userid",userid);
         startActivity(intent);
     }

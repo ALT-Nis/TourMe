@@ -236,7 +236,7 @@ public class Account extends AppCompatActivity {
                     if(oglas.getUserId().equals(userid)){
                         mOglas.add(oglas);
                     }
-                    oglasAdapter = new OglasAdapter(Account.this, mOglas);
+                    oglasAdapter = new OglasAdapter(getApplicationContext(), mOglas);
                     recyclerView.setAdapter(oglasAdapter);
                 }
             }

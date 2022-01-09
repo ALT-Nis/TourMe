@@ -239,7 +239,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                     mOglas = sortByVariable(mOglas);
                     hideNoOglas(mOglas.size());
 
-                    Log.e("dsa", String.valueOf(mOglas.size()));
+                    //Log.e("dsa", String.valueOf(mOglas.size()));
 
                     oglasAdapter = new OglasAdapter(getContext(), mOglas);
                     recyclerView.setAdapter(oglasAdapter);

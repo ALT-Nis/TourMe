@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -63,9 +64,23 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         holder.show_message.setText(chat.getMessage());
 
         if(imageurl.equals("default")){
-            holder.profile_image.setImageResource(R.mipmap.ic_launcher);
+            holder.profile_image.setImageResource(R.drawable.ic_profp);
         }else{
             Glide.with(mContext).load(imageurl).into(holder.profile_image);
+        }
+
+        /*
+        Log.e("Tip2", ""+position);
+        Log.e("Tip1", ""+mChat.size());
+        boolean t =  position<(mChat.size()-1);
+        Log.e("Tip1", ""+t);
+        */
+
+
+        if(position<(mChat.size()-1)){
+            if(getItemViewType(position) == getItemViewType(position+1)){
+                holder.profile_image.setVisibility(View.INVISIBLE);
+            }
         }
 
         if(position == mChat.size()-1){

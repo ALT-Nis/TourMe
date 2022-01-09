@@ -46,6 +46,16 @@
                 android:layout_toEndOf="@id/profile_image"
                 android:text="Ime"
                 android:textSize="20sp" />
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@id/profile_image"
+                android:visibility="gone"
+                android:text="Username"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/prezime"

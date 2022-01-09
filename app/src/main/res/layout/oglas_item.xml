@@ -20,7 +20,7 @@
             android:layout_below="@+id/oglas_image"
             android:layout_marginTop="5dp"
             android:numStars="5"
-            android:rating="0"/>
+            android:rating="0" />
 
         <TextView
             android:id="@+id/username"
@@ -31,10 +31,10 @@
             android:layout_marginStart="10dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:text="Ime korisnika"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -63,10 +63,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/ime"
+            android:layout_toEndOf="@id/prezime"
             android:text=", 000"
             android:textSize="20sp"
-            android:layout_toEndOf="@id/prezime"
-            android:layout_alignBottom="@id/ime"/>
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="wrap_content"

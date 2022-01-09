@@ -138,7 +138,7 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
                             DatabaseReference ref = mDatabase.child("oglasi").push();
                             String idOglasa = ref.getKey();
                             Integer priceForOglas = Integer.parseInt(textForPrice);
-                            Oglas oglas = new Oglas(idOglasa, cityText, 0.0, 0, priceForOglas, userId, textForDescribe, imageurl, username);
+                            Oglas oglas = new Oglas(idOglasa, cityText, 0.0, 0, priceForOglas, userId, textForDescribe);
 
                             Integer intNumOfOglas = Integer.parseInt(numberOfOglas) + 1;
                             String newNumberForOglas = intNumOfOglas.toString();

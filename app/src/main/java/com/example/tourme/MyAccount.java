@@ -141,7 +141,7 @@ public class MyAccount extends AppCompatActivity {
 
     void recursion1ForMyOglases(int index, List<String> idsForMyOglas, List<Oglas> mOglas){
         if(index == numberOfOglases){
-            oglasAdapter = new OglasAdapter(MyAccount.this, mOglas);
+            oglasAdapter = new OglasAdapter(getApplicationContext(), mOglas);
             recyclerView.setAdapter(oglasAdapter);
         }else{
             DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
@@ -205,7 +205,7 @@ public class MyAccount extends AppCompatActivity {
                         godine.setText("");
 
                 if (user.getImageurl().equals("default"))
-                    imageView.setImageResource(R.mipmap.ic_launcher);
+                    imageView.setImageResource(R.drawable.ic_profp);
                 else
                     Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
 

@@ -150,7 +150,7 @@ public class MessageActivity extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 username.setText(user.getUsername());
                 if (user.getImageurl().equals("default")) {
-                    profile_image.setImageResource(R.mipmap.ic_launcher);
+                    profile_image.setImageResource(R.drawable.ic_profp);
                 } else {
                     Glide.with(getApplicationContext()).load(user.getImageurl()).into(profile_image);
                 }
@@ -370,8 +370,8 @@ public class MessageActivity extends AppCompatActivity {
                         public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                             if(response.code()==200){
                                 if(response.body().success == 1){
-                                    Toast.makeText(MessageActivity.this, "Failed", Toast.LENGTH_LONG).show();
-                                    Log.e("Test",response.message());
+                                    //Toast.makeText(MessageActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                                    //Log.e("Test",response.message());
                                 }
                             }
                         }

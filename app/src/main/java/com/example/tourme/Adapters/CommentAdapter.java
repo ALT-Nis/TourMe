@@ -51,18 +51,46 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                holder.username.setText(user.getUsername());
-                holder.username.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(mContext, Account.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("userid",user.getId());
-                        mContext.startActivity(intent);
-                    }
-                });
+                if(user.getIme().equals("") || user.getPrezime().equals("")){
+                    holder.username.setVisibility(View.VISIBLE);
+                    holder.username.setText(user.getUsername());
+                    holder.username.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, Account.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("userid",user.getId());
+                            mContext.startActivity(intent);
+                        }
+                    });
+                    holder.ime.setVisibility(View.INVISIBLE);
+                    holder.prezime.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    holder.ime.setText(user.getIme());
+                    holder.prezime.setText(user.getPrezime());
+                    holder.username.setVisibility(View.GONE);
+                    holder.ime.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, Account.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("userid",user.getId());
+                            mContext.startActivity(intent);
+                        }
+                    });
+                    holder.prezime.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, Account.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("userid",user.getId());
+                            mContext.startActivity(intent);
+                        }
+                    });
+                }
                 if (user.getImageurl().equals("default")){
-                    holder.comment_image.setImageResource(R.mipmap.ic_launcher);
+                    holder.comment_image.setImageResource(R.drawable.ic_profp);
                 } else {
                     Glide.with(mContext).load(user.getImageurl()).into(holder.comment_image);
                 }
@@ -97,6 +125,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         public ImageView comment_image;
         public TextView deskripcija;
         public RatingBar ratingStars;
+        public TextView ime;
+        public TextView prezime;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -105,6 +135,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             comment_image = itemView.findViewById(R.id.comment_image);
             deskripcija = itemView.findViewById(R.id.deskripcija);
             ratingStars = itemView.findViewById(R.id.ratingStars);
+            ime = itemView.findViewById(R.id.ime);
+            prezime = itemView.findViewById(R.id.prezime);
         }
 
     }

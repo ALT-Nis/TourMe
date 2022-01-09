@@ -2,10 +2,12 @@ package com.example.tourme.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,8 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.tourme.Model.Oglas;
+import com.example.tourme.Model.User;
 import com.example.tourme.R;
 import com.example.tourme.pregledJednogOglasa;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -42,24 +49,50 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Oglas oglas = mOglas.get(position);
 
-        holder.deskripcija.setText(oglas.getOpis());
-        holder.username.setText(oglas.getUsername());
-        holder.cena.setText(oglas.getCenaOglasa()+" rsd");
-
-        if(oglas.getImageurl().equals("default")){
-            holder.oglas_image.setImageResource(R.mipmap.ic_launcher);
-        }else{
-            Glide.with(mContext).load(oglas.getImageurl()).into(holder.oglas_image);
-        }
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        FirebaseDatabase.getInstance().getReference("users").child(oglas.getUserId()).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, pregledJednogOglasa.class);
-                intent.putExtra("IDOglasa",oglas.getIdOglasa());
-                intent.putExtra("NazivGrada", oglas.getGrad());
-                intent.putExtra("IDUser", oglas.getUserId());
-                mContext.startActivity(intent);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                User user = snapshot.getValue(User.class);
+                //holder.username.setText(oglas.getUsername());
+                holder.cena.setText(oglas.getCenaOglasa()+" rsd");
+                if(user.getIme().equals("") || user.getPrezime().equals("")){
+                    holder.username.setVisibility(View.VISIBLE);
+                    holder.username.setText(user.getUsername());
+                    holder.ime.setVisibility(View.INVISIBLE);
+                    holder.prezime.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    holder.ime.setText(user.getIme());
+                    holder.prezime.setText(user.getPrezime());
+                    holder.username.setVisibility(View.GONE);
+                }
+                holder.grad.setText(oglas.getGrad());
+
+                if(user.getImageurl().equals("default")){
+                    holder.oglas_image.setImageResource(R.drawable.ic_profp);
+                }else{
+                    Glide.with(mContext).load(user.getImageurl()).into(holder.oglas_image);
+                }
+
+                holder.ratingStars.setRating((float) oglas.getOcena());
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, pregledJednogOglasa.class);
+                        intent.putExtra("IDOglasa",oglas.getIdOglasa());
+                        intent.putExtra("NazivGrada", oglas.getGrad());
+                        intent.putExtra("IDUser", oglas.getUserId());
+                        mContext.startActivity(intent);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
@@ -74,16 +107,25 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
 
         public TextView username;
         public ImageView oglas_image;
-        public TextView deskripcija;
         public TextView cena;
+
+        public TextView ime;
+        public TextView prezime;
+        public TextView grad;
+        public RatingBar ratingStars;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             username = itemView.findViewById(R.id.username);
             oglas_image = itemView.findViewById(R.id.oglas_image);
-            deskripcija = itemView.findViewById(R.id.deskripcija);
             cena = itemView.findViewById(R.id.cena);
+
+            ime = itemView.findViewById(R.id.ime);
+            prezime = itemView.findViewById(R.id.prezime);
+            grad = itemView.findViewById(R.id.grad);
+            ratingStars = itemView.findViewById(R.id.ratingStars);
 
         }
     }

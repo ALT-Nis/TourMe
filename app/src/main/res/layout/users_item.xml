@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/okvir"
     android:padding="10dp"
     android:background="@drawable/oglas_bg"
     android:layout_margin="10dp">
@@ -14,14 +15,14 @@
         android:src="@drawable/ic_profp" />
 
     <TextView
+        android:id="@+id/ime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ime"
-        android:id="@+id/ime"
-        android:layout_toEndOf="@id/profile_image"
-        android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"
-        android:textSize="20dp"/>
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@id/profile_image"
+        android:text="Ime"
+        android:textSize="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,7 +53,7 @@
         android:id="@+id/img_on"
         android:visibility="gone"
         android:src="@mipmap/ic_launcher"
-        android:layout_below="@+id/username"
+        android:layout_below="@+id/profile_image"
         android:layout_toRightOf="@id/profile_image"
         android:layout_marginLeft="-10dp"
         android:layout_marginTop="-10dp"
@@ -64,9 +65,9 @@
         app:civ_border_width="10dp"
         app:civ_border_color="#bfbfbf"
         android:id="@+id/img_off"
-        android:visibility="gone"
+        android:visibility="visible"
         android:src="@mipmap/ic_launcher"
-        android:layout_below="@+id/username"
+        android:layout_below="@+id/profile_image"
         android:layout_toRightOf="@id/profile_image"
         android:layout_marginLeft="-10dp"
         android:layout_marginTop="-10dp"
