@@ -29,6 +29,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -106,6 +108,7 @@ public class Obavestenja extends Fragment {
                         }
 
                     }
+                    Collections.reverse(mNotification);
                     notificationAdapter = new NotificationAdapter(getContext(), mNotification);
                     recyclerView.setAdapter(notificationAdapter);
                 }

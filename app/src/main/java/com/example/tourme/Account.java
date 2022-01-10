@@ -154,7 +154,7 @@ public class Account extends AppCompatActivity {
                         if(d1.equals("01") && m1.equals("Januar") && g1.equals("1900"))
                             godine.setText("");
                     if(user.getImageurl().equals("default")){
-                        imageView.setImageResource(R.mipmap.ic_launcher);
+                        imageView.setImageResource(R.drawable.ic_profp);
                     }
                     else{
                         Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);

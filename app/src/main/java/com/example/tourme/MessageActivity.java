@@ -361,7 +361,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Token token = dataSnapshot.getValue(Token.class);
-                    Data data = new Data(fUser.getUid(), R.mipmap.ic_launcher,username + " ti je poslao poruku", "Nova poruka", userid);
+                    Data data = new Data(fUser.getUid(), R.drawable.ic_logo,username + " ti je poslao poruku", "Nova poruka", userid);
 
                     Sender sender = new Sender(data, token.getToken());
 

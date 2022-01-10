@@ -48,6 +48,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class pregledJednogOglasa extends AppCompatActivity {
 
     //View
@@ -72,7 +76,6 @@ public class pregledJednogOglasa extends AppCompatActivity {
     CommentAdapter commentAdapter;
     int reasonForBadConnection = 1;
     boolean isGood = true;
-
 
     void setRatingTextError(String errorText){
         textForNewRating.setError(errorText);
@@ -133,7 +136,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 
-    private void sendNotification(String receiver){
+    private void sendNotification1(String receiver){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> hashMap1 = new HashMap<>();
@@ -193,7 +196,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
                             mDatabase.child("oglasi").child(IDOglasa).child("ocena").setValue(ocena);
                             mDatabase.child("oglasi").child(IDOglasa).child("oceneOglasa").child(brojOcena.toString()).setValue(comment);
                             updateUser();
-                            sendNotification(oglas.getUserId());
+                            sendNotification1(oglas.getUserId());
                         }else{
                             Toast.makeText(pregledJednogOglasa.this, "ne postoji ovakav oglas", Toast.LENGTH_LONG).show();
                         }
@@ -319,7 +322,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
                     Comment comment = dataSnapshot.getValue(Comment.class);
                     mComment.add(comment);
                 }
-                commentAdapter = new CommentAdapter(pregledJednogOglasa.this, mComment);
+                commentAdapter = new CommentAdapter(getApplicationContext(), mComment);
                 recyclerView.setAdapter(commentAdapter);
             }
 
@@ -466,6 +469,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(pregledJednogOglasa.this));
+
 
         tryToStart();
     }
