@@ -138,8 +138,8 @@ public class IzmeniAccountActivity extends AppCompatActivity implements AdapterV
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     User user = snapshot.getValue(User.class);
                     spinnerDan.setSelection(adapterDan.getPosition(user.getDan()));
-                    spinnerMesec.setSelection(adapterMesec.getPosition(user.getDan()));
-                    spinnerDan.setSelection(adapterDan.getPosition(user.getDan()));
+                    spinnerMesec.setSelection(adapterMesec.getPosition(user.getMesec()));
+                    spinnerGodina.setSelection(adapterGodina.getPosition(user.getGodina()));
                     imeText.setText(user.getIme());
                     prezimeText.setText(user.getPrezime());
                     opisText.setText(user.getOpis());

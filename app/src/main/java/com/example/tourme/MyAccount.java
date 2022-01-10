@@ -61,7 +61,7 @@ public class MyAccount extends AppCompatActivity {
 
     //View
     ImageView imageView;
-    TextView username, ime, prezime, opis, godine, average;
+    TextView username, ime, prezime, opis, godine, average, ukupanBrojOcena;
     RatingBar averageBar;
     RecyclerView recyclerView;
     View viewNoInternet, viewThis, viewNotLoggedIn;
@@ -190,9 +190,8 @@ public class MyAccount extends AppCompatActivity {
                 prezime.setText(user.getPrezime());
                 opis.setText(user.getOpis());
                 average.setText(String.valueOf(user.getUkupnaProsecnaOcena()));
-                Log.e("111", String.valueOf(user.getUkupnaProsecnaOcena()));
                 averageBar.setRating((float) user.getUkupnaProsecnaOcena());
-                //treba da stoji i ukupan broj ocens
+                ukupanBrojOcena.setText(String.valueOf(user.getBrojOcena()));
                 String d1 = user.getDan();
                 String m1 = user.getMesec();
                 String g1 = user.getGodina();
@@ -245,6 +244,7 @@ public class MyAccount extends AppCompatActivity {
         godine = findViewById(R.id.godine);
         average = findViewById(R.id.ocena);
         averageBar = findViewById(R.id.ocena_bar);
+        ukupanBrojOcena = findViewById(R.id.ukupanBrojOcena);
 
         viewThis = findViewById(R.id.MojNalog);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);

@@ -57,7 +57,7 @@ import java.util.UUID;
 public class Account extends AppCompatActivity {
 
     ImageView imageView;
-    TextView username, ime, prezime, opis, godine, average;
+    TextView username, ime, prezime, opis, godine, average, ukupanBrojOcena;
     RatingBar averageBar;
     RecyclerView recyclerView;
 
@@ -142,7 +142,7 @@ public class Account extends AppCompatActivity {
                     opis.setText(user.getOpis());
                     average.setText(String.valueOf(user.getUkupnaProsecnaOcena()));
                     averageBar.setRating((float) user.getUkupnaProsecnaOcena());
-                    //treba da stoji i ukupan broj ocens
+                    ukupanBrojOcena.setText(String.valueOf(user.getBrojOcena()));
                     String d1 = user.getDan();
                     String m1 = user.getMesec();
                     String g1 = user.getGodina();
@@ -193,6 +193,7 @@ public class Account extends AppCompatActivity {
         godine = findViewById(R.id.godine);
         average = findViewById(R.id.ocena);
         averageBar = findViewById(R.id.averageRatubgBar);
+        ukupanBrojOcena = findViewById(R.id.ukupanBrojOcena);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
