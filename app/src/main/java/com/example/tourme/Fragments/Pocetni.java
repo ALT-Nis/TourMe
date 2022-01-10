@@ -75,7 +75,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
     List<String> items;
 
     View viewNoInternet, viewThis;
-    ProgressBar progressBar;
+    ProgressBar progressBar, loadingBar;
     Button tryAgainButton;
     Handler h = new Handler();
     int reasonForBadConnection = 1;
@@ -166,12 +166,14 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                 if(v1 != viewNoInternet)
                     ShowEverythingRecursion(v1);
             }else
-                v1.setVisibility(View.VISIBLE);
+                if(v1 != loadingBar)
+                    v1.setVisibility(View.VISIBLE);
         }
     }
 
     void ShowEverything(){
         ShowEverythingRecursion(viewThis);
+
         viewNoInternet.setVisibility(View.GONE);
     }
 
@@ -278,6 +280,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
         viewThis = view.findViewById(R.id.pocetniFragment);
         viewNoInternet = (View) view.findViewById(R.id.nemaInternet);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
+        loadingBar = view.findViewById(R.id.loadingBar);
 
         spinnerForSorting = view.findViewById(R.id.sortType);
         adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sortingType, android.R.layout.simple_spinner_item);
