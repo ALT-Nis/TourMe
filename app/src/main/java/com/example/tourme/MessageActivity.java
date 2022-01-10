@@ -26,6 +26,7 @@ import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.example.tourme.Adapters.MessageAdapter;
+import com.example.tourme.Fragments.Poruke;
 import com.example.tourme.Model.Chat;
 import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.StaticVars;
@@ -63,7 +64,7 @@ public class MessageActivity extends AppCompatActivity {
     ProgressBar progressBar;
     Button tryAgainButton, goToLoginButton;
     Intent intent;
-    ImageButton button_send;
+    ImageButton button_send, button_back;
     EditText text_send;
     ValueEventListener seenListener;
 
@@ -77,6 +78,7 @@ public class MessageActivity extends AppCompatActivity {
     Handler h = new Handler();
     int reasonForBadConnection = 1;
     String userid;
+    String startedfrom;
 
     User senderInfo;
 
@@ -236,10 +238,12 @@ public class MessageActivity extends AppCompatActivity {
         profile_image = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
         button_send = findViewById(R.id.button_send);
+        button_back = findViewById(R.id.back);
         text_send = findViewById(R.id.text_send);
 
         intent = getIntent();
         userid = intent.getStringExtra("userid");
+        startedfrom = intent.getStringExtra("startedfrom");
 
         button_send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -257,6 +261,20 @@ public class MessageActivity extends AppCompatActivity {
                     text_send.setText("");
                 }else{
                     HideWithReason(2);
+                }
+            }
+        });
+
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(startedfrom != null){
+                    finish();
+                }
+                else{
+                    Intent i = new Intent(MessageActivity.this, Glavni_ekran.class);
+                    i.putExtra("fragment","poruke");
+                    startActivity(i);
                 }
             }
         });

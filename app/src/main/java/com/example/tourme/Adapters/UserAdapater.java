@@ -80,6 +80,7 @@ public class UserAdapater extends RecyclerView.Adapter<UserAdapater.ViewHolder> 
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, MessageActivity.class);
                 intent.putExtra("userid",user.getId());
+                intent.putExtra("startedfrom","messages");
                 mContext.startActivity(intent);
             }
         });

@@ -497,6 +497,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
 
                     Intent i = new Intent(pregledJednogOglasa.this, MessageActivity.class);
                     i.putExtra("userid", oglas.getUserId());
+                    i.putExtra("startedfrom","oglas");
                     startActivity(i);
                 }
             });
