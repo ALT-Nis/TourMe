@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/nis" />
+            android:src="@drawable/slika_nis" />
 
         <RelativeLayout
             android:id="@+id/user_details"

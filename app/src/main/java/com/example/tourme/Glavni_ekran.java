@@ -37,12 +37,9 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
 
     DrawerLayout drawerLayout;
     BottomNavigationView bottomNavigationView;
-<<<<<<< HEAD
     NavigationView navigationView;
-=======
     String fragment;
 
->>>>>>> 8e0eac97c1d7fffe074b69f77c89af4acad275a5
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
