@@ -37,7 +37,12 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
 
     DrawerLayout drawerLayout;
     BottomNavigationView bottomNavigationView;
+<<<<<<< HEAD
     NavigationView navigationView;
+=======
+    String fragment;
+
+>>>>>>> 8e0eac97c1d7fffe074b69f77c89af4acad275a5
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +54,14 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        fragment = getIntent().getStringExtra("fragment");
 
+        if(fragment!=null){
+            if(fragment.equals("poruke")){
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView3, new Poruke()).commit();
+                drawerLayout.closeDrawer(Gravity.RIGHT);
+            }
+        }
         //noviOglas
 
         /*
