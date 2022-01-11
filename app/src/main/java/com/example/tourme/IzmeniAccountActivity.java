@@ -51,22 +51,24 @@ import java.util.UUID;
 
 public class IzmeniAccountActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    //View
     EditText imeText, prezimeText, opisText;
     Spinner spinnerDan, spinnerMesec, spinnerGodina;
-    ArrayAdapter<CharSequence> adapterDan, adapterMesec, adapterGodina;
     Button sacuvajPromene, izmeniSliku, izbrisiSliku;
-    String danString, mesecString, godinaString;
-    ImageView profileImage;
+    ImageView profileImage, tryAgainButton;
     Uri imageUri;
+    View viewNoInternet, viewThis;
+    ProgressBar progressBar;
 
+    //Firebase
     FirebaseAuth fAuth;
     FirebaseUser firebaseUser;
     FirebaseStorage storage;
     StorageReference storageReference;
 
-    View viewNoInternet, viewThis;
-    ProgressBar progressBar;
-    Button tryAgainButton;
+    //Variables
+    ArrayAdapter<CharSequence> adapterDan, adapterMesec, adapterGodina;
+    String danString, mesecString, godinaString;
     Handler h = new Handler();
     int reasonForBadConnection = 1;
 

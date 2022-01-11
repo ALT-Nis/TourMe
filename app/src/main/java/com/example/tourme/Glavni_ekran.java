@@ -24,8 +24,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -34,7 +37,7 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
 
     DrawerLayout drawerLayout;
     BottomNavigationView bottomNavigationView;
-
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +46,7 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -105,8 +108,8 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
         if(FirebaseAuth.getInstance().getCurrentUser()==null){
             navigationView.getMenu().findItem(R.id.logInOut).setTitle("Prijavite se");
         }
-
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -188,7 +191,16 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
+
         status("online");
+
+        MenuItem item = navigationView.getMenu().findItem(R.id.logInOut);
+        Log.e("damn", "Daniel");
+        if(FirebaseAuth.getInstance().getCurrentUser()==null)
+            item.setTitle("Prijavite se");
+        else
+            item.setTitle("Odjavite se");
+
     }
 
     @Override

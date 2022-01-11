@@ -156,8 +156,33 @@ public class MyAccount extends AppCompatActivity {
         }
     }
 
-    private void showOglas(String userid){
-        reference = FirebaseDatabase.getInstance().getReference().child("users").child(userid).child("oglas");
+    public void updateUser(User user){
+        username.setText(user.getUsername());
+        ime.setText(user.getIme());
+        prezime.setText(user.getPrezime());
+        opis.setText(user.getOpis());
+        average.setText(String.valueOf(user.getUkupnaProsecnaOcena()));
+        averageBar.setRating((float) user.getUkupnaProsecnaOcena());
+        ukupanBrojOcena.setText(String.valueOf(user.getBrojOcena()));
+        String d1 = user.getDan();
+        String m1 = user.getMesec();
+        String g1 = user.getGodina();
+        String d2 = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
+        String m2 = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
+        String g2 = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
+        godine.setText(String.valueOf(StaticVars.numberOfYears(d1, StaticVars.convertMonth(m1), g1, d2, m2, g2)));
+        if(ime.getText().toString().trim().equals("") && prezime.getText().toString().trim().equals(""))
+            if(d1.equals("01") && m1.equals("Januar") && g1.equals("1900"))
+                godine.setText("");
+
+        if (user.getImageurl().equals("default"))
+            imageView.setImageResource(R.drawable.ic_profp);
+        else
+            Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
+    }
+
+    public void updateOglas(){
+        reference = FirebaseDatabase.getInstance().getReference().child("users").child(firebaseUser.getUid()).child("oglas");
         reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -181,34 +206,27 @@ public class MyAccount extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
+
+        reference = FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                username.setText(user.getUsername());
-                ime.setText(user.getIme());
-                prezime.setText(user.getPrezime());
-                opis.setText(user.getOpis());
-                average.setText(String.valueOf(user.getUkupnaProsecnaOcena()));
-                averageBar.setRating((float) user.getUkupnaProsecnaOcena());
-                ukupanBrojOcena.setText(String.valueOf(user.getBrojOcena()));
-                String d1 = user.getDan();
-                String m1 = user.getMesec();
-                String g1 = user.getGodina();
-                String d2 = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
-                String m2 = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
-                String g2 = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
-                godine.setText(String.valueOf(StaticVars.numberOfYears(d1, StaticVars.convertMonth(m1), g1, d2, m2, g2)));
-                if(ime.getText().toString().trim().equals("") && prezime.getText().toString().trim().equals(""))
-                    if(d1.equals("01") && m1.equals("Januar") && g1.equals("1900"))
-                        godine.setText("");
+                updateUser(user);
+                updateOglas();
+            }
 
-                if (user.getImageurl().equals("default"))
-                    imageView.setImageResource(R.drawable.ic_profp);
-                else
-                    Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                showOglas(user.getId());
+            }
+        });
+
+        reference = FirebaseDatabase.getInstance().getReference("oglasi");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                updateOglas();
             }
 
             @Override
@@ -281,17 +299,6 @@ public class MyAccount extends AppCompatActivity {
             }
         });
 
-//        imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(IsConnectedToInternet())
-//                    choseImage();
-//                else{
-//                    HideWithReason(2);
-//                }
-//            }
-//        });
-
         izmeniProfil = findViewById(R.id.izmeni);
         izmeniProfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -312,84 +319,6 @@ public class MyAccount extends AppCompatActivity {
         setupView();
     }
 
-//    private void choseImage(){
-//        Intent intent = new Intent();
-//        intent.setType("image/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(intent, 1);
-//    }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
-//            imageUri = data.getData();
-//            imageView.setImageURI(imageUri);
-//            uploadImage();
-//        }
-//    }
-
-//    private void uploadImage(){
-//
-//        final ProgressDialog progressDialog = new ProgressDialog(this);
-//        progressDialog.setTitle("Uploading...");
-//        progressDialog.show();
-//
-//        final String randomKey = UUID.randomUUID().toString();
-//        StorageReference riversRef = storageReference.child("images/" + randomKey);
-//
-//        riversRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                progressDialog.dismiss();
-//                if (taskSnapshot.getMetadata() != null) {
-//                    if (taskSnapshot.getMetadata().getReference() != null) {
-//                        Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
-//                        result.addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                            @Override
-//                            public void onSuccess(Uri uri) {
-//                                String imageUrl = uri.toString();
-//                                FirebaseDatabase.getInstance().getReference("users").child(firebaseUser.getUid()).child("imageurl").setValue(imageUrl);
-//                                FirebaseDatabase.getInstance().getReference("oglasi").addValueEventListener(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-//                                            Oglas oglas = dataSnapshot.getValue(Oglas.class);
-//                                            Log.e("2", "test + " + oglas.getUserId());
-//                                            Log.e("2", "test + " + firebaseUser.getUid());
-//                                            if(oglas.getUserId().equals(firebaseUser.getUid())){
-//                                                FirebaseDatabase.getInstance().getReference("oglasi").child(oglas.getIdOglasa()).child("imageurl").setValue(imageUrl);
-//                                            }
-//                                        }
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                                    }
-//                                });
-//                            }
-//                        });
-//                    }
-//                }
-//                Snackbar.make(findViewById(android.R.id.content), "Image uploaded.", Snackbar.LENGTH_LONG).show();
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                progressDialog.dismiss();
-//                Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
-//            }
-//        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-//                double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-//                progressDialog.setMessage("Percentage: " + (int)progressPercent + "%");
-//            }
-//        });
-//    }
-
-
     private void status(String status){
         if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -401,10 +330,15 @@ public class MyAccount extends AppCompatActivity {
         }
 
     }
-
+//firebaseUser.getUid()
     @Override
     protected void onResume() {
         super.onResume();
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            ShowEverything();
+            viewNotLoggedIn.setVisibility(View.GONE);
+            tryToStart();
+        }
         status("online");
     }
 

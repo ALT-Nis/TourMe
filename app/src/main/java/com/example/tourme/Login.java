@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -129,8 +130,9 @@ public class Login extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
                         Toast.makeText(Login.this,"Uspesno",Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(Login.this, Glavni_ekran.class);
-                        startActivity(i);
+//                        Intent i = new Intent(Login.this, dodajOglas.class);
+//                        startActivity(i);
+                        finish();
                     } else{
                         String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
                         Log.e("gf", errorCode);
@@ -223,6 +225,7 @@ public class Login extends AppCompatActivity {
         mEmail = findViewById(R.id.email_login);
         mPassword = findViewById(R.id.password_login);
 
+
         viewThis = findViewById(R.id.LoginActivity);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
@@ -249,7 +252,7 @@ public class Login extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Login.this, Register.class);
+                Intent i = new Intent(Login.this, Glavni_ekran.class);
                 startActivity(i);
             }
         });
@@ -260,10 +263,10 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 if(isPasswordHidden){
                     mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    buttonShowHidePassword.setText("Hide");
+                    buttonShowHidePassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_eye_cross);
                 }else{
                     mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    buttonShowHidePassword.setText("Show");
+                    buttonShowHidePassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_eye);
                 }
                 isPasswordHidden = !isPasswordHidden;
                 mPassword.setSelection(mPassword.length());

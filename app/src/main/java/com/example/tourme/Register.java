@@ -228,10 +228,10 @@ public class Register extends AppCompatActivity {
             public void onClick(View view) {
                 if(isPasswordHidden){
                     mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    buttonShowHidePassword.setText("Hide");
+                    buttonShowHidePassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_eye_cross);
                 }else{
                     mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    buttonShowHidePassword.setText("Show");
+                    buttonShowHidePassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_eye);
                 }
                 isPasswordHidden = !isPasswordHidden;
                 mPassword.setSelection(mPassword.length());
@@ -244,10 +244,10 @@ public class Register extends AppCompatActivity {
             public void onClick(View view) {
                 if(isConfirmPasswordHidden){
                     mConfirmPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    buttonShowHideConfirmPassword.setText("Hide");
+                    buttonShowHideConfirmPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_eye_cross);
                 }else{
                     mConfirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    buttonShowHideConfirmPassword.setText("Show");
+                    buttonShowHideConfirmPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_eye);
                 }
                 isConfirmPasswordHidden = !isConfirmPasswordHidden;
                 mConfirmPassword.setSelection(mConfirmPassword.length());

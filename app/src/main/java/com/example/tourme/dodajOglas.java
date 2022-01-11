@@ -323,6 +323,11 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
     protected void onResume() {
         super.onResume();
         status("online");
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            ShowEverything();
+            viewNotLoggedIn.setVisibility(View.GONE);
+            tryToStart();
+        }
     }
 
     @Override

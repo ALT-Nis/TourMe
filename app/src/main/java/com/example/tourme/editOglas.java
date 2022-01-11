@@ -19,16 +19,18 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class editOglas extends AppCompatActivity {
 
+    //View
     EditText editDescirbeText, editPriceText;
     TextView cityText;
-    Button changeOglasButton;
-
+    Button changeOglasButton, tryAgainButton;
     View viewNoInternet, viewThis;
     ProgressBar progressBar;
-    Button tryAgainButton;
+
+    //Firebase
+
+    //Variables
     Handler h = new Handler();
     int reasonForBadConnection = 1;
-
     String grad, opis, cena, IDOglasa;
 
     void hideProgressShowButton(){
@@ -82,11 +84,7 @@ public class editOglas extends AppCompatActivity {
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_oglas);
-
+    public void setupView(){
         editDescirbeText = findViewById(R.id.describeEditOglas);
         editPriceText = findViewById(R.id.priceEditOglas);
         cityText = findViewById(R.id.gradEditOglas);
@@ -133,5 +131,13 @@ public class editOglas extends AppCompatActivity {
                 }, 1000);
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_oglas);
+
+        setupView();
     }
 }

@@ -76,12 +76,12 @@
                 android:id="@+id/buttonForShowingPasswordLogin"
                 android:layout_width="40dp"
                 android:layout_height="45dp"
-                android:paddingBottom="7dp"
                 android:layout_alignBottom="@id/password_login"
+                android:layout_marginLeft="5dp"
                 android:layout_toEndOf="@id/password_login"
-                android:drawableBottom="@drawable/ic_eye"
                 android:backgroundTint="?attr/colorSecondary"
-                android:layout_marginLeft="5dp"/>
+                android:drawableBottom="@drawable/ic_eye"
+                android:paddingBottom="7dp" />
 
         </RelativeLayout>
 

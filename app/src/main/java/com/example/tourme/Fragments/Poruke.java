@@ -48,23 +48,23 @@ import java.util.List;
  */
 public class  Poruke extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    //View
     View viewNoInternet, viewThis, viewNotLoggedIn;
     ProgressBar progressBar;
     Button tryAgainButton, goToLoginButton;
+
+    //Firebase
+
+    //Variables
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    private String mParam1;
+    private String mParam2;
     Handler h = new Handler();
     int reasonForBadConnection = 1;
 
     public Poruke() {
-        // Required empty public constructor
+
     }
 
     /**
@@ -75,7 +75,7 @@ public class  Poruke extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment Poruke.
      */
-    // TODO: Rename and change types and number of parameters
+
     public static Poruke newInstance(String param1, String param2) {
         Poruke fragment = new Poruke();
         Bundle args = new Bundle();
@@ -208,11 +208,7 @@ public class  Poruke extends Fragment {
     private RecyclerView recyclerView;
     private UserAdapater userAdapater;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_poruke, container, false);
-
+    public void setupView(View view){
         StaticVars.listOfFragments.add(2);
 
         recyclerView = view.findViewById(R.id.recycler_view);
@@ -253,6 +249,13 @@ public class  Poruke extends Fragment {
         });
 
         tryToStart();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_poruke, container, false);
+        setupView(view);
 
         return view;
     }

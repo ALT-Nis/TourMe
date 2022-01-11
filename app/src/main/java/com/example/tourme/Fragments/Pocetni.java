@@ -63,30 +63,25 @@ import java.util.Locale;
 
 public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListener {
 
+    //View
     RecyclerView recyclerView;
-
-    DatabaseReference reference;
-
-    OglasAdapter oglasAdapter;
-
     AutoCompleteTextView searchBar;
     Button searchButton;
-    Gradovi g;
-    List<String> items;
-
-    View viewNoInternet, viewThis;
+    View viewNoInternet, viewThis, viewNoOglas;
     ProgressBar progressBar, loadingBar;
     Button tryAgainButton;
-    Handler h = new Handler();
-    int reasonForBadConnection = 1;
-
     Spinner spinnerForSorting;
+
+    //Firebase
+    DatabaseReference reference;
+
+    //Variables
+    OglasAdapter oglasAdapter;
+    Gradovi g;
+    List<String> items;
+    Handler h = new Handler();
+    int reasonForBadConnection = 1, sortingVariable = 0;
     ArrayAdapter<CharSequence> adapter;
-    int sortingVariable = 0;
-
-    View viewNoOglas;
-
-    boolean shouldSearchPrev = true;
 
     public List<Oglas> sortByVariable(List<Oglas> mOglas){
         if(sortingVariable == 1) {
@@ -173,7 +168,6 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
 
     void ShowEverything(){
         ShowEverythingRecursion(viewThis);
-
         viewNoInternet.setVisibility(View.GONE);
     }
 
@@ -209,7 +203,6 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                             String gradOglasaa = oglas.getGrad();
                             if(newItems.contains(gradOglasaa.toLowerCase()))
                                 mOglas.add(oglas);
-
                         }
                         resetSpinner();
                         hideNoOglas(mOglas.size());
@@ -224,47 +217,43 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
         }
     }
 
+    public void setupFirebase(){
+        reference = FirebaseDatabase.getInstance().getReference();
+        reference.child("oglasi").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Oglas> mOglas = new ArrayList<>();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Oglas oglas = dataSnapshot.getValue(Oglas.class);
+                    String gradOglasaa = oglas.getGrad();
+                    if(items.contains(gradOglasaa.toLowerCase()))
+                        mOglas.add(oglas);
+                }
+                mOglas = sortByVariable(mOglas);
+                hideNoOglas(mOglas.size());
+
+                oglasAdapter = new OglasAdapter(getContext(), mOglas);
+                recyclerView.setAdapter(oglasAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public boolean tryToStart(){
-        if(IsConnectedToInternet()){
-            reference = FirebaseDatabase.getInstance().getReference();
-            reference.child("oglasi").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    List<Oglas> mOglas = new ArrayList<>();
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        Oglas oglas = dataSnapshot.getValue(Oglas.class);
-                        String gradOglasaa = oglas.getGrad();
-                        if(items.contains(gradOglasaa.toLowerCase())) {
-                            mOglas.add(oglas);
-                        }
-                    }
-                    mOglas = sortByVariable(mOglas);
-                    hideNoOglas(mOglas.size());
-
-                    //Log.e("dsa", String.valueOf(mOglas.size()));
-
-                    oglasAdapter = new OglasAdapter(getContext(), mOglas);
-                    recyclerView.setAdapter(oglasAdapter);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }else{
+        if(IsConnectedToInternet())
+            setupFirebase();
+        else{
             HideWithReason(1);
             return false;
         }
         return true;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_pocetni, container, false);
-
+    public void setupView(View view){
         StaticVars.listOfFragments.add(1);
         int len = StaticVars.listOfFragments.size();
         if(len >= 2 && StaticVars.listOfFragments.get(len - 2) == 1)
@@ -329,8 +318,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
         });
 
         if(!StaticVars.lastSearch.equals("")){
-            String f = StaticVars.lastSearch;
-            searchBar.setText(f);
+            searchBar.setText(StaticVars.lastSearch);
             search();
         }
 
@@ -341,6 +329,13 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                 search();
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_pocetni, container, false);
+        setupView(view);
 
         return view;
     }
@@ -355,9 +350,8 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                     for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
                         Oglas oglas = dataSnapshot.getValue(Oglas.class);
                         String gradOglasaa = oglas.getGrad();
-                        if (items.contains(gradOglasaa.toLowerCase())) {
+                        if (items.contains(gradOglasaa.toLowerCase()))
                             mOglas.add(oglas);
-                        }
                     }
                     hideNoOglas(mOglas.size());
                     mOglas = sortByVariable(mOglas);

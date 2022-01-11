@@ -30,6 +30,7 @@ import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -52,24 +53,28 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Account extends AppCompatActivity {
 
+    //View
     ImageView imageView;
     TextView username, ime, prezime, opis, godine, average, ukupanBrojOcena;
     RatingBar averageBar;
     RecyclerView recyclerView;
-
-    DatabaseReference reference;
-    FirebaseUser firebaseUser;
-
     View viewNoInternet, viewThis;
     ProgressBar progressBar;
     Button tryAgainButton;
-    Handler h = new Handler();
-    int reasonForBadConnection = 1;
 
+    //Firebase
+    DatabaseReference reference;
+    FirebaseUser firebaseUser;
+
+    //Variables
+    Handler h = new Handler();
+    int reasonForBadConnection = 1, numberOfOglases;
+    String userid1;
     OglasAdapter oglasAdapter;
 
     void hideProgressShowButton(){
@@ -126,51 +131,102 @@ public class Account extends AppCompatActivity {
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 
-    public boolean tryToStart(){
-        if(IsConnectedToInternet()){
-            firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-            String userid1 = getIntent().getStringExtra("userid");
-            reference = FirebaseDatabase.getInstance().getReference("users").child(userid1);
-
-            reference.addValueEventListener(new ValueEventListener() {
+    void recursion1ForMyOglases(int index, List<String> idsForMyOglas, List<Oglas> mOglas){
+        if(index == numberOfOglases){
+            oglasAdapter = new OglasAdapter(getApplicationContext(), mOglas);
+            recyclerView.setAdapter(oglasAdapter);
+        }else{
+            DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();
+            ref1.child("oglasi").child(idsForMyOglas.get(index)).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User user = snapshot.getValue(User.class);
-                    username.setText(user.getUsername());
-                    ime.setText(user.getIme());
-                    prezime.setText(user.getPrezime());
-                    opis.setText(user.getOpis());
-                    average.setText(String.valueOf(user.getUkupnaProsecnaOcena()));
-                    averageBar.setRating((float) user.getUkupnaProsecnaOcena());
-                    ukupanBrojOcena.setText(String.valueOf(user.getBrojOcena()));
-                    String d1 = user.getDan();
-                    String m1 = user.getMesec();
-                    String g1 = user.getGodina();
-                    String d2 = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
-                    String m2 = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
-                    String g2 = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
-                    godine.setText(String.valueOf(StaticVars.numberOfYears(d1, StaticVars.convertMonth(m1), g1, d2, m2, g2)));
-                    if(ime.getText().toString().trim().equals("") && prezime.getText().toString().trim().equals(""))
-                        if(d1.equals("01") && m1.equals("Januar") && g1.equals("1900"))
-                            godine.setText("");
-                    if(user.getImageurl().equals("default")){
-                        imageView.setImageResource(R.drawable.ic_profp);
-                    }
-                    else{
-                        Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
-                    }
-
-
-
-                    showOglas(user.getId());
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    Oglas oglas = task.getResult().getValue(Oglas.class);
+                    mOglas.add(oglas);
+                    recursion1ForMyOglases(index + 1, idsForMyOglas, mOglas);
                 }
             });
+        }
+    }
+
+    public void updateUser(User user){
+        username.setText(user.getUsername());
+        ime.setText(user.getIme());
+        prezime.setText(user.getPrezime());
+        opis.setText(user.getOpis());
+        average.setText(String.valueOf(user.getUkupnaProsecnaOcena()));
+        averageBar.setRating((float) user.getUkupnaProsecnaOcena());
+        ukupanBrojOcena.setText(String.valueOf(user.getBrojOcena()));
+        String d1 = user.getDan();
+        String m1 = user.getMesec();
+        String g1 = user.getGodina();
+        String d2 = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
+        String m2 = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
+        String g2 = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
+        godine.setText(String.valueOf(StaticVars.numberOfYears(d1, StaticVars.convertMonth(m1), g1, d2, m2, g2)));
+        if(ime.getText().toString().trim().equals("") && prezime.getText().toString().trim().equals(""))
+            if(d1.equals("01") && m1.equals("Januar") && g1.equals("1900"))
+                godine.setText("");
+        if(user.getImageurl().equals("default")){
+            imageView.setImageResource(R.drawable.ic_profp);
+        }
+        else{
+            Glide.with(getApplicationContext()).load(user.getImageurl()).into(imageView);
+        }
+    }
+
+    public void updateOglas(){
+        FirebaseDatabase.getInstance().getReference().child("users").child(userid1).child("oglas").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                List<Oglas> mOglas = new ArrayList<>();
+                List<String> idsForMyOglas = new ArrayList<>();
+                for(DataSnapshot dataSnapshot : Objects.requireNonNull(task.getResult()).getChildren()){
+                    String newIdOglasa = dataSnapshot.getValue(String.class);
+                    idsForMyOglas.add(newIdOglasa);
+                }
+
+                numberOfOglases = idsForMyOglas.size();
+                recursion1ForMyOglases(0, idsForMyOglas, mOglas);
+            }
+        });
+    }
+
+    public void setupFirebase(){
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        userid1 = getIntent().getStringExtra("userid");
+
+        reference = FirebaseDatabase.getInstance().getReference("users").child(userid1);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                updateUser(user);
+                updateOglas();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        reference = FirebaseDatabase.getInstance().getReference("oglasi");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                updateOglas();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public boolean tryToStart(){
+        if(IsConnectedToInternet()){
+            setupFirebase();
         }else{
             HideWithReason(1);
             return false;
@@ -178,11 +234,7 @@ public class Account extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account);
-
+    public void setupView(){
         StaticVars.listOfFragments.add(5);
 
         imageView = findViewById(R.id.profile_image);
@@ -225,28 +277,13 @@ public class Account extends AppCompatActivity {
 
         tryToStart();
     }
-    private void showOglas(String userid){
 
-        reference = FirebaseDatabase.getInstance().getReference("oglasi");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Oglas> mOglas = new ArrayList<>();
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Oglas oglas = dataSnapshot.getValue(Oglas.class);
-                    if(oglas.getUserId().equals(userid)){
-                        mOglas.add(oglas);
-                    }
-                    oglasAdapter = new OglasAdapter(getApplicationContext(), mOglas);
-                    recyclerView.setAdapter(oglasAdapter);
-                }
-            }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_account);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        setupView();
     }
 
     private void status(String status){
