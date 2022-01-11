@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="35dp"
-        android:paddingBottom="20dp"
         android:background="@drawable/bg"
+        android:scrollbars="none"
         android:fillViewport="true">
 
         <RelativeLayout
@@ -35,9 +35,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:padding="10dp"
-                android:layout_above="@id/podesi_datum"
+                android:layout_below="@id/login"
                 android:layout_alignStart="@id/podesi_ime"
                 android:layout_alignEnd="@id/podesi_ime">
 
@@ -80,7 +80,7 @@
                 android:background="@drawable/form_bg"
                 android:layout_marginBottom="10dp"
                 android:padding="10dp"
-                android:layout_above="@id/podesi_ime"
+                android:layout_below="@id/podesi_sliku"
                 android:layout_alignStart="@id/podesi_ime"
                 android:layout_alignEnd="@id/podesi_ime">
 
@@ -92,8 +92,8 @@
 
                 <Spinner
                     android:id="@+id/dan"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_width="45dp"
                     android:layout_below="@id/datumtext" />
 
                 <Spinner
@@ -106,7 +106,7 @@
 
                 <Spinner
                     android:id="@+id/godina"
-                    android:layout_width="wrap_content"
+                    android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/datumtext"
                     android:layout_alignParentEnd="true" />
@@ -120,7 +120,8 @@
                 android:background="@drawable/form_bg"
                 android:layout_marginBottom="10dp"
                 android:padding="10dp"
-                android:layout_centerInParent="true">
+                android:layout_below="@id/podesi_datum"
+                android:layout_centerHorizontal="true">
 
                 <TextView
                     android:id="@+id/imetext"
@@ -198,7 +199,8 @@
                 android:layout_below="@id/podesi_opis"
                 android:layout_alignStart="@id/podesi_opis"
                 android:layout_alignEnd="@id/podesi_opis"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="15dp"
                 android:text="Sačuvajte izmene"
                 android:textColor="?attr/colorSecondary" />
 
