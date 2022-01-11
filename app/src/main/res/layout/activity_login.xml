@@ -37,7 +37,7 @@
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="E-mail"/>
+                android:text="Korisničko ime ili e-mail"/>
 
             <EditText
                 android:id="@+id/email_login"

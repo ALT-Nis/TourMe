@@ -20,5 +20,5 @@
         android:layout_gravity="right"
         android:fitsSystemWindows="true"
         app:menu="@menu/drawer_menu"
-        android:background="?attr/colorPrimaryVariant"/>
+        android:background="?attr/colorSecondaryVariant"/>
 </androidx.drawerlayout.widget.DrawerLayout>
