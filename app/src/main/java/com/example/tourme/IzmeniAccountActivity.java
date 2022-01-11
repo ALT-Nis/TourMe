@@ -54,8 +54,8 @@ public class IzmeniAccountActivity extends AppCompatActivity implements AdapterV
     //View
     EditText imeText, prezimeText, opisText;
     Spinner spinnerDan, spinnerMesec, spinnerGodina;
-    Button sacuvajPromene, izmeniSliku, izbrisiSliku;
-    ImageView profileImage, tryAgainButton;
+    Button sacuvajPromene, izmeniSliku, izbrisiSliku, tryAgainButton;
+    ImageView profileImage;
     Uri imageUri;
     View viewNoInternet, viewThis;
     ProgressBar progressBar;

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -57,7 +58,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
     //View
 //    Spinner rating;
     Button sendMessage, buttonAddRating, tryAgainButton, editOglasButton, deleteOglasButton, backButton;
-    ImageView profile_image;
+    ImageView profile_image, slikaGrada;
     TextView ime, prezime, opis, grad, starost, cena, averageRatingText, numberOfRatingsText, username;
     EditText textForNewRating;
     RatingBar newRatingBar, averageRatingBar;
@@ -291,6 +292,14 @@ public class pregledJednogOglasa extends AppCompatActivity {
                             grad.setText(gradString);
                             cena.setText(cenaString + "RSD");
 
+                            String nekiGrad = "@drawable/slika_"+oglas.getGrad().toLowerCase().replace(" ","_")
+                                    .replace("š","s").replace("č","c")
+                                    .replace("ž","z").replace("š","s");
+                            String uri = nekiGrad;
+                            int imageResource = getResources().getIdentifier(uri, null, getPackageName());
+                            Drawable res = getResources().getDrawable(imageResource);
+                            slikaGrada.setImageDrawable(res);
+
                         }else{
                             HideEverything();
                             viewNoInternet.setVisibility(View.GONE);
@@ -412,6 +421,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
 
 
         profile_image = findViewById(R.id.profile_image);
+        slikaGrada = findViewById(R.id.slikaGrada);
         ime = findViewById(R.id.ime);
         prezime = findViewById(R.id.prezime);
         username = findViewById(R.id.username);

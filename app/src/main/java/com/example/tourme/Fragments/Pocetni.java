@@ -31,12 +31,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.tourme.Adapters.OglasAdapter;
+import com.example.tourme.Glavni_ekran;
 import com.example.tourme.IzmeniAccountActivity;
 import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
 import com.example.tourme.R;
+import com.example.tourme.mapaGradovi;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -71,6 +73,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
     ProgressBar progressBar, loadingBar;
     Button tryAgainButton;
     Spinner spinnerForSorting;
+    Button prikazi_mapu;
 
     //Firebase
     DatabaseReference reference;
@@ -327,6 +330,15 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
             @Override
             public void onClick(View view) {
                 search();
+            }
+        });
+
+        prikazi_mapu = view.findViewById(R.id.prikazi_mapu);
+        prikazi_mapu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), mapaGradovi.class);
+                startActivity(i);
             }
         });
     }

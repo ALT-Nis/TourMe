@@ -39,6 +39,7 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
     BottomNavigationView bottomNavigationView;
     NavigationView navigationView;
     String fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
