@@ -88,10 +88,11 @@ public class mapaGradovi extends FragmentActivity implements OnMapReadyCallback 
         new Gradovi.Grad("Pirot", new LatLng(43.15306, 22.58611)),
         new Gradovi.Grad("Zaječar", new LatLng(43.90358, 22.26405)),
         new Gradovi.Grad("Kikinda", new LatLng(45.8244, 20.4592)),
-        new Gradovi.Grad("Sremska Mitrovica", new LatLng(44.8167, 20.4667)), //fali
+        new Gradovi.Grad("Sremska Mitrovica", new LatLng(44.97639, 19.61222)),
         new Gradovi.Grad("Vršac", new LatLng(45.1206, 21.2986)),
         new Gradovi.Grad("Bor", new LatLng(44.07488, 22.09591)),
         new Gradovi.Grad("Prokuplje", new LatLng(43.23417, 21.58806)),
+        new Gradovi.Grad("Jagodina", new LatLng(43.97713, 21.26121)),
         new Gradovi.Grad("Loznica", new LatLng(44.5333, 19.2258)));
 
         FirebaseDatabase.getInstance().getReference("oglasi").addValueEventListener(new ValueEventListener() {
