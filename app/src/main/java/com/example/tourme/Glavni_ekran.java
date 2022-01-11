@@ -37,12 +37,8 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
 
     DrawerLayout drawerLayout;
     BottomNavigationView bottomNavigationView;
-<<<<<<< HEAD
     NavigationView navigationView;
-=======
     String fragment;
-
->>>>>>> 8e0eac97c1d7fffe074b69f77c89af4acad275a5
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,60 +58,6 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
                 drawerLayout.closeDrawer(Gravity.RIGHT);
             }
         }
-        //noviOglas
-
-        /*
-        navigationView.getMenu().findItem(R.id.noviOglas).setOnMenuItemClickListener(menuItem -> {
-                Intent i = new Intent(Glavni_ekran.this, dodajOglas.class);
-                startActivity(i);
-            return true;
-        });
-
-        navigationView.getMenu().findItem(R.id.mojNalog).setOnMenuItemClickListener(menuItem -> {
-                Intent i = new Intent(Glavni_ekran.this, MyAccount.class);
-                startActivity(i);
-            return true;
-        });
-
-        navigationView.getMenu().findItem(R.id.mape).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent i = new Intent(Glavni_ekran.this, mapaGradovi.class);
-                startActivity(i);
-                return false;
-            }
-        });
-
-        navigationView.getMenu().findItem(R.id.logInOut).setOnMenuItemClickListener(menuItem -> {
-            if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
-                status("offline");
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(Glavni_ekran.this, "Logged out", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(Glavni_ekran.this, Login.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-            }
-            else{
-                Intent i = new Intent(Glavni_ekran.this, Login.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-            }
-
-            return true;
-        });
-
-        navigationView.getMenu().findItem(R.id.podesavanja).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Intent i = new Intent(Glavni_ekran.this, Settings.class);
-                startActivity(i);
-                return false;
-            }
-        });
-
-    */
 
         if(FirebaseAuth.getInstance().getCurrentUser()==null){
             navigationView.getMenu().findItem(R.id.logInOut).setTitle("Prijavite se");
