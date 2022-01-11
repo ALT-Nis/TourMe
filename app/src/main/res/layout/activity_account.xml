@@ -10,7 +10,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="230dp"
+        android:layout_below="@id/user_details"
+        android:layout_marginTop="-50dp"
         android:background="?attr/colorSecondaryVariant">
 
         <View
@@ -97,17 +98,16 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="280dp"
         android:id="@+id/user_details"
-        android:background="@drawable/bg">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg"
+        android:padding="20dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="30dp"
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/ic_profp" />
@@ -116,9 +116,8 @@
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignTop="@id/profile_image"
-            android:layout_marginEnd="30dp"
+            android:layout_alignParentEnd="true"
             android:text="Korisničko ime"
             android:textSize="25sp" />
 
@@ -126,20 +125,19 @@
             android:id="@+id/ime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/username"
+            android:layout_alignEnd="@id/username"
             android:text="Ime"
             android:textSize="30sp"
-            android:layout_marginEnd="10dp"
-            android:layout_alignBottom="@id/prezime"
-            android:layout_toStartOf="@id/prezime"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/prezime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/username"
+            android:layout_below="@id/ime"
             android:layout_alignEnd="@id/username"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="-7dp"
             android:text="Prezime"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -150,17 +148,15 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/prezime"
             android:layout_alignEnd="@id/prezime"
-            android:layout_marginTop="5dp"
             android:text="21"
-            android:textSize="30sp" />
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/kratakOpis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profile_image"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_below="@id/godine"
+            android:layout_alignStart="@id/profile_image"
             android:text="Kratak opis vodiča" />
 
     </RelativeLayout>

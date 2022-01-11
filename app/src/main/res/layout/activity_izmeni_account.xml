@@ -198,9 +198,7 @@
                 android:layout_below="@id/podesi_opis"
                 android:layout_alignStart="@id/podesi_opis"
                 android:layout_alignEnd="@id/podesi_opis"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="-14dp"
-                android:layout_marginEnd="-1dp"
+                android:layout_marginTop="10dp"
                 android:text="Sačuvajte izmene"
                 android:textColor="?attr/colorSecondary" />
 
