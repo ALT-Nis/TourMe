@@ -304,20 +304,25 @@ public class Register extends AppCompatActivity {
                     }
                 }
 
-                if(TextUtils.isEmpty(username)){
-                    setUsernameError("Unesti korisnicko ime");
+                int len2 = username.length();
+                if(len2 >= 1 && len2 < 5){
+                    setUsernameError("Korisnicko ime mora imati minimum 5 karaktera");
                 }else{
-                    java.util.regex.Pattern p = java.util.regex.Pattern.compile(patternForUsername);
-                    java.util.regex.Matcher m = p.matcher(username);
+                    if(TextUtils.isEmpty(username)){
+                        setUsernameError("Unesti korisnicko ime");
+                    }else{
+                        java.util.regex.Pattern p = java.util.regex.Pattern.compile(patternForUsername);
+                        java.util.regex.Matcher m = p.matcher(username);
 
-                    if(!m.matches()) {
-                        setUsernameError("Korisnicko ime mora da se sastoji samo od slova i brojeva");
+                        if(!m.matches()) {
+                            setUsernameError("Korisnicko ime moze da se sastoji samo od slova i brojeva");
+                        }
                     }
                 }
 
                 int len = password.length();
                 if(len >= 1 && len < 6){
-                    setPasswordError("Sifra mora imati vise 6 - 12 karaktera");
+                    setPasswordError("Sifra mora imati minimum 6 karaktera");
                 }else{
                     if(TextUtils.isEmpty(password)) {
                         setPasswordError("Unesite Sifru");

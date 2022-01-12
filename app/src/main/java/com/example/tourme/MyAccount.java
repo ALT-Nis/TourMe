@@ -334,10 +334,12 @@ public class MyAccount extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            ShowEverything();
-            viewNotLoggedIn.setVisibility(View.GONE);
-            tryToStart();
+        if(IsConnectedToInternet()){
+            if(FirebaseAuth.getInstance().getCurrentUser() != null){
+                ShowEverything();
+                viewNotLoggedIn.setVisibility(View.GONE);
+                tryToStart();
+            }
         }
         status("online");
     }

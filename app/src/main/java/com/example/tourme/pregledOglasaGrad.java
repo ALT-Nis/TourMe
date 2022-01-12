@@ -40,25 +40,23 @@ import java.util.List;
 
 public class pregledOglasaGrad extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    //View
     RecyclerView recyclerView;
-
-    DatabaseReference reference;
-
-    OglasAdapter oglasAdapter;
-
-    List<String> items;
-
     View viewNoInternet, viewThis;
     ProgressBar progressBar;
     Button tryAgainButton;
-    Handler h = new Handler();
-    int reasonForBadConnection = 1;
-
-    String grad;
-
     Spinner spinnerForSorting;
+
+    //Firebase
+    DatabaseReference reference;
+
+    //Variables
+    OglasAdapter oglasAdapter;
+    List<String> items;
+    Handler h = new Handler();
+    int reasonForBadConnection = 1, sortingVariable = 0;
+    String grad;
     ArrayAdapter<CharSequence> adapter;
-    int sortingVariable = 0;
 
 
     void resetSpinner(){
@@ -257,19 +255,19 @@ public class pregledOglasaGrad extends AppCompatActivity implements AdapterView.
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String textFromSpinner = adapterView.getItemAtPosition(i).toString();
         switch (textFromSpinner) {
-            case "Po Ceni Opadajuće":
+            case "ceni opadajuće":
                 sortingVariable = 1;
                 sortOglases();
                 break;
-            case "Po Ceni Rastuće":
+            case "ceni rastuće":
                 sortingVariable = 2;
                 sortOglases();
                 break;
-            case "Po Oceni Opadajuće":
+            case "oceni opadajuće":
                 sortingVariable = 3;
                 sortOglases();
                 break;
-            case "Po Oceni Rastuće":
+            case "oceni rastuće":
                 sortingVariable = 4;
                 sortOglases();
                 break;

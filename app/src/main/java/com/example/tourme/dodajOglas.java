@@ -2,9 +2,13 @@ package com.example.tourme;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -104,10 +108,11 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
         viewNoInternet.setVisibility(View.GONE);
     }
 
+
     Boolean IsConnectedToInternet(){
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+            return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                    connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 
     void setDescribeError(String errorText){
@@ -323,10 +328,12 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
     protected void onResume() {
         super.onResume();
         status("online");
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            ShowEverything();
-            viewNotLoggedIn.setVisibility(View.GONE);
-            tryToStart();
+        if(IsConnectedToInternet()){
+            if(FirebaseAuth.getInstance().getCurrentUser() != null){
+                ShowEverything();
+                viewNotLoggedIn.setVisibility(View.GONE);
+                tryToStart();
+            }
         }
     }
 

@@ -68,9 +68,10 @@
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/button_send"
+            android:maxLength="250"
             android:background="@drawable/bg"
-            android:paddingStart="15dp"
-            android:hint="Unesite poruku..." />
+            android:hint="Unesite poruku..."
+            android:paddingStart="15dp" />
 
         <ImageButton
             android:id="@+id/button_send"

@@ -291,4 +291,19 @@ public class  Poruke extends Fragment {
         reference.child(FirebaseAuth.getInstance().getUid()).setValue(token1);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(IsConnectedToInternet()){
+            if(FirebaseAuth.getInstance().getCurrentUser() != null){
+                ShowEverything();
+                viewNotLoggedIn.setVisibility(View.GONE);
+                tryToStart();
+            }else{
+                HideEverything(2);
+            }
+        }else{
+            HideWithReason(1);
+        }
+    }
 }

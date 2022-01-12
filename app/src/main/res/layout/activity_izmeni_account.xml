@@ -134,6 +134,7 @@
                     android:layout_width="260dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/imetext"
+                    android:maxLength="15"
                     android:backgroundTint="#00000000"
                     android:inputType="textPersonName" />
 
@@ -160,6 +161,7 @@
                     android:layout_width="260dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/prezimetext"
+                    android:maxLength="20"
                     android:backgroundTint="#00000000"
                     android:inputType="textPersonName" />
 
@@ -186,6 +188,7 @@
                     android:layout_width="260dp"
                     android:layout_height="80dp"
                     android:layout_below="@id/opistext"
+                    android:maxLength="150"
                     android:backgroundTint="#00000000"
                     android:gravity="bottom"
                     android:inputType="text|textMultiLine|textCapSentences" />

@@ -69,6 +69,7 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
                 }
                 holder.grad.setText(oglas.getGrad());
 
+                Log.e(oglas.getGrad(),mContext.toString());
                 if(user.getImageurl().equals("default")){
                     holder.oglas_image.setImageResource(R.drawable.ic_profp);
                 }else{

@@ -243,4 +243,20 @@ public class Obavestenja extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(IsConnectedToInternet()){
+            if(FirebaseAuth.getInstance().getCurrentUser() != null){
+                ShowEverything();
+                viewNotLoggedIn.setVisibility(View.GONE);
+                tryToStart();
+            }else{
+                HideEverything(2);
+            }
+        }else{
+            HideWithReason(1);
+        }
+    }
 }

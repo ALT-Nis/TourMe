@@ -27,14 +27,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/oglas_image"
-            android:layout_toEndOf="@id/oglas_image"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toEndOf="@id/oglas_image"
+            android:text="Ime korisnika"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:text="Ime korisnika"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,22 +70,22 @@
             android:visibility="gone"/>
 
         <TextView
+            android:id="@+id/grad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Grad"
-            android:id="@+id/grad"
             android:layout_below="@id/ime"
             android:layout_alignStart="@id/ime"
+            android:text="Grad"
             android:textSize="25sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/cena"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1389 rsd"
-            android:layout_alignParentEnd="true"
             android:layout_alignBottom="@id/grad"
-            android:textSize="20sp"/>
+            android:layout_alignParentEnd="true"
+            android:text="1389 rsd"
+            android:textSize="20sp" />
 
 </RelativeLayout>

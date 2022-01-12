@@ -450,6 +450,13 @@ public class MessageActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         status("online");
+        if(IsConnectedToInternet()){
+            if(FirebaseAuth.getInstance().getCurrentUser() != null){
+                ShowEverything();
+                viewNotLoggedIn.setVisibility(View.GONE);
+                tryToStart();
+            }
+        }
     }
 
     @Override

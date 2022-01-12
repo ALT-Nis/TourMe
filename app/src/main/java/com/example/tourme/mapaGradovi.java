@@ -36,6 +36,10 @@ public class mapaGradovi extends FragmentActivity implements OnMapReadyCallback 
 
     //Variables
 
+    public void setupView(){
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
