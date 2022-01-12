@@ -2,14 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:background="@drawable/bg2"
-    android:layout_margin="10dp">
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
+    android:paddingBottom="10dp"
+    android:background="?attr/colorSecondaryVariant">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/colorPrimary"
+        android:layout_alignParentTop="true"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/logo"
         android:layout_width="75dp"
         android:layout_height="75dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/ic_profp" />
 
     <TextView
@@ -22,7 +30,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:text="Naziv"
-        android:textSize="18sp" />
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/text"

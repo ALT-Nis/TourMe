@@ -11,8 +11,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="35dp"
-        android:background="@drawable/bg"
         android:scrollbars="none"
         android:fillViewport="true">
 
@@ -53,7 +51,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:text="Izaberi drugu"
+                    android:layout_toEndOf="@id/profilna"
+                    android:layout_marginStart="20dp"
+                    android:text="Izaberite drugu"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="12dp"
                     app:strokeColor="?attr/colorPrimary" />
@@ -66,7 +66,7 @@
                     android:layout_below="@id/izmeni"
                     android:layout_alignStart="@id/izmeni"
                     android:layout_alignParentEnd="true"
-                    android:text="Izbriši"
+                    android:text="Izbrišite"
                     android:textColor="#FF4141"
                     android:textSize="12dp"
                     app:strokeColor="#FF4141" />
@@ -88,12 +88,13 @@
                     android:id="@+id/datumtext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Datum rođenja"/>
+                    android:text="Datum rođenja"
+                    android:layout_marginBottom="10dp"/>
 
                 <Spinner
                     android:id="@+id/dan"
                     android:layout_height="wrap_content"
-                    android:layout_width="45dp"
+                    android:layout_width="wrap_content"
                     android:layout_below="@id/datumtext" />
 
                 <Spinner
@@ -106,7 +107,7 @@
 
                 <Spinner
                     android:id="@+id/godina"
-                    android:layout_width="75dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/datumtext"
                     android:layout_alignParentEnd="true" />
@@ -115,10 +116,12 @@
 
             <RelativeLayout
                 android:id="@+id/podesi_ime"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/form_bg"
                 android:layout_marginBottom="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
                 android:padding="10dp"
                 android:layout_below="@id/podesi_datum"
                 android:layout_centerHorizontal="true">
@@ -131,7 +134,7 @@
 
                 <EditText
                     android:id="@+id/ime"
-                    android:layout_width="260dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/imetext"
                     android:maxLength="15"
@@ -148,7 +151,8 @@
                 android:layout_marginBottom="10dp"
                 android:padding="10dp"
                 android:layout_below="@id/podesi_ime"
-                android:layout_centerHorizontal="true">
+                android:layout_alignStart="@id/podesi_ime"
+                android:layout_alignEnd="@id/podesi_ime">
 
                 <TextView
                     android:id="@+id/prezimetext"
@@ -158,7 +162,7 @@
 
                 <EditText
                     android:id="@+id/prezime"
-                    android:layout_width="260dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/prezimetext"
                     android:maxLength="20"
@@ -172,10 +176,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/form_bg"
-                android:layout_marginBottom="10dp"
                 android:padding="10dp"
                 android:layout_below="@id/podesi_prezime"
-                android:layout_centerHorizontal="true">
+                android:layout_alignStart="@id/podesi_ime"
+                android:layout_alignEnd="@id/podesi_ime">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -185,13 +189,13 @@
 
                 <EditText
                     android:id="@+id/opis"
-                    android:layout_width="260dp"
+                    android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_below="@id/opistext"
-                    android:maxLength="150"
                     android:backgroundTint="#00000000"
                     android:gravity="bottom"
-                    android:inputType="text|textMultiLine|textCapSentences" />
+                    android:inputType="text|textMultiLine|textCapSentences"
+                    android:maxLength="150" />
 
             </RelativeLayout>
 
@@ -202,7 +206,7 @@
                 android:layout_below="@id/podesi_opis"
                 android:layout_alignStart="@id/podesi_opis"
                 android:layout_alignEnd="@id/podesi_opis"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="15dp"
                 android:text="Sačuvajte izmene"
                 android:textColor="?attr/colorSecondary" />
