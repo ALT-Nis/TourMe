@@ -71,7 +71,8 @@
             android:maxLength="250"
             android:background="@drawable/bg"
             android:hint="Unesite poruku..."
-            android:paddingStart="15dp" />
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp" />
 
         <ImageButton
             android:id="@+id/button_send"

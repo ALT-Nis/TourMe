@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg"
+    android:padding="40dp"
+    android:id="@+id/confirm_delete">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Da li ste sigurni da zelite da izbrisete oglas?"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="da"
+        android:textColor="?attr/colorSecondary"
+        android:layout_below="@id/text"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/text"
+        android:text="ne"
+        android:textColor="?attr/colorSecondary"
+        android:layout_below="@id/text"/>
+
+</RelativeLayout>

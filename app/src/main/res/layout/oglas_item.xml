@@ -4,7 +4,9 @@
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:background="@drawable/oglas_bg"
-    android:layout_margin="10dp">
+    android:layout_marginTop="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/oglas_image"
@@ -32,8 +34,7 @@
             android:layout_marginBottom="5dp"
             android:layout_toEndOf="@id/oglas_image"
             android:text="Ime korisnika"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:textSize="18sp"
             android:visibility="visible" />
 
         <TextView
@@ -45,8 +46,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:textSize="18sp"
             android:text="Ime"/>
 
         <TextView
@@ -57,8 +57,7 @@
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@id/ime"
             android:layout_alignBottom="@id/ime"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -76,7 +75,7 @@
             android:layout_below="@id/ime"
             android:layout_alignStart="@id/ime"
             android:text="Grad"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -86,6 +85,6 @@
             android:layout_alignBottom="@id/grad"
             android:layout_alignParentEnd="true"
             android:text="1389 rsd"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
 </RelativeLayout>

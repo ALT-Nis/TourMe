@@ -6,7 +6,9 @@
     android:id="@+id/okvir"
     android:padding="10dp"
     android:background="@drawable/oglas_bg"
-    android:layout_margin="10dp">
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginStart="10dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
@@ -22,7 +24,7 @@
         android:layout_marginLeft="10dp"
         android:layout_toEndOf="@id/profile_image"
         android:text="Ime"
-        android:textSize="20dp" />
+        android:textSize="18dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,7 +34,7 @@
         android:layout_marginStart="5dp"
         android:text="Prezime"
         android:layout_centerVertical="true"
-        android:textSize="20dp"/>
+        android:textSize="18dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,7 +44,7 @@
         android:layout_toEndOf="@id/profile_image"
         android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:visibility="gone"/>
 
     <de.hdodenhof.circleimageview.CircleImageView

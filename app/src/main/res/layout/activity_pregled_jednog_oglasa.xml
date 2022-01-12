@@ -24,7 +24,11 @@
         <RelativeLayout
             android:id="@+id/user_details"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:paddingStart="10dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="200dp"
             android:layout_marginEnd="20dp"
@@ -34,8 +38,6 @@
                 android:id="@+id/profile_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:src="@drawable/ic_profp" />
 
             <TextView
@@ -43,30 +45,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:layout_toEndOf="@id/profile_image"
                 android:text="Ime"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
             <TextView
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:layout_toEndOf="@id/profile_image"
                 android:visibility="gone"
                 android:text="Username"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/prezime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/ime"
-                android:layout_marginStart="7dp"
-                android:layout_toEndOf="@id/ime"
+                android:layout_below="@id/ime"
+                android:layout_alignStart="@id/ime"
                 android:text="Prezime"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <View
                 android:id="@+id/separator"
@@ -76,7 +77,8 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_toEndOf="@id/prezime"
-                android:background="?attr/colorPrimaryVariant" />
+                android:background="?attr/colorPrimaryVariant"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/godine"
@@ -85,25 +87,25 @@
                 android:layout_alignBottom="@id/prezime"
                 android:layout_toEndOf="@id/separator"
                 android:text="000"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/grad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ime"
+                android:layout_below="@id/prezime"
                 android:layout_alignStart="@id/ime"
                 android:layout_marginTop="5dp"
                 android:text="Grad"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/cena2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/grad"
-                android:layout_alignStart="@id/grad"
-                android:layout_marginTop="5dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@id/grad"
                 android:textSize="20sp"
                 android:text="300 rsd" />
 
@@ -112,7 +114,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/profile_image"
-                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Opis oglasa" />
 
@@ -120,10 +121,10 @@
                 android:id="@+id/sendMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="60dp"
-                android:layout_marginEnd="60dp"
-                android:layout_marginBottom="5dp"
+                android:layout_below="@id/opis"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="15dp"
                 android:text="Posaljite poruku"
                 android:textColor="?attr/colorSecondary"
                 android:visibility="visible" />
@@ -131,10 +132,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="50dp"
-                android:layout_marginEnd="50dp"
-                android:layout_marginBottom="5dp"
+                android:layout_below="@id/opis"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
                 android:visibility="visible">
 
                 <Button
@@ -165,7 +166,7 @@
 
         <View
             android:id="@+id/vertikalni"
-            android:layout_width="2dp"
+            android:layout_width="1dp"
             android:layout_height="40dp"
             android:layout_below="@id/user_details"
             android:layout_margin="15dp"
@@ -220,11 +221,11 @@
         <View
             android:id="@+id/horiz1"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_below="@id/vertikalni"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="-5dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="?attr/colorPrimary" />
 
@@ -285,12 +286,9 @@
             <View
                 android:id="@+id/horiz2"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="1dp"
                 android:layout_below="@id/addRatingButton"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="10dp"
+                android:layout_margin="10dp"
                 android:background="?attr/colorPrimary" />
 
         </RelativeLayout>
@@ -325,6 +323,13 @@
             android:id="@+id/nemaStranice"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+        <include
+            layout="@layout/confirm_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:visibility="gone"/>
 
     </RelativeLayout>
