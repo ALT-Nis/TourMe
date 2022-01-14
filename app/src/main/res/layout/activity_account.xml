@@ -16,7 +16,7 @@
 
         <View
             android:id="@+id/vertikalni"
-            android:layout_width="2dp"
+            android:layout_width="1dp"
             android:layout_height="40dp"
             android:layout_marginTop="60dp"
             android:layout_marginBottom="15dp"
@@ -73,11 +73,11 @@
         <View
             android:id="@+id/horiz1"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_below="@id/vertikalni"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="-5dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="?attr/colorPrimary" />
 
@@ -119,7 +119,7 @@
             android:layout_alignTop="@id/profile_image"
             android:layout_alignParentEnd="true"
             android:text="Korisničko ime"
-            android:textSize="25sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/ime"
@@ -128,7 +128,7 @@
             android:layout_below="@id/username"
             android:layout_alignEnd="@id/username"
             android:text="Ime"
-            android:textSize="30sp"
+            android:textSize="23sp"
             android:textStyle="bold" />
 
         <TextView
@@ -139,7 +139,7 @@
             android:layout_alignEnd="@id/username"
             android:layout_marginTop="-7dp"
             android:text="Prezime"
-            android:textSize="30sp"
+            android:textSize="23sp"
             android:textStyle="bold" />
 
         <TextView
@@ -149,13 +149,14 @@
             android:layout_below="@id/prezime"
             android:layout_alignEnd="@id/prezime"
             android:text="21"
-            android:textSize="25sp" />
+            android:textSize="23sp" />
 
         <TextView
             android:id="@+id/kratakOpis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/godine"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/profile_image"
             android:layout_alignStart="@id/profile_image"
             android:text="Kratak opis vodiča" />
 

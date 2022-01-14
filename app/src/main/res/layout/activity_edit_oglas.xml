@@ -11,24 +11,23 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="35dp"
-        android:background="@drawable/bg"
+        android:padding="30dp"
         android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:text="Izmena oglasa"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/form_bg"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:padding="10dp"
             android:layout_centerHorizontal="true"
             android:layout_above="@id/describe_Oglas">
@@ -41,7 +40,7 @@
 
             <TextView
                 android:id="@+id/gradEditOglas"
-                android:layout_width="260dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/grad"
                 android:textSize="25dp" />
@@ -50,7 +49,7 @@
 
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/form_bg"
             android:padding="10dp"
@@ -65,7 +64,7 @@
 
             <EditText
                 android:id="@+id/describeEditOglas"
-                android:layout_width="260dp"
+                android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_below="@id/opis_oglasa"
                 android:backgroundTint="#00000000"
@@ -76,10 +75,10 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/form_bg"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:padding="10dp"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/describe_Oglas"
@@ -93,7 +92,7 @@
 
             <EditText
                 android:id="@+id/priceEditOglas"
-                android:layout_width="260dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textView"
                 android:maxLength="5"
