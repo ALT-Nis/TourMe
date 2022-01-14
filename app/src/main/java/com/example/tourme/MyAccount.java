@@ -141,7 +141,7 @@ public class MyAccount extends AppCompatActivity {
 
     void recursion1ForMyOglases(int index, List<String> idsForMyOglas, List<Oglas> mOglas){
         if(index == numberOfOglases){
-            oglasAdapter = new OglasAdapter(getApplicationContext(), mOglas);
+            oglasAdapter = new OglasAdapter(MyAccount.this, mOglas);
             recyclerView.setAdapter(oglasAdapter);
         }else{
             DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference();

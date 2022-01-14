@@ -331,7 +331,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
                     Comment comment = dataSnapshot.getValue(Comment.class);
                     mComment.add(comment);
                 }
-                commentAdapter = new CommentAdapter(getApplicationContext(), mComment);
+                commentAdapter = new CommentAdapter(pregledJednogOglasa.this, mComment);
                 recyclerView.setAdapter(commentAdapter);
             }
 

@@ -33,6 +33,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 
 public class Login extends AppCompatActivity {
@@ -40,7 +42,7 @@ public class Login extends AppCompatActivity {
     //View
     EditText mEmail, mPassword;
     Button login_dugme, buttonShowHidePassword, tryAgainButton;
-    TextView registerButton;
+    TextView registerButton, forgotPasswordButton;
     View viewNoInternet, viewThis;
     ProgressBar progressBar;
 
@@ -253,6 +255,15 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(Login.this, Register.class);
+                startActivity(i);
+            }
+        });
+
+        forgotPasswordButton = (TextView) findViewById(R.id.forgotPasswordText);
+        forgotPasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Login.this, ForgotPassword.class);
                 startActivity(i);
             }
         });

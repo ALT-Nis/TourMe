@@ -3,8 +3,17 @@ package com.example.tourme;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
@@ -17,10 +26,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.tourme.databinding.ActivityMapaGradoviBinding;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.rpc.Help;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,16 +47,13 @@ public class mapaGradovi extends FragmentActivity implements OnMapReadyCallback 
 
     //Variables
 
-    public void setupView(){
-
+    Boolean IsConnectedToInternet(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        StaticVars.listOfFragments.add(14);
-
+    public void setupFirebase(){
         binding = ActivityMapaGradoviBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -53,6 +61,28 @@ public class mapaGradovi extends FragmentActivity implements OnMapReadyCallback 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    public void tryToStart(){
+        if(IsConnectedToInternet()){
+            setupFirebase();
+        }else{
+            Intent i = new Intent(mapaGradovi.this, HelperMapaGradovi.class);
+            startActivity(i);
+            finish();
+        }
+    }
+
+    public void setupView(){
+        StaticVars.listOfFragments.add(14);
+        tryToStart();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setupView();
     }
 
     /**
@@ -97,7 +127,25 @@ public class mapaGradovi extends FragmentActivity implements OnMapReadyCallback 
         new Gradovi.Grad("Bor", new LatLng(44.07488, 22.09591)),
         new Gradovi.Grad("Prokuplje", new LatLng(43.23417, 21.58806)),
         new Gradovi.Grad("Jagodina", new LatLng(43.97713, 21.26121)),
-        new Gradovi.Grad("Loznica", new LatLng(44.5333, 19.2258)));
+        new Gradovi.Grad("Loznica", new LatLng(44.5333, 19.2258)),
+        new Gradovi.Grad("Zlatar", new LatLng(43.4103, 19.7926)),
+        new Gradovi.Grad("Tara", new LatLng(43.8470, 19.4500)),
+        new Gradovi.Grad("Golija", new LatLng(43.3486, 20.3021)),
+        new Gradovi.Grad("Rtanj", new LatLng(43.7807, 21.9318)),
+        new Gradovi.Grad("Vrnjačka Banja", new LatLng(43.6394, 20.8880)),
+        new Gradovi.Grad("Niška Banja", new LatLng(43.3070, 22.0029)),
+        new Gradovi.Grad("Sokobanja", new LatLng(43.6794, 21.8881)),
+        new Gradovi.Grad("Prolom Banja", new LatLng(43.0502, 21.4128)),
+        new Gradovi.Grad("Ribarska Banja", new LatLng(43.4300, 21.5036)),
+        new Gradovi.Grad("Rudnik", new LatLng(44.1613, 20.4968)),
+        new Gradovi.Grad("Kopaonik", new LatLng(43.2767, 20.7870)),
+        new Gradovi.Grad("Aleksinac", new LatLng(43.5414, 21.7081)),
+        new Gradovi.Grad("Knjaževac", new LatLng(43.5662, 22.2480)),
+        new Gradovi.Grad("Ćuprija", new LatLng(43.9731, 21.3773)),
+        new Gradovi.Grad("Paraćin", new LatLng(43.8870, 21.4116)),
+        new Gradovi.Grad("Arandjelovac", new LatLng(44.3261, 20.5528)),
+        new Gradovi.Grad("Lazarevac", new LatLng(44.3904, 20.2584)),
+        new Gradovi.Grad("Zlatibor", new LatLng(43.7291, 19.7048)));
 
         FirebaseDatabase.getInstance().getReference("oglasi").addValueEventListener(new ValueEventListener() {
             @Override

@@ -1,5 +1,6 @@
 package com.example.tourme.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -37,6 +38,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         this.mComment = mComment;
     }
 
+    public static boolean isValidContextForGlide(final Context context) {
+        if (context == null)
+            return false;
+        if (context instanceof Activity) {
+            final Activity activity = (Activity) context;
+            if (activity.isDestroyed() || activity.isFinishing())
+                return false;
+        }
+        return true;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -57,10 +69,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                     holder.username.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(mContext, Account.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("userid",user.getId());
-                            mContext.startActivity(intent);
+                            if(isValidContextForGlide(mContext)){
+                                Intent intent = new Intent(mContext, Account.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("userid",user.getId());
+                                mContext.startActivity(intent);
+                            }
                         }
                     });
                     holder.ime.setVisibility(View.INVISIBLE);
@@ -73,34 +87,42 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                     holder.ime.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(mContext, Account.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("userid",user.getId());
-                            mContext.startActivity(intent);
+                            if(isValidContextForGlide(mContext)){
+                                Intent intent = new Intent(mContext, Account.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("userid",user.getId());
+                                mContext.startActivity(intent);
+                            }
                         }
                     });
                     holder.prezime.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(mContext, Account.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra("userid",user.getId());
-                            mContext.startActivity(intent);
+                            if(isValidContextForGlide(mContext)) {
+                                Intent intent = new Intent(mContext, Account.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("userid", user.getId());
+                                mContext.startActivity(intent);
+                            }
                         }
                     });
                 }
                 if (user.getImageurl().equals("default")){
                     holder.comment_image.setImageResource(R.drawable.ic_profp);
                 } else {
-                    Glide.with(mContext).load(user.getImageurl()).into(holder.comment_image);
+                    if(isValidContextForGlide(mContext))
+                        Glide.with(mContext).load(user.getImageurl()).into(holder.comment_image);
+
                 }
                 holder.comment_image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(mContext, Account.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra("userid",user.getId());
-                        mContext.startActivity(intent);
+                        if(isValidContextForGlide(mContext)) {
+                            Intent intent = new Intent(mContext, Account.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("userid", user.getId());
+                            mContext.startActivity(intent);
+                        }
                     }
                 });
                 holder.deskripcija.setText(comment.getRatingDescription());

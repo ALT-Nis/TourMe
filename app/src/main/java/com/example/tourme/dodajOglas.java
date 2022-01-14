@@ -152,6 +152,7 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
                             mDatabase.child("users").child(userId).child("brojOglasa").setValue(newNumberForOglas);
                             mDatabase.child("users").child(userId).child("oglas").child(cityText).setValue(idOglasa);
                             createToast("Uspesno ste kreirali oglas");
+                            finish();
                         }else
                             HideWithReason(2);
                     }

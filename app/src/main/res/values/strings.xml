@@ -10,36 +10,53 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string-array name="cities">
+        <item>Arandjelovac</item>
+        <item>Aleksinac</item>
         <item>Beograd</item>
         <item>Bor</item>
+        <item>Valjevo</item>
+        <item>Vranje</item>
+        <item>Vršac</item>
+        <item>Vrnjačka Banja</item>
+        <item>Golija</item>
+        <item>Zaječar</item>
+        <item>Zrenjanin</item>
+        <item>Zlatar</item>
+        <item>Zlatibor</item>
         <item>Jagodina</item>
+        <item>Knjaževac</item>
         <item>Kikinda</item>
+        <item>Kopaonik</item>
         <item>Kragujevac</item>
         <item>Kraljevo</item>
         <item>Kruševac</item>
         <item>Leskovac</item>
+        <item>Lazarevac</item>
         <item>Loznica</item>
         <item>Niš</item>
+        <item>Niška Banja</item>
         <item>Novi Pazar</item>
         <item>Novi Sad</item>
+        <item>Prolom Banja</item>
         <item>Pančevo</item>
         <item>Pirot</item>
         <item>Požarevac</item>
         <item>Priština</item>
         <item>Prokuplje</item>
+        <item>Paraćin</item>
+        <item>Rtanj</item>
+        <item>Ribarska Banja</item>
+        <item>Rudnik</item>
+        <item>Sokobanja</item>
         <item>Smederevo</item>
         <item>Sombor</item>
         <item>Sremska Mitrovica</item>
         <item>Subotica</item>
+        <item>Tara</item>
+        <item>Ćuprija</item>
         <item>Užice</item>
-        <item>Valjevo</item>
-        <item>Vranje</item>
-        <item>Vršac</item>
-        <item>Zaječar</item>
-        <item>Zrenjanin</item>
         <item>Čačak</item>
         <item>Šabac</item>
-
     </string-array>
     <string-array name="rating">
         <item>0</item>

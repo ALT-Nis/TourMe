@@ -257,10 +257,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
     }
 
     public void setupView(View view){
-        StaticVars.listOfFragments.add(1);
-        int len = StaticVars.listOfFragments.size();
-        if(len >= 2 && StaticVars.listOfFragments.get(len - 2) == 1)
-            StaticVars.lastSearch = "";
+//        Log.e("grad","1");
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -319,11 +316,6 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                 search();
             }
         });
-
-        if(!StaticVars.lastSearch.equals("")){
-            searchBar.setText(StaticVars.lastSearch);
-            search();
-        }
 
         searchButton = view.findViewById(R.id.searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -403,6 +395,21 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                 sortingVariable = 0;
                 sortOglases();
                 break;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        StaticVars.listOfFragments.add(1);
+        int len = StaticVars.listOfFragments.size();
+        if(len >= 2 && StaticVars.listOfFragments.get(len - 2) == 1)
+            StaticVars.lastSearch = "";
+
+        if(!StaticVars.lastSearch.equals("")) {
+            searchBar.setText(StaticVars.lastSearch);
+            search();
+            searchBar.dismissDropDown();
         }
     }
 

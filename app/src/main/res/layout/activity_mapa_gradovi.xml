@@ -3,21 +3,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mapaGradoviActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        tools:context=".mapaGradovi"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        tools:context=".mapaGradovi" />
 
     <include
-        android:id="@+id/nemaInternet"
         layout="@layout/nema_internet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/nemaInternet"
         android:visibility="gone" />
 
 </RelativeLayout>

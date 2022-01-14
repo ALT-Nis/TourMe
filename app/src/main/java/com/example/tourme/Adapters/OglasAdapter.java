@@ -1,5 +1,6 @@
 package com.example.tourme.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -38,6 +39,17 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
     public OglasAdapter() {
     }
 
+    public static boolean isValidContextForGlide(final Context context) {
+        if (context == null)
+            return false;
+        if (context instanceof Activity) {
+            final Activity activity = (Activity) context;
+            if (activity.isDestroyed() || activity.isFinishing())
+                return false;
+        }
+        return true;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -48,7 +60,6 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Oglas oglas = mOglas.get(position);
-
         FirebaseDatabase.getInstance().getReference("users").child(oglas.getUserId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -69,11 +80,11 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
                 }
                 holder.grad.setText(oglas.getGrad());
 
-                Log.e(oglas.getGrad(),mContext.toString());
                 if(user.getImageurl().equals("default")){
                     holder.oglas_image.setImageResource(R.drawable.ic_profp);
                 }else{
-                    Glide.with(mContext).load(user.getImageurl()).into(holder.oglas_image);
+                    if(isValidContextForGlide(mContext))
+                        Glide.with(mContext).load(user.getImageurl()).into(holder.oglas_image);
                 }
 
                 holder.ratingStars.setRating((float) oglas.getOcena());
@@ -81,12 +92,14 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(mContext, pregledJednogOglasa.class);
-                        intent.putExtra("IDOglasa",oglas.getIdOglasa());
-                        intent.putExtra("NazivGrada", oglas.getGrad());
-                        intent.putExtra("IDUser", oglas.getUserId());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        mContext.startActivity(intent);
+                        if(isValidContextForGlide(mContext)){
+                            Intent intent = new Intent(mContext, pregledJednogOglasa.class);
+                            intent.putExtra("IDOglasa",oglas.getIdOglasa());
+                            intent.putExtra("NazivGrada", oglas.getGrad());
+                            intent.putExtra("IDUser", oglas.getUserId());
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            mContext.startActivity(intent);
+                        }
                     }
                 });
 
