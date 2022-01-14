@@ -141,6 +141,7 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
             case R.id.mojNalog:
                 item.setCheckable(false);
                 i = new Intent(Glavni_ekran.this, MyAccount.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
                 break;
             case R.id.mape:
