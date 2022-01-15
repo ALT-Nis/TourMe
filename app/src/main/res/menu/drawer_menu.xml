@@ -27,6 +27,12 @@
             />
 
         <item
+            android:id="@+id/sacuvaniOglasi"
+            android:icon="@drawable/ic_star"
+            android:title="Sacuvani oglasi"
+            />
+
+        <item
             android:id="@+id/mape"
             android:icon="@drawable/ic_map"
             android:title="Mapa oglasa"
