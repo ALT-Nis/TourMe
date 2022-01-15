@@ -370,7 +370,6 @@ public class MessageActivity extends AppCompatActivity {
         }
 
     }
-
     private void sendNotification(String receiver, String username, String message){
         DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
         Query query = tokens.orderByKey().equalTo(receiver);
@@ -408,6 +407,7 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void readMessages(String myid, String userid, String imageurl){
         mChat = new ArrayList<>();
@@ -450,6 +450,7 @@ public class MessageActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         status("online");
+        StaticVars.isPoruke = true;
         if(IsConnectedToInternet()){
             if(FirebaseAuth.getInstance().getCurrentUser() != null){
                 ShowEverything();
@@ -462,6 +463,7 @@ public class MessageActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        StaticVars.isPoruke = false;
 //        reference.removeEventListener(seenListener);
         status("offline");
     }

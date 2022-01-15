@@ -11,9 +11,13 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -34,6 +38,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -90,6 +97,7 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
             public void onDrawerStateChanged(int newState) {
 
             }
+
         });
 
         if(fragment!=null){
