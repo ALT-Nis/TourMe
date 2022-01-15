@@ -153,6 +153,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         public ViewHolder(View itemView){
             super(itemView);
 
+            this.setIsRecyclable(false);
+
             username = itemView.findViewById(R.id.username);
             comment_image = itemView.findViewById(R.id.comment_image);
             deskripcija = itemView.findViewById(R.id.deskripcija);
