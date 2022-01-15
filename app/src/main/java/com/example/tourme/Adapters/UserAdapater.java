@@ -112,6 +112,7 @@ public class UserAdapater extends RecyclerView.Adapter<UserAdapater.ViewHolder> 
             ime = itemView.findViewById(R.id.ime);
             prezime = itemView.findViewById(R.id.prezime);
 
+            this.setIsRecyclable(false);
         }
     }
 

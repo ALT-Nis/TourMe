@@ -64,6 +64,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            this.setIsRecyclable(false);
+
             logo = itemView.findViewById(R.id.logo);
             title = itemView.findViewById(R.id.title);
             text = itemView.findViewById(R.id.text);

@@ -129,13 +129,14 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
         public TextView grad;
         public RatingBar ratingStars;
 
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             username = itemView.findViewById(R.id.username);
             oglas_image = itemView.findViewById(R.id.oglas_image);
             cena = itemView.findViewById(R.id.cena);
+
+            this.setIsRecyclable(false);
 
             ime = itemView.findViewById(R.id.ime);
             prezime = itemView.findViewById(R.id.prezime);
