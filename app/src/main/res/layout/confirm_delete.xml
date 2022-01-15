@@ -14,18 +14,20 @@
         android:layout_centerHorizontal="true"/>
 
     <Button
+        android:id="@+id/yesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/text"
         android:text="da"
-        android:textColor="?attr/colorSecondary"
-        android:layout_below="@id/text"/>
+        android:textColor="?attr/colorSecondary" />
 
     <Button
+        android:id="@+id/noButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/text"
         android:layout_alignEnd="@id/text"
         android:text="ne"
-        android:textColor="?attr/colorSecondary"
-        android:layout_below="@id/text"/>
+        android:textColor="?attr/colorSecondary" />
 
 </RelativeLayout>

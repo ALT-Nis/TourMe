@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:id="@+id/scrollView"
     tools:context=".pregledJednogOglasa">
 
     <RelativeLayout
@@ -323,14 +324,15 @@
             android:visibility="gone" />
 
         <include
-            layout="@layout/stranica_ne_postoji"
             android:id="@+id/nemaStranice"
+            layout="@layout/stranica_ne_postoji"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <include
             layout="@layout/confirm_delete"
+            android:id="@+id/confrimDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

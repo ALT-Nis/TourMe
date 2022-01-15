@@ -82,8 +82,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:visibility="gone"
-            android:indeterminateTint="?attr/colorPrimary"/>
+            android:indeterminateTint="?attr/colorPrimary"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

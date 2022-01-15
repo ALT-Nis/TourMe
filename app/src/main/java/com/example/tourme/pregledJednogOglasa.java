@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,12 +62,14 @@ public class pregledJednogOglasa extends AppCompatActivity {
     //View
 //    Spinner rating;
     Button sendMessage, buttonAddRating, tryAgainButton, editOglasButton, deleteOglasButton, backButton;
+    Button yesDeleteButton, noDeleteButton;
     ImageView profile_image, slikaGrada;
     TextView ime, prezime, opis, grad, starost, cena, averageRatingText, numberOfRatingsText, username;
     EditText textForNewRating;
     RatingBar newRatingBar, averageRatingBar;
-    View viewNoInternet, viewNoPage, viewThis, viewDodajOcenu;
+    View viewNoInternet, viewNoPage, viewThis, viewDodajOcenu, viewConfirmDelete;
     ProgressBar progressBar;
+    ScrollView scrollView;
 
     //FireBase
     private DatabaseReference mDatabase;
@@ -76,7 +82,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
     RecyclerView recyclerView;
     CommentAdapter commentAdapter;
     int reasonForBadConnection = 1;
-    boolean isGood = true;
+    boolean isGood = true, isDeleteOpen = false;
 
     void setRatingTextError(String errorText){
         textForNewRating.setError(errorText);
@@ -262,58 +268,59 @@ public class pregledJednogOglasa extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Oglas oglas = snapshot.getValue(Oglas.class);
-                FirebaseDatabase.getInstance().getReference("users").child(oglas.getUserId()).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(oglas != null) {
+                    FirebaseDatabase.getInstance().getReference("users").child(oglas.getUserId()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                        User user = snapshot.getValue(User.class);
-                        if(oglas != null){
-                            if (user.getImageurl().equals("default"))
-                                profile_image.setImageResource(R.drawable.ic_profp);
-                            else
-                                Glide.with(getApplicationContext()).load(user.getImageurl()).into(profile_image);
+                            User user = snapshot.getValue(User.class);
+                            if (oglas != null) {
+                                if (user.getImageurl().equals("default"))
+                                    profile_image.setImageResource(R.drawable.ic_profp);
+                                else
+                                    Glide.with(getApplicationContext()).load(user.getImageurl()).into(profile_image);
 
-                            profile_image.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    openAccount(oglas.getUserId());
-                                }
-                            });
+                                profile_image.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        openAccount(oglas.getUserId());
+                                    }
+                                });
 
-                            opisString = oglas.getOpis();
-                            gradString = oglas.getGrad();
-                            cenaString = String.valueOf(oglas.getCenaOglasa());
+                                opisString = oglas.getOpis();
+                                gradString = oglas.getGrad();
+                                cenaString = String.valueOf(oglas.getCenaOglasa());
 
-                            numberOfRatingsText.setText(String.valueOf(oglas.getBrojOcena()));
-                            averageRatingText.setText(String.valueOf(oglas.getOcena()));
-                            averageRatingBar.setRating((float) oglas.getOcena());
+                                numberOfRatingsText.setText(String.valueOf(oglas.getBrojOcena()));
+                                averageRatingText.setText(String.valueOf(oglas.getOcena()));
+                                averageRatingBar.setRating((float) oglas.getOcena());
 
-                            opis.setText(opisString);
-                            grad.setText(gradString);
-                            cena.setText(cenaString + "RSD");
+                                opis.setText(opisString);
+                                grad.setText(gradString);
+                                cena.setText(cenaString + "RSD");
 
-                            String nekiGrad = "@drawable/slika_"+oglas.getGrad().toLowerCase().replace(" ","_")
-                                    .replace("š","s").replace("č","c")
-                                    .replace("ž","z").replace("š","s");
-                            String uri = nekiGrad;
-                            int imageResource = getResources().getIdentifier(uri, null, getPackageName());
-                            Drawable res = getResources().getDrawable(imageResource);
-                            slikaGrada.setImageDrawable(res);
+                                String nekiGrad = "@drawable/slika_" + oglas.getGrad().toLowerCase().replace(" ", "_")
+                                        .replace("š", "s").replace("č", "c")
+                                        .replace("ž", "z").replace("š", "s");
+                                String uri = nekiGrad;
+                                int imageResource = getResources().getIdentifier(uri, null, getPackageName());
+                                Drawable res = getResources().getDrawable(imageResource);
+                                slikaGrada.setImageDrawable(res);
 
-                        }else{
-                            HideEverything();
-                            viewNoInternet.setVisibility(View.GONE);
-                            viewNoPage.setVisibility(View.VISIBLE);
+                            } else {
+                                HideEverything();
+                                viewNoInternet.setVisibility(View.GONE);
+                                viewNoPage.setVisibility(View.VISIBLE);
+                            }
+
                         }
 
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
+                        }
+                    });
+                }
             }
 
             @Override
@@ -342,6 +349,35 @@ public class pregledJednogOglasa extends AppCompatActivity {
         });
     }
 
+    public void deleteOglas(){
+        if(IsConnectedToInternet()){
+            mDatabase.child("users").child(IDUser).child("brojOglasa").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful())
+                        HideWithReason(2);
+                    else {
+                        String numberOfOglas = String.valueOf(task.getResult().getValue());
+
+                        if(!numberOfOglas.equals("null")){
+                            Integer intNumOfOglas = Integer.parseInt(numberOfOglas) - 1;
+                            String newNumberForOglas = intNumOfOglas.toString();
+
+                            mDatabase.child("users").child(IDUser).child("brojOglasa").setValue(newNumberForOglas);
+                            FirebaseDatabase.getInstance().getReference().child("oglasi").child(IDOglasa).removeValue();
+                            FirebaseDatabase.getInstance().getReference().child("users").child(IDUser).child("oglas").child(nazivGrada).removeValue();
+                            finish();
+
+                        }else
+                            HideWithReason(2);
+                    }
+                }
+            });
+        }else{
+            HideWithReason(2);
+        }
+    }
+
     public boolean tryToStart(){
         if(IsConnectedToInternet()) {
             setupFireBase();
@@ -350,6 +386,38 @@ public class pregledJednogOglasa extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    public void openDelelePopUp(){
+        viewConfirmDelete.setVisibility(View.VISIBLE);
+        isDeleteOpen = true;
+        sendMessage.setClickable(false);
+        buttonAddRating.setClickable(false);
+        editOglasButton.setClickable(false);
+        deleteOglasButton.setClickable(false);
+        profile_image.setClickable(false);
+    }
+
+    public void closeDeletePopUp(){
+        viewConfirmDelete.setVisibility(View.GONE);
+        isDeleteOpen = false;
+        sendMessage.setClickable(true);
+        buttonAddRating.setClickable(true);
+        editOglasButton.setClickable(true);
+        deleteOglasButton.setClickable(true);
+        profile_image.setClickable(true);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if(isDeleteOpen){
+            Rect viewRect = new Rect();
+            viewConfirmDelete.getGlobalVisibleRect(viewRect);
+            if (!viewRect.contains((int) ev.getRawX(), (int) ev.getRawY())) {
+                closeDeletePopUp();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     public void setupView(){
@@ -363,7 +431,25 @@ public class pregledJednogOglasa extends AppCompatActivity {
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
         viewDodajOcenu = (View) findViewById(R.id.dodaj_ocenu);
         viewNoPage = (View) findViewById(R.id.nemaStranice);
+        viewConfirmDelete = (View) findViewById(R.id.confrimDelete);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
+        scrollView = findViewById(R.id.scrollView);
+
+        yesDeleteButton = viewConfirmDelete.findViewById(R.id.yesButton);
+        yesDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteOglas();
+            }
+        });
+
+        noDeleteButton = viewConfirmDelete.findViewById(R.id.noButton);
+        noDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeDeletePopUp();
+            }
+        });
 
         editOglasButton = findViewById(R.id.editButton);
         editOglasButton.setOnClickListener(new View.OnClickListener() {
@@ -390,32 +476,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
         deleteOglasButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(IsConnectedToInternet()){
-                    mDatabase.child("users").child(IDUser).child("brojOglasa").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-                            if (!task.isSuccessful())
-                                HideWithReason(2);
-                            else {
-                                String numberOfOglas = String.valueOf(task.getResult().getValue());
-
-                                if(!numberOfOglas.equals("null")){
-                                    Integer intNumOfOglas = Integer.parseInt(numberOfOglas) - 1;
-                                    String newNumberForOglas = intNumOfOglas.toString();
-
-                                    mDatabase.child("users").child(IDUser).child("brojOglasa").setValue(newNumberForOglas);
-                                    FirebaseDatabase.getInstance().getReference().child("oglasi").child(IDOglasa).removeValue();
-                                    FirebaseDatabase.getInstance().getReference().child("users").child(IDUser).child("oglas").child(nazivGrada).removeValue();
-                                    finish();
-
-                                }else
-                                    HideWithReason(2);
-                            }
-                        }
-                    });
-                }else{
-                    HideWithReason(2);
-                }
+                openDelelePopUp();
             }
         });
 
@@ -480,6 +541,19 @@ public class pregledJednogOglasa extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(pregledJednogOglasa.this));
 
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return isDeleteOpen;
+            }
+        });
+
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return isDeleteOpen;
+            }
+        });
 
         tryToStart();
     }
