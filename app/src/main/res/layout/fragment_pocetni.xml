@@ -71,9 +71,19 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/prikazi_mapu">
+            android:layout_below="@id/prikazi_mapu"
+            android:layout_above="@id/progressBar">
 
         </androidx.recyclerview.widget.RecyclerView>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:indeterminateTint="?attr/colorPrimary"/>
 
     </RelativeLayout>
 
