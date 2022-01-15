@@ -127,7 +127,7 @@ public class ForgotPassword extends AppCompatActivity {
                             if(errorCode.equals("ERROR_USER_NOT_FOUND"))
                                 email.setError("Ne postoji nalog sa ovom email adresom");
                         }else{
-                            Toast.makeText(ForgotPassword.this,"Link za promenu sifre je poslat na unetu adresu",Toast.LENGTH_LONG).show();
+                            Toast.makeText(ForgotPassword.this,"Link za promenu šifre je poslat na unetu adresu",Toast.LENGTH_LONG).show();
                             finish();
                         }
                     }

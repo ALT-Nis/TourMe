@@ -26,14 +26,14 @@
             android:id="@+id/user_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="5dp"
-            android:paddingStart="10dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="200dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/bg">
+            android:background="@drawable/bg"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
@@ -50,6 +50,7 @@
                 android:layout_toEndOf="@id/profile_image"
                 android:text="Ime"
                 android:textSize="18sp" />
+
             <TextView
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
@@ -57,9 +58,9 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@id/profile_image"
-                android:visibility="gone"
                 android:text="Username"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/prezime"
@@ -79,7 +80,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_toEndOf="@id/prezime"
                 android:background="?attr/colorPrimaryVariant"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/godine"
@@ -89,7 +90,7 @@
                 android:layout_toEndOf="@id/separator"
                 android:text="000"
                 android:textSize="20sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/grad"
@@ -105,10 +106,10 @@
                 android:id="@+id/cena2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:layout_alignBottom="@id/grad"
-                android:textSize="20sp"
-                android:text="300 rsd" />
+                android:layout_alignParentEnd="true"
+                android:text="300 rsd"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/opis"
@@ -124,8 +125,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/opis"
                 android:layout_marginStart="40dp"
-                android:layout_marginEnd="40dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginEnd="40dp"
                 android:text="Posaljite poruku"
                 android:textColor="?attr/colorSecondary"
                 android:visibility="visible" />
@@ -134,8 +135,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/opis"
-                android:layout_marginTop="15dp"
                 android:layout_marginStart="30dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="30dp"
                 android:visibility="visible">
 
@@ -162,6 +163,19 @@
                     android:visibility="gone" />
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/saveOglasButton"
+                android:layout_width="32dp"
+                android:layout_height="43dp"
+                android:layout_above="@+id/cena2"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="207dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="22dp"
+                android:layout_marginBottom="18dp"
+                android:layout_toEndOf="@+id/profile_image" />
 
         </RelativeLayout>
 

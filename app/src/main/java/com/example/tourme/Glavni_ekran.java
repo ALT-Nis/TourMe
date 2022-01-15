@@ -117,6 +117,22 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    public boolean isDrawerOpen(){
+        Log.e(String.valueOf(drawerLayout.isDrawerOpen(Gravity.RIGHT)),"dsa");
+        return drawerLayout.isDrawerOpen(Gravity.RIGHT);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.e("doso", "ovde");
+        if(!isDrawerOpen()) {
+            super.onBackPressed();
+        }else{
+            Log.e("doso", "sad ovde");
+            drawerLayout.closeDrawer(Gravity.RIGHT);
+        }
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
