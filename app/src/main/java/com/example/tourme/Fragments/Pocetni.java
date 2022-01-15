@@ -294,6 +294,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
             }
         });
 
+
         List<Oglas> mOglas2 = new ArrayList<>();
         oglasAdapter = new OglasAdapter(getContext(), mOglas2);
         recyclerView.setAdapter(oglasAdapter);

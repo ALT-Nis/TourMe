@@ -62,7 +62,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
     //View
 //    Spinner rating;
     Button sendMessage, buttonAddRating, tryAgainButton, editOglasButton, deleteOglasButton, backButton;
-    Button yesDeleteButton, noDeleteButton;
+    Button yesDeleteButton, noDeleteButton, saveOglasButton;
     ImageView profile_image, slikaGrada;
     TextView ime, prezime, opis, grad, starost, cena, averageRatingText, numberOfRatingsText, username;
     EditText textForNewRating;
@@ -82,7 +82,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
     RecyclerView recyclerView;
     CommentAdapter commentAdapter;
     int reasonForBadConnection = 1;
-    boolean isGood = true, isDeleteOpen = false;
+    boolean isGood = true, isDeleteOpen = false, isSaved = false;
 
     void setRatingTextError(String errorText){
         textForNewRating.setError(errorText);
@@ -217,6 +217,21 @@ public class pregledJednogOglasa extends AppCompatActivity {
 
     }
 
+    public void checkForSaved(){
+        String idCurUser = FirebaseAuth.getInstance().getUid();
+        FirebaseDatabase.getInstance().getReference().child("users").child(idCurUser).child(("sacuvaniOglasi")).child(IDOglasa).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                String dataFromDatabase = String.valueOf(task.getResult().getValue());
+                if(dataFromDatabase.equals("null")) {
+                    isSaved = false;
+                }else{
+                    isSaved = true;
+                }
+            }
+        });
+    }
+
     public void setupFireBase(){
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             if(FirebaseAuth.getInstance().getUid().equals(IDUser)){
@@ -224,6 +239,9 @@ public class pregledJednogOglasa extends AppCompatActivity {
                 editOglasButton.setVisibility(View.VISIBLE);
                 sendMessage.setVisibility(View.GONE);
                 viewDodajOcenu.setVisibility(View.GONE);
+                saveOglasButton.setVisibility(View.GONE);
+            }else{
+                checkForSaved();
             }
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -396,6 +414,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
         editOglasButton.setClickable(false);
         deleteOglasButton.setClickable(false);
         profile_image.setClickable(false);
+        saveOglasButton.setClickable(false);
     }
 
     public void closeDeletePopUp(){
@@ -406,6 +425,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
         editOglasButton.setClickable(true);
         deleteOglasButton.setClickable(true);
         profile_image.setClickable(true);
+        saveOglasButton.setClickable(true);
     }
 
     @Override
@@ -434,6 +454,27 @@ public class pregledJednogOglasa extends AppCompatActivity {
         viewConfirmDelete = (View) findViewById(R.id.confrimDelete);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
         scrollView = findViewById(R.id.scrollView);
+
+        saveOglasButton = findViewById(R.id.saveOglasButton);
+        saveOglasButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(IsConnectedToInternet()){
+                    if(!isSaved) {
+                        FirebaseAuth fAuth = FirebaseAuth.getInstance();
+                        FirebaseDatabase.getInstance().getReference().child("users").child(fAuth.getUid()).child("sacuvaniOglasi").child(IDOglasa).setValue(IDOglasa);
+                        Toast.makeText(pregledJednogOglasa.this, "Uspešno ste sačuvali ovaj oglas", Toast.LENGTH_LONG).show();
+                    }else{
+                        FirebaseAuth fAuth = FirebaseAuth.getInstance();
+                        FirebaseDatabase.getInstance().getReference().child("users").child(fAuth.getUid()).child("sacuvaniOglasi").child(IDOglasa).removeValue();
+                        Toast.makeText(pregledJednogOglasa.this, "Uspešno ste uklonili oglas sa vaše liste", Toast.LENGTH_LONG).show();
+                    }
+                    isSaved = !isSaved;
+                }else{
+                    HideWithReason(2);
+                }
+            }
+        });
 
         yesDeleteButton = viewConfirmDelete.findViewById(R.id.yesButton);
         yesDeleteButton.setOnClickListener(new View.OnClickListener() {
