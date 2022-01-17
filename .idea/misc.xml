@@ -48,11 +48,16 @@
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1707236842105263" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_login.xml" value="0.1707236842105263" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_logo.xml" value="0.12685185185185185" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_message.xml" value="0.22763157894736843" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_nema_gradova.xml" value="0.22763157894736843" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_nema_internet.xml" value="0.12685185185185185" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_nema_stranice.xml" value="0.22763157894736843" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_no_messages.xml" value="0.22763157894736843" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_notifications.xml" value="0.22763157894736843" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_person.xml" value="0.22763157894736843" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_send.xml" value="0.1707236842105263" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_star.xml" value="0.22763157894736843" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/ic_star_outline.xml" value="0.22763157894736843" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/logo_background.xml" value="0.1707236842105263" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/drawable/oglas_bg.xml" value="0.1707236842105263" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/activity_account.xml" value="0.264" />
@@ -83,6 +88,9 @@
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/fragment_poruke.xml" value="0.16052631578947368" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/nema_internet.xml" value="0.14105191256830601" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/nema_oglas.xml" value="0.2" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/no_messages.xml" value="0.21403508771929824" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/no_notifications.xml" value="0.21403508771929824" />
+        <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/no_saved_ad.xml" value="0.21403508771929824" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/not_logged_in.xml" value="0.13797814207650272" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/notification_item.xml" value="0.20108695652173914" />
         <entry key="..\:/Radovi/MTS/TourMe/app/src/main/res/layout/oglas_item.xml" value="0.16052631578947368" />
