@@ -33,7 +33,7 @@
             android:layout_height="45dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
-            android:backgroundTint="?attr/colorSecondary"
+            android:backgroundTint="?attr/colorOnSecondary"
             android:drawableBottom="@drawable/ic_search" />
 
         <TextView

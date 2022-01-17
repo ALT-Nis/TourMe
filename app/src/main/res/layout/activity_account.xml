@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/accountActivity"
-    tools:context=".Account">
+    tools:context=".Account"
+    android:background="?attr/colorOnSecondary">
 
     <RelativeLayout
         android:layout_width="match_parent"

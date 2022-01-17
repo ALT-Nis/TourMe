@@ -5,7 +5,8 @@
     android:id="@+id/MojNalog"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyAccount">
+    tools:context=".MyAccount"
+    android:background="?attr/colorOnSecondary">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -122,28 +123,27 @@
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@id/profile_image"
             android:text="Korisničko ime"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/ime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:text="Ime"
-            android:textSize="30sp"
-            android:layout_marginEnd="10dp"
-            android:layout_alignBottom="@id/prezime"
-            android:layout_toStartOf="@id/prezime"
+            android:textSize="23sp"
+            android:layout_alignEnd="@id/username"
+            android:layout_below="@id/username"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/prezime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/username"
+            android:layout_below="@id/ime"
             android:layout_alignEnd="@id/username"
-            android:layout_marginTop="5dp"
             android:text="Prezime"
-            android:textSize="30sp"
+            android:textSize="23sp"
             android:textStyle="bold" />
 
         <TextView
@@ -154,14 +154,14 @@
             android:layout_alignEnd="@id/prezime"
             android:layout_marginTop="5dp"
             android:text="21"
-            android:textSize="30sp" />
+            android:textSize="23sp" />
 
         <TextView
             android:id="@+id/kratakOpis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/profile_image"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:text="Kratak opis vodiča" />
 
         <Button

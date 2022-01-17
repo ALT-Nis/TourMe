@@ -2,15 +2,17 @@
     <!-- Base application theme. -->
     <style name="Theme.TourMe" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#595959</item>
-        <item name="colorPrimaryVariant">#4d4d4d</item>
-        <item name="colorOnPrimary">#00ff00</item>
+        <item name="colorPrimary">#33cc33</item>
+        <item name="colorPrimaryVariant">#e6ffe6</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#33cc33</item>
-        <item name="colorSecondaryVariant">#333333</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondaryVariant">#313131</item>
+        <item name="colorOnSecondary">#454545</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorSecondaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:textColor">#FBFBFB</item>
+        <item name="colorControlNormal">#FBFBFB</item>
     </style>
 </resources>

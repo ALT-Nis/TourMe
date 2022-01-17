@@ -21,10 +21,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/profile_image"
         android:text="Ime"
-        android:textSize="18dp" />
+        android:textSize="18sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
         android:layout_marginStart="5dp"
         android:text="Prezime"
         android:layout_centerVertical="true"
-        android:textSize="18dp"/>
+        android:textSize="18sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,9 +42,9 @@
         android:text="Ime korisnika"
         android:id="@+id/username"
         android:layout_toEndOf="@id/profile_image"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_centerVertical="true"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:visibility="gone"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -56,8 +56,8 @@
         android:visibility="gone"
         android:src="@mipmap/ic_launcher"
         android:layout_below="@+id/profile_image"
-        android:layout_toRightOf="@id/profile_image"
-        android:layout_marginLeft="-10dp"
+        android:layout_toEndOf="@id/profile_image"
+        android:layout_marginStart="-10dp"
         android:layout_marginTop="-10dp"
         />
 
@@ -70,8 +70,8 @@
         android:visibility="visible"
         android:src="@mipmap/ic_launcher"
         android:layout_below="@+id/profile_image"
-        android:layout_toRightOf="@id/profile_image"
-        android:layout_marginLeft="-10dp"
+        android:layout_toEndOf="@id/profile_image"
+        android:layout_marginStart="-10dp"
         android:layout_marginTop="-10dp"
         />
 

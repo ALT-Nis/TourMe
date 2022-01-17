@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/mainActivity"
     tools:context=".SplashScreen"
-    android:background="?attr/colorSecondary">
+    android:background="?attr/colorOnSecondary">
 
     <ImageView
         android:id="@+id/logoImage"
