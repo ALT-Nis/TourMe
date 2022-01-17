@@ -70,14 +70,15 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="595dp"
+            android:layout_above="@+id/loadMore"
             android:layout_below="@id/prikazi_mapu"
-            android:layout_above="@id/progressBar">
+            android:layout_marginBottom="3dp">
 
         </androidx.recyclerview.widget.RecyclerView>
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/loadMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

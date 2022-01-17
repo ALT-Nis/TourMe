@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.example.tourme.MessageActivity;
+import com.example.tourme.Model.StaticVars;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -51,10 +52,20 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         
         String sented = remoteMessage.getData().get("sented");
+        String title = remoteMessage.getData().get("title");
         
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        
-        if(firebaseUser!=null && sented.equals(firebaseUser.getUid())){
+
+        if(firebaseUser!=null && sented.equals(firebaseUser.getUid()) && title.equals("Nova ocena")){
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+                sendOreoNotificationRating(remoteMessage);
+            }
+            else{
+                sendNotificationRating(remoteMessage);
+            }
+        }
+
+        if(firebaseUser!=null && sented.equals(firebaseUser.getUid()) && title.equals("Nova poruka") && !StaticVars.isPoruke){
             if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
                 sendOreoNotification(remoteMessage);
             }
@@ -63,6 +74,53 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
             }
         }
         
+    }
+
+    private void sendOreoNotificationRating(RemoteMessage remoteMessage) {
+        String user = remoteMessage.getData().get("user");
+        String icon = remoteMessage.getData().get("icon");
+        String title = remoteMessage.getData().get("title");
+        String body = remoteMessage.getData().get("body");
+
+        RemoteMessage.Notification notification = remoteMessage.getNotification();
+        int j = Integer.parseInt(user.replaceAll("[\\D]",""));
+        Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        OreoNotification oreoNotification = new OreoNotification(this);
+        Notification.Builder builder = oreoNotification.getOreoNotificationRating(title, body, defaultSound, icon);
+
+        int i=0;
+        if(j>0){
+            i=j;
+        }
+
+        oreoNotification.getManager().notify(i, builder.build());
+    }
+
+    private void sendNotificationRating(RemoteMessage remoteMessage){
+        String user = remoteMessage.getData().get("user");
+        String icon = remoteMessage.getData().get("icon");
+        String title = remoteMessage.getData().get("title");
+        String body = remoteMessage.getData().get("body");
+
+        RemoteMessage.Notification notification = remoteMessage.getNotification();
+        int j = Integer.parseInt(user.replaceAll("[\\D]",""));
+
+        Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder builder  = new NotificationCompat.Builder(this)
+                .setSmallIcon(Integer.parseInt(icon))
+                .setContentTitle(title)
+                .setContentText(body)
+                .setAutoCancel(true)
+                .setSound(defaultSound);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        int i=0;
+        if(j>0){
+            i=j;
+        }
+
+        notificationManager.notify(i, builder.build());
     }
 
     private void sendOreoNotification(RemoteMessage remoteMessage) {

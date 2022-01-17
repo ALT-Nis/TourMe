@@ -37,6 +37,12 @@ import com.example.tourme.Model.Comment;
 import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
+import com.example.tourme.Notifications.APIService;
+import com.example.tourme.Notifications.Client;
+import com.example.tourme.Notifications.Data;
+import com.example.tourme.Notifications.MyResponse;
+import com.example.tourme.Notifications.Sender;
+import com.example.tourme.Notifications.Token;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,6 +50,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -62,7 +69,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
     //View
 //    Spinner rating;
     Button sendMessage, buttonAddRating, tryAgainButton, editOglasButton, deleteOglasButton, backButton;
-    Button yesDeleteButton, noDeleteButton;
+    Button yesDeleteButton, noDeleteButton, saveOglasButton;
     ImageView profile_image, slikaGrada;
     TextView ime, prezime, opis, grad, starost, cena, averageRatingText, numberOfRatingsText, username;
     EditText textForNewRating;
@@ -82,7 +89,10 @@ public class pregledJednogOglasa extends AppCompatActivity {
     RecyclerView recyclerView;
     CommentAdapter commentAdapter;
     int reasonForBadConnection = 1;
-    boolean isGood = true, isDeleteOpen = false;
+    boolean isGood = true, isDeleteOpen = false, isSaved = false;
+
+    //API
+    APIService apiService;
 
     void setRatingTextError(String errorText){
         textForNewRating.setError(errorText);
@@ -204,6 +214,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
                             mDatabase.child("oglasi").child(IDOglasa).child("oceneOglasa").child(brojOcena.toString()).setValue(comment);
                             updateUser();
                             sendNotification1(oglas.getUserId());
+                            sendNotification(oglas.getUserId());
                         }else{
                             Toast.makeText(pregledJednogOglasa.this, "ne postoji ovakav oglas", Toast.LENGTH_LONG).show();
                         }
@@ -216,6 +227,58 @@ public class pregledJednogOglasa extends AppCompatActivity {
         }
 
     }
+    
+    private void sendNotification(String receiver){
+        DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
+        Query query = tokens.orderByKey().equalTo(receiver);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Token token = dataSnapshot.getValue(Token.class);
+                    Data data = new Data(FirebaseAuth.getInstance().getUid(), R.drawable.ic_logo, "Dobili ste novu ocenu", "Nova ocena", receiver);
+
+                    Sender sender = new Sender(data, token.getToken());
+
+                    apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
+                        @Override
+                        public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                            if (response.code() == 200) {
+                                if (response.body().success == 1) {
+                                    //Toast.makeText(MessageActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                                    //Log.e("Test",response.message());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<MyResponse> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void checkForSaved(){
+        String idCurUser = FirebaseAuth.getInstance().getUid();
+        FirebaseDatabase.getInstance().getReference().child("users").child(idCurUser).child(("sacuvaniOglasi")).child(IDOglasa).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                String dataFromDatabase = String.valueOf(task.getResult().getValue());
+                if(dataFromDatabase.equals("null")) {
+                    isSaved = false;
+                }else{
+                    isSaved = true;
+                }
+            }
+        });
+    }
 
     public void setupFireBase(){
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
@@ -224,6 +287,9 @@ public class pregledJednogOglasa extends AppCompatActivity {
                 editOglasButton.setVisibility(View.VISIBLE);
                 sendMessage.setVisibility(View.GONE);
                 viewDodajOcenu.setVisibility(View.GONE);
+                saveOglasButton.setVisibility(View.GONE);
+            }else{
+                checkForSaved();
             }
         }
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -396,6 +462,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
         editOglasButton.setClickable(false);
         deleteOglasButton.setClickable(false);
         profile_image.setClickable(false);
+        saveOglasButton.setClickable(false);
     }
 
     public void closeDeletePopUp(){
@@ -406,6 +473,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
         editOglasButton.setClickable(true);
         deleteOglasButton.setClickable(true);
         profile_image.setClickable(true);
+        saveOglasButton.setClickable(true);
     }
 
     @Override
@@ -423,6 +491,8 @@ public class pregledJednogOglasa extends AppCompatActivity {
     public void setupView(){
         StaticVars.listOfFragments.add(10);
 
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+
         IDOglasa = getIntent().getStringExtra("IDOglasa");
         nazivGrada = getIntent().getStringExtra("NazivGrada");
         IDUser = getIntent().getStringExtra("IDUser");
@@ -434,6 +504,27 @@ public class pregledJednogOglasa extends AppCompatActivity {
         viewConfirmDelete = (View) findViewById(R.id.confrimDelete);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
         scrollView = findViewById(R.id.scrollView);
+
+        saveOglasButton = findViewById(R.id.saveOglasButton);
+        saveOglasButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(IsConnectedToInternet()){
+                    if(!isSaved) {
+                        FirebaseAuth fAuth = FirebaseAuth.getInstance();
+                        FirebaseDatabase.getInstance().getReference().child("users").child(fAuth.getUid()).child("sacuvaniOglasi").child(IDOglasa).setValue(IDOglasa);
+                        Toast.makeText(pregledJednogOglasa.this, "Uspešno ste sačuvali ovaj oglas", Toast.LENGTH_LONG).show();
+                    }else{
+                        FirebaseAuth fAuth = FirebaseAuth.getInstance();
+                        FirebaseDatabase.getInstance().getReference().child("users").child(fAuth.getUid()).child("sacuvaniOglasi").child(IDOglasa).removeValue();
+                        Toast.makeText(pregledJednogOglasa.this, "Uspešno ste uklonili oglas sa vaše liste", Toast.LENGTH_LONG).show();
+                    }
+                    isSaved = !isSaved;
+                }else{
+                    HideWithReason(2);
+                }
+            }
+        });
 
         yesDeleteButton = viewConfirmDelete.findViewById(R.id.yesButton);
         yesDeleteButton.setOnClickListener(new View.OnClickListener() {

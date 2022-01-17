@@ -46,6 +46,7 @@
                     android:src="@drawable/ic_profp" />
 
                 <Button
+                    android:id="@+id/saveOglasButton"
                     android:layout_width="40dp"
                     android:layout_height="45dp"
                     android:paddingBottom="5dp"
