@@ -9,6 +9,6 @@
         android:color="?attr/colorPrimary"/>
 
     <solid
-        android:color="?attr/colorSecondary"/>
+        android:color="?attr/colorOnSecondary"/>
 
 </shape>
