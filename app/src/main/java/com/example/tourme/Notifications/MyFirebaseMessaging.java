@@ -56,21 +56,21 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        if(firebaseUser!=null && sented.equals(firebaseUser.getUid()) && title.equals("Nova ocena")){
-            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-                sendOreoNotificationRating(remoteMessage);
+       if(StaticVars.isObavestenja) {
+            if (firebaseUser != null && sented.equals(firebaseUser.getUid()) && title.equals("Nova ocena")) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    sendOreoNotificationRating(remoteMessage);
+                } else {
+                    sendNotificationRating(remoteMessage);
+                }
             }
-            else{
-                sendNotificationRating(remoteMessage);
-            }
-        }
 
-        if(firebaseUser!=null && sented.equals(firebaseUser.getUid()) && title.equals("Nova poruka") && !StaticVars.isPoruke){
-            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-                sendOreoNotification(remoteMessage);
-            }
-            else{
-                sendNotification(remoteMessage);
+            if (firebaseUser != null && sented.equals(firebaseUser.getUid()) && title.equals("Nova poruka") && !StaticVars.isPoruke) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    sendOreoNotification(remoteMessage);
+                } else {
+                    sendNotification(remoteMessage);
+                }
             }
         }
         
