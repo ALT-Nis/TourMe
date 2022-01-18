@@ -23,7 +23,7 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="Da li ste sigurni da zelite da izbrišete oglas?"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <LinearLayout
