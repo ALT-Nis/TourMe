@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/imageNoOglas"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_nema_gradova"/>
 
@@ -19,7 +19,6 @@
         android:layout_margin="10dp"
         android:gravity="center"
         android:text="Za izabrani grad ne postoji nijedan oglas."
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textSize="18sp"/>
 
 </RelativeLayout>

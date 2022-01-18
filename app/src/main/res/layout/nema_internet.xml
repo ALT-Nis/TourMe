@@ -6,20 +6,20 @@
     android:background="?attr/colorSecondaryVariant">
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="120dp"
+        android:layout_width="130dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
         android:src="@drawable/ic_nema_internet"
-        android:id="@+id/ico_ni"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/problem"/>
+        android:id="@+id/ico_ni"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Nešto nije u redu."
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_centerInParent="true"
+        android:layout_below="@id/ico_ni"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
         android:gravity="center"
         android:id="@+id/problem"/>
 

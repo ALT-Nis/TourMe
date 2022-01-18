@@ -10,7 +10,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?attr/colorPrimary"
+        android:background="?attr/colorPrimaryVariant"
         android:layout_below="@id/ratingStars"
         android:layout_marginTop="10dp"/>
 

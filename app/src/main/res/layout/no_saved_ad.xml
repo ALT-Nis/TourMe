@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
         android:src="@drawable/ic_no_saved"/>
@@ -16,7 +16,6 @@
         android:layout_height="wrap_content"
         android:text="Nemate sačuvanih oglasa."
         android:layout_below="@id/icon"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:textSize="18sp"/>
 
 </RelativeLayout>
