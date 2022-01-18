@@ -1,12 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/first"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/mojNalog"
+            android:icon="@drawable/ic_person"
+            android:title="Moj nalog"
+            />
+
         <item
             android:id="@+id/noviOglas"
             android:icon="@drawable/ic_add"
             android:title="Novi oglas"
             />
+
+        <item
+            android:id="@+id/sacuvaniOglasi"
+            android:icon="@drawable/ic_star"
+            android:title="Sačuvani oglasi"
+            />
+
+    </group>
+
+    <group
+        android:id="@+id/second"
+        android:checkableBehavior="single">
 
         <item
             android:id="@+id/poruke"
@@ -21,18 +42,6 @@
             />
 
         <item
-            android:id="@+id/mojNalog"
-            android:icon="@drawable/ic_person"
-            android:title="Moj nalog"
-            />
-
-        <item
-            android:id="@+id/sacuvaniOglasi"
-            android:icon="@drawable/ic_star"
-            android:title="Sacuvani oglasi"
-            />
-
-        <item
             android:id="@+id/mape"
             android:icon="@drawable/ic_map"
             android:title="Mapa oglasa"
@@ -44,16 +53,18 @@
             android:title="Podešavanja"
             />
 
+    </group>
+
+    <group
+        android:id="@+id/third"
+        android:checkableBehavior="single">
+
         <item
             android:id="@+id/logInOut"
             android:icon="@drawable/ic_login"
             android:title="Odjavite se"
             />
 
-
     </group>
-
-
-
 
 </menu>

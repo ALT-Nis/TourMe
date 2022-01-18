@@ -3,24 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="10dp"
-    android:layout_marginRight="100dp">
+    android:layout_marginEnd="100dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_profp" />
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_profp"
+        android:layout_alignBottom="@id/show_message"/>
 
     <TextView
         android:id="@+id/show_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/profile_image"
+        android:layout_toEndOf="@+id/profile_image"
         android:background="@drawable/background_left"
         android:padding="10dp"
         android:textSize="16sp"
         android:text="test"
-        android:layout_margin="5dp"/>
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="1dp"
+        android:layout_marginTop="1dp"/>
 
     <TextView
         android:id="@+id/txt_seen"

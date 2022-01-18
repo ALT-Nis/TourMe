@@ -60,22 +60,13 @@
             android:textSize="18sp"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/ime"
-            android:layout_toEndOf="@id/prezime"
-            android:text=", 000"
-            android:textSize="20sp"
-            android:visibility="gone"/>
-
-        <TextView
             android:id="@+id/grad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/ime"
             android:layout_alignStart="@id/ime"
             android:text="Grad"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
