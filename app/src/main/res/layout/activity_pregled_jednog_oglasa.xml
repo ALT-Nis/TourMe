@@ -49,11 +49,11 @@
                     android:id="@+id/saveOglasButton"
                     android:layout_width="40dp"
                     android:layout_height="45dp"
-                    android:paddingBottom="5dp"
-                    android:drawableBottom="@drawable/ic_star"
-                    android:backgroundTint="?attr/colorOnSecondary"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_marginEnd="10dp"
+                    android:backgroundTint="?attr/colorOnSecondary"
+                    android:drawableBottom="@drawable/ic_star_outline"
+                    android:paddingBottom="5dp" />
 
                 <TextView
                     android:id="@+id/ime"
@@ -63,7 +63,9 @@
                     android:layout_marginTop="5dp"
                     android:layout_toEndOf="@id/profile_image"
                     android:text="Ime"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:visibility="visible" />
+
                 <TextView
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
@@ -71,9 +73,9 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_toEndOf="@id/profile_image"
-                    android:visibility="gone"
                     android:text="Username"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/prezime"
@@ -82,28 +84,8 @@
                     android:layout_below="@id/ime"
                     android:layout_alignStart="@id/ime"
                     android:text="Prezime"
-                    android:textSize="18sp" />
-
-                <View
-                    android:id="@+id/separator"
-                    android:layout_width="2dp"
-                    android:layout_height="20dp"
-                    android:layout_alignBottom="@id/prezime"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toEndOf="@id/prezime"
-                    android:background="?attr/colorPrimaryVariant"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/godine"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/prezime"
-                    android:layout_toEndOf="@id/separator"
-                    android:text="000"
-                    android:textSize="20sp"
-                    android:visibility="gone"/>
+                    android:textSize="18sp"
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/grad"
@@ -113,8 +95,9 @@
                     android:layout_alignStart="@id/ime"
                     android:layout_marginTop="5dp"
                     android:text="Grad"
+                    android:textSize="20sp"
                     android:textStyle="bold"
-                    android:textSize="20sp" />
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/cena2"
@@ -349,8 +332,8 @@
     </ScrollView>
 
     <include
-        layout="@layout/confirm_delete"
         android:id="@+id/confrimDelete"
+        layout="@layout/confirm_delete"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"

@@ -70,7 +70,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
     AutoCompleteTextView searchBar;
     Button searchButton;
     View viewNoInternet, viewThis, viewNoOglas;
-    ProgressBar progressBar, loadingBar;
+    ProgressBar progressBar;
     Button tryAgainButton;
     Spinner spinnerForSorting;
     Button prikazi_mapu;
@@ -139,7 +139,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet)
+                if(v1 != viewNoInternet && v1 != viewNoOglas)
                     HideEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.GONE);
@@ -161,10 +161,9 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet)
+                if(v1 != viewNoInternet && v1 != viewNoOglas)
                     ShowEverythingRecursion(v1);
             }else
-                if(v1 != loadingBar)
                     v1.setVisibility(View.VISIBLE);
         }
     }
@@ -269,7 +268,6 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
         viewThis = view.findViewById(R.id.pocetniFragment);
         viewNoInternet = (View) view.findViewById(R.id.nemaInternet);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
-        loadingBar = view.findViewById(R.id.loadingBar);
 
         spinnerForSorting = view.findViewById(R.id.sortType);
         adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sortingType, android.R.layout.simple_spinner_item);

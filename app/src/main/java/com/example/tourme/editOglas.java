@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -106,13 +107,27 @@ public class editOglas extends AppCompatActivity {
         changeOglasButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(IsConnectedToInternet()){
-                    int cenaInt = Integer.parseInt(editPriceText.getText().toString().trim());
-                    FirebaseDatabase.getInstance().getReference().child("oglasi").child(IDOglasa).child("opis").setValue(editDescirbeText.getText().toString().trim());
-                    FirebaseDatabase.getInstance().getReference().child("oglasi").child(IDOglasa).child("cenaOglasa").setValue(cenaInt);
-                    finish();
-                }else{
-                    HideEverything();
+                boolean isReady = true;
+                String priceText = editPriceText.getText().toString().trim();
+                String describeText = editDescirbeText.getText().toString().trim();
+
+                if(TextUtils.isEmpty(priceText)){
+                    isReady = false;
+                    editPriceText.setError("Unesite cenu oglasa");
+                }
+                if(TextUtils.isEmpty(describeText)){
+                    isReady = false;
+                    editDescirbeText.setError("Unesite opis oglasa");
+                }
+                if(isReady){
+                    if(IsConnectedToInternet()){
+                        int cenaInt = Integer.parseInt(priceText);
+                        FirebaseDatabase.getInstance().getReference().child("oglasi").child(IDOglasa).child("opis").setValue(describeText);
+                        FirebaseDatabase.getInstance().getReference().child("oglasi").child(IDOglasa).child("cenaOglasa").setValue(cenaInt);
+                        finish();
+                    }else{
+                        HideEverything();
+                    }
                 }
             }
         });

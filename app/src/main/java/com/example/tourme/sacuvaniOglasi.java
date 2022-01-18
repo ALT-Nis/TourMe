@@ -36,7 +36,7 @@ public class sacuvaniOglasi extends AppCompatActivity {
 
     //View
     RecyclerView recyclerView;
-    View viewNoInternet, viewThis, viewNotLoggedIn;
+    View viewNoInternet, viewThis, viewNotLoggedIn, viewNotSaved;
     ProgressBar progressBar;
     Button tryAgainButton, goToLoginButton;
     FirebaseAuth fAuth;
@@ -62,7 +62,7 @@ public class sacuvaniOglasi extends AppCompatActivity {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet && v1 != viewNotLoggedIn)
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn && v1 != viewNotSaved)
                     HideEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.GONE);
@@ -87,7 +87,7 @@ public class sacuvaniOglasi extends AppCompatActivity {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet && v1 != viewNotLoggedIn) {
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn && v1 != viewNotSaved){
                     ShowEverythingRecursion(v1);
                 }
             }else
@@ -104,6 +104,13 @@ public class sacuvaniOglasi extends AppCompatActivity {
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+    }
+
+    public void manageNotSaved(int len){
+        if(len == 0)
+            viewNotSaved.setVisibility(View.VISIBLE);
+        else
+            viewNotSaved.setVisibility(View.GONE);
     }
 
     void recursion1ForMyOglases(int index, List<String> idsForMyOglas, List<Oglas> mOglas){
@@ -137,6 +144,7 @@ public class sacuvaniOglasi extends AppCompatActivity {
                 }
 
                 numberOfOglases = idsForMyOglas.size();
+                manageNotSaved(numberOfOglases);
                 recursion1ForMyOglases(0, idsForMyOglas, mOglas);
             }
 
@@ -160,6 +168,7 @@ public class sacuvaniOglasi extends AppCompatActivity {
                         }
 
                         numberOfOglases = idsForMyOglas.size();
+                        manageNotSaved(numberOfOglases);
                         recursion1ForMyOglases(0, idsForMyOglas, mOglas);
                     }
                 });
@@ -197,6 +206,7 @@ public class sacuvaniOglasi extends AppCompatActivity {
         viewThis = findViewById(R.id.sacuvaniOglasiActivity);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
         viewNotLoggedIn = (View) findViewById(R.id.nijePrijavljen);
+        viewNotSaved = (View) findViewById(R.id.nemaSacuvanih);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
 
         tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);

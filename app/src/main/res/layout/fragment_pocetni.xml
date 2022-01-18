@@ -77,27 +77,7 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <ProgressBar
-            android:id="@+id/loadMore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:indeterminateTint="?attr/colorPrimary"
-            android:visibility="gone" />
-
     </RelativeLayout>
-
-    <ProgressBar
-        android:id="@+id/loadingBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="?attr/colorPrimary"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/nema_oglasa"

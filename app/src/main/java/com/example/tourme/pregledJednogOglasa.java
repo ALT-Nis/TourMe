@@ -89,10 +89,39 @@ public class pregledJednogOglasa extends AppCompatActivity {
     RecyclerView recyclerView;
     CommentAdapter commentAdapter;
     int reasonForBadConnection = 1;
-    boolean isGood = true, isDeleteOpen = false, isSaved = false;
+    boolean isGood = true, isDeleteOpen = false, isSaved = false, haveName = true;
 
     //API
     APIService apiService;
+
+    public void manageButtonsAndViews(){
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            if(FirebaseAuth.getInstance().getUid().equals(IDUser)){
+                deleteOglasButton.setVisibility(View.VISIBLE);
+                editOglasButton.setVisibility(View.VISIBLE);
+                sendMessage.setVisibility(View.GONE);
+                viewDodajOcenu.setVisibility(View.GONE);
+                saveOglasButton.setVisibility(View.GONE);
+            }else{
+                deleteOglasButton.setVisibility(View.GONE);
+                editOglasButton.setVisibility(View.GONE);
+                sendMessage.setVisibility(View.VISIBLE);
+                viewDodajOcenu.setVisibility(View.VISIBLE);
+                saveOglasButton.setVisibility(View.VISIBLE);
+                checkForSaved();
+            }
+        }
+
+        if(haveName){
+            username.setVisibility(View.INVISIBLE);
+            ime.setVisibility(View.VISIBLE);
+            prezime.setVisibility(View.VISIBLE);
+        }else{
+            username.setVisibility(View.VISIBLE);
+            ime.setVisibility(View.INVISIBLE);
+            prezime.setVisibility(View.INVISIBLE);
+        }
+    }
 
     void setRatingTextError(String errorText){
         textForNewRating.setError(errorText);
@@ -113,7 +142,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet && v1 != viewNoPage)
+                if(v1 != viewNoInternet && v1 != viewNoPage && v1 != viewConfirmDelete && v1 != viewDodajOcenu)
                     HideEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.GONE);
@@ -135,7 +164,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet && v1 != viewNoPage)
+                if(v1 != viewNoInternet && v1 != viewNoPage && v1 != viewConfirmDelete && v1 != viewDodajOcenu)
                     ShowEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.VISIBLE);
@@ -145,6 +174,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
     void ShowEverything(){
         ShowEverythingRecursion(viewThis);
         viewNoInternet.setVisibility(View.GONE);
+        manageButtonsAndViews();
     }
 
     Boolean IsConnectedToInternet(){
@@ -273,25 +303,17 @@ public class pregledJednogOglasa extends AppCompatActivity {
                 String dataFromDatabase = String.valueOf(task.getResult().getValue());
                 if(dataFromDatabase.equals("null")) {
                     isSaved = false;
+                    saveOglasButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_star_outline);
                 }else{
                     isSaved = true;
+                    saveOglasButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_star);
                 }
             }
         });
     }
 
     public void setupFireBase(){
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            if(FirebaseAuth.getInstance().getUid().equals(IDUser)){
-                deleteOglasButton.setVisibility(View.VISIBLE);
-                editOglasButton.setVisibility(View.VISIBLE);
-                sendMessage.setVisibility(View.GONE);
-                viewDodajOcenu.setVisibility(View.GONE);
-                saveOglasButton.setVisibility(View.GONE);
-            }else{
-                checkForSaved();
-            }
-        }
+        manageButtonsAndViews();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         FirebaseDatabase.getInstance().getReference().child("users").child(IDUser).addValueEventListener(new ValueEventListener() {
@@ -303,24 +325,13 @@ public class pregledJednogOglasa extends AppCompatActivity {
                     username.setText(user.getUsername());
                     ime.setVisibility(View.INVISIBLE);
                     prezime.setVisibility(View.INVISIBLE);
+                    haveName = false;
                 }
                 else{
                     ime.setText(user.getIme());
                     prezime.setText(user.getPrezime());
                     username.setVisibility(View.GONE);
-                }
-                String d1 = user.getDan();
-                String m1 = user.getMesec();
-                String g1 = user.getGodina();
-                String d2 = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
-                String m2 = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
-                String g2 = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
-
-                if(StaticVars.numberOfYears(d1, StaticVars.convertMonth(m1), g1, d2, m2, g2) != 122) {
-                    starost.setText(String.valueOf(StaticVars.numberOfYears(d1, StaticVars.convertMonth(m1), g1, d2, m2, g2)));
-                }
-                else{
-                    starost.setVisibility(View.GONE);
+                    haveName = true;
                 }
             }
 
@@ -386,6 +397,10 @@ public class pregledJednogOglasa extends AppCompatActivity {
 
                         }
                     });
+                } else {
+                    HideEverything();
+                    viewNoInternet.setVisibility(View.GONE);
+                    viewNoPage.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -434,12 +449,15 @@ public class pregledJednogOglasa extends AppCompatActivity {
                             FirebaseDatabase.getInstance().getReference().child("users").child(IDUser).child("oglas").child(nazivGrada).removeValue();
                             finish();
 
-                        }else
+                        }else {
+                            viewConfirmDelete.setVisibility(View.GONE);
                             HideWithReason(2);
+                        }
                     }
                 }
             });
         }else{
+            viewConfirmDelete.setVisibility(View.GONE);
             HideWithReason(2);
         }
     }
@@ -480,7 +498,8 @@ public class pregledJednogOglasa extends AppCompatActivity {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if(isDeleteOpen){
             Rect viewRect = new Rect();
-            viewConfirmDelete.getGlobalVisibleRect(viewRect);
+            View popupWinodw = (View) viewConfirmDelete.findViewById(R.id.popupWindow);
+            popupWinodw.getGlobalVisibleRect(viewRect);
             if (!viewRect.contains((int) ev.getRawX(), (int) ev.getRawY())) {
                 closeDeletePopUp();
             }
@@ -514,10 +533,12 @@ public class pregledJednogOglasa extends AppCompatActivity {
                         FirebaseAuth fAuth = FirebaseAuth.getInstance();
                         FirebaseDatabase.getInstance().getReference().child("users").child(fAuth.getUid()).child("sacuvaniOglasi").child(IDOglasa).setValue(IDOglasa);
                         Toast.makeText(pregledJednogOglasa.this, "Uspešno ste sačuvali ovaj oglas", Toast.LENGTH_LONG).show();
+                        saveOglasButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_star);
                     }else{
                         FirebaseAuth fAuth = FirebaseAuth.getInstance();
                         FirebaseDatabase.getInstance().getReference().child("users").child(fAuth.getUid()).child("sacuvaniOglasi").child(IDOglasa).removeValue();
                         Toast.makeText(pregledJednogOglasa.this, "Uspešno ste uklonili oglas sa vaše liste", Toast.LENGTH_LONG).show();
+                        saveOglasButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_star_outline);
                     }
                     isSaved = !isSaved;
                 }else{

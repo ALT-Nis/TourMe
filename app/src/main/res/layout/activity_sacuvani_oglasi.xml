@@ -25,4 +25,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
+
+    <include
+        layout="@layout/no_saved_ad"
+        android:id="@+id/nemaSacuvanih"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

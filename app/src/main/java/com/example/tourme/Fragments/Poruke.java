@@ -49,7 +49,7 @@ import java.util.List;
 public class  Poruke extends Fragment {
 
     //View
-    View viewNoInternet, viewThis, viewNotLoggedIn;
+    View viewNoInternet, viewThis, viewNotLoggedIn, viewNoMessages;
     ProgressBar progressBar;
     Button tryAgainButton, goToLoginButton;
 
@@ -99,7 +99,7 @@ public class  Poruke extends Fragment {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet && v1 != viewNotLoggedIn)
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn && v1 != viewNoMessages)
                     HideEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.GONE);
@@ -124,7 +124,7 @@ public class  Poruke extends Fragment {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet && v1 != viewNotLoggedIn)
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn && v1 != viewNoMessages)
                     ShowEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.VISIBLE);
@@ -140,6 +140,13 @@ public class  Poruke extends Fragment {
         ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+    }
+
+    public void manageNoMessages(int len){
+        if(len == 0)
+            viewNoMessages.setVisibility(View.VISIBLE);
+        else
+            viewNoMessages.setVisibility(View.GONE);
     }
 
     List<String> usersList;
@@ -220,6 +227,7 @@ public class  Poruke extends Fragment {
         viewThis = view.findViewById(R.id.porukeFragment);
         viewNoInternet = (View) view.findViewById(R.id.nemaInternet);
         viewNotLoggedIn = (View) view.findViewById(R.id.nijePrijavljen);
+        viewNoMessages = (View) view.findViewById(R.id.nemaPoruka);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
 
         tryAgainButton = viewNoInternet.findViewById(R.id.TryAgainButton);
@@ -274,6 +282,7 @@ public class  Poruke extends Fragment {
                     }
 
                 }
+                manageNoMessages(mUsers.size());
                 userAdapater = new UserAdapater(getContext(), mUsers, true);
                 recyclerView.setAdapter(userAdapater);
             }
