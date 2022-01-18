@@ -70,8 +70,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="595dp"
-            android:layout_above="@+id/loadMore"
+            android:layout_height="match_parent"
             android:layout_below="@id/prikazi_mapu"
             android:layout_marginBottom="3dp">
 

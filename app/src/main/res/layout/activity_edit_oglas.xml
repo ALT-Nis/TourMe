@@ -8,29 +8,37 @@
     android:background="?attr/colorSecondaryVariant"
     tools:context=".editOglas">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="30dp"
-        android:visibility="visible">
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Izmena oglasa"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="Izmena oglasa"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
+            android:id="@+id/zagrad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/form_bg"
-            android:layout_marginBottom="10dp"
-            android:padding="10dp"
             android:layout_centerHorizontal="true"
-            android:layout_above="@id/describe_Oglas">
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/form_bg"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/grad"
@@ -43,24 +51,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/grad"
-                android:textSize="25dp" />
+                android:textSize="18sp" />
 
         </RelativeLayout>
 
 
         <RelativeLayout
+            android:id="@+id/describe_Oglas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/zagrad"
             android:background="@drawable/form_bg"
-            android:padding="10dp"
-            android:layout_centerInParent="true"
-            android:id="@+id/describe_Oglas">
+            android:padding="10dp">
 
             <TextView
+                android:id="@+id/opis_oglasa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Opis"
-                android:id="@+id/opis_oglasa"/>
+                android:text="Opis" />
 
             <EditText
                 android:id="@+id/describeEditOglas"
@@ -68,36 +76,36 @@
                 android:layout_height="100dp"
                 android:layout_below="@id/opis_oglasa"
                 android:backgroundTint="#00000000"
-                android:maxLength="250"
                 android:gravity="bottom"
-                android:inputType="text|textMultiLine|textCapSentences" />
+                android:inputType="text|textMultiLine|textCapSentences"
+                android:maxLength="250" />
 
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/cena"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/form_bg"
-            android:layout_marginTop="10dp"
-            android:padding="10dp"
-            android:layout_centerHorizontal="true"
             android:layout_below="@id/describe_Oglas"
-            android:id="@+id/cena">
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/form_bg"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cena"/>
+                android:text="Cena" />
 
             <EditText
                 android:id="@+id/priceEditOglas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textView"
-                android:maxLength="5"
                 android:backgroundTint="#00000000"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="5" />
 
         </RelativeLayout>
 
@@ -112,6 +120,19 @@
             android:backgroundTint="?attr/colorPrimary"
             android:text="Sačuvaj izmene"
             android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/odustani"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editOglas"
+            android:layout_alignStart="@id/editOglas"
+            android:layout_alignEnd="@id/editOglas"
+            android:layout_marginTop="10dp"
+            android:text="Odbacite promene"
+            android:textColor="#FF4141"
+            app:strokeColor="#FF4141" />
 
     </RelativeLayout>
 
