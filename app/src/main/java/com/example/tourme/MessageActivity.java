@@ -300,6 +300,29 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
+        profile_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAccount(userid);
+            }
+        });
+
+        recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (bottom < oldBottom) {
+                    recyclerView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
+                            //moze i smoothScroll nzm sta lepse izgleda
+                            //za sad je ostavljeno scroll
+                        }
+                    }, 0);
+                }
+            }
+        });
+
         tryToStart();
     }
 
@@ -312,9 +335,16 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     private void openAccount(String userid){
-        Intent intent = new Intent(MessageActivity.this, Account.class);
-        intent.putExtra("userid",userid);
-        startActivity(intent);
+        if(FirebaseAuth.getInstance().getCurrentUser().getUid()!=userid){
+            Intent intent = new Intent(MessageActivity.this, Account.class);
+            intent.putExtra("userid",userid);
+            startActivity(intent);
+        }
+        else{
+            Intent intent = new Intent(MessageActivity.this, MyAccount.class);
+            startActivity(intent);
+        }
+
     }
 
     private void seenMessage(String userid){
@@ -425,6 +455,7 @@ public class MessageActivity extends AppCompatActivity {
                     messageAdapter = new MessageAdapter(MessageActivity.this, mChat, imageurl);
                     recyclerView.setAdapter(messageAdapter);
                     recyclerView.scrollToPosition(mChat.size()-1);
+
                 }
             }
 

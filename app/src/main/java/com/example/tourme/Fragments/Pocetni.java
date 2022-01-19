@@ -74,6 +74,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
     Button tryAgainButton;
     Spinner spinnerForSorting;
     Button prikazi_mapu;
+    ProgressBar loadingBar;
 
     //Firebase
     DatabaseReference reference;
@@ -233,6 +234,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
                 }
                 mOglas = sortByVariable(mOglas);
                 hideNoOglas(mOglas.size());
+                loadingBar.setVisibility(View.GONE);
 
                 oglasAdapter = new OglasAdapter(getContext(), mOglas);
                 recyclerView.setAdapter(oglasAdapter);
@@ -268,6 +270,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
         viewThis = view.findViewById(R.id.pocetniFragment);
         viewNoInternet = (View) view.findViewById(R.id.nemaInternet);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
+        loadingBar = view.findViewById(R.id.loadingBar);
 
         spinnerForSorting = view.findViewById(R.id.sortType);
         adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sortingType, android.R.layout.simple_spinner_item);
