@@ -23,7 +23,7 @@ public class editOglas extends AppCompatActivity {
     //View
     EditText editDescirbeText, editPriceText;
     TextView cityText;
-    Button changeOglasButton, tryAgainButton;
+    Button changeOglasButton, dontChangeOglasButton, tryAgainButton;
     View viewNoInternet, viewThis;
     ProgressBar progressBar;
 
@@ -129,6 +129,14 @@ public class editOglas extends AppCompatActivity {
                         HideEverything();
                     }
                 }
+            }
+        });
+
+        dontChangeOglasButton = findViewById(R.id.odustani);
+        dontChangeOglasButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

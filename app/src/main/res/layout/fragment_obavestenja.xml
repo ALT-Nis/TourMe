@@ -29,4 +29,11 @@
         android:visibility="gone"
         android:id="@+id/nijePrijavljen"/>
 
+    <include
+        layout="@layout/no_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/noNotifications"
+        android:visibility="gone"/>
+
 </RelativeLayout>

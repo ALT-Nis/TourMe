@@ -52,7 +52,7 @@ import java.util.List;
 public class Obavestenja extends Fragment {
 
     //View
-    View viewNoInternet, viewThis, viewNotLoggedIn;
+    View viewNoInternet, viewThis, viewNotLoggedIn, viewNoNotifications;
     ProgressBar progressBar;
     Button tryAgainButton, goToLoginButton;
     private RecyclerView recyclerView;
@@ -113,7 +113,7 @@ public class Obavestenja extends Fragment {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet && v1 != viewNotLoggedIn)
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn && v1 != viewNoNotifications)
                     HideEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.GONE);
@@ -138,7 +138,7 @@ public class Obavestenja extends Fragment {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet && v1 != viewNotLoggedIn)
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn && v1 != viewNoNotifications)
                     ShowEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.VISIBLE);
@@ -154,6 +154,13 @@ public class Obavestenja extends Fragment {
         ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+    }
+
+    public void shiftViewNoNotifications(int len){
+        if(len == 0)
+            viewNoNotifications.setVisibility(View.VISIBLE);
+        else
+            viewNoNotifications.setVisibility(View.GONE);
     }
 
     public boolean tryToStart(){
@@ -173,6 +180,7 @@ public class Obavestenja extends Fragment {
 
                         }
                         Collections.reverse(mNotification);
+                        shiftViewNoNotifications(mNotification.size());
                         notificationAdapter = new NotificationAdapter(getContext(), mNotification);
                         recyclerView.setAdapter(notificationAdapter);
                     }
@@ -200,6 +208,7 @@ public class Obavestenja extends Fragment {
         viewThis = view.findViewById(R.id.obavestenjaFragment);
         viewNoInternet = (View) view.findViewById(R.id.nemaInternet);
         viewNotLoggedIn = (View) view.findViewById(R.id.nijePrijavljen);
+        viewNoNotifications = (View) view.findViewById(R.id.noNotifications);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
 
         recyclerView = view.findViewById(R.id.recycler_view);

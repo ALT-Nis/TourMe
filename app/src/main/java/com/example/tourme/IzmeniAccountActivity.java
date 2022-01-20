@@ -54,7 +54,7 @@ public class IzmeniAccountActivity extends AppCompatActivity implements AdapterV
     //View
     EditText imeText, prezimeText, opisText;
     Spinner spinnerDan, spinnerMesec, spinnerGodina;
-    Button sacuvajPromene, izmeniSliku, izbrisiSliku, tryAgainButton;
+    Button sacuvajPromene, odbaciPromene, izmeniSliku, izbrisiSliku, tryAgainButton;
     ImageView profileImage;
     Uri imageUri;
     View viewNoInternet, viewThis;
@@ -260,6 +260,14 @@ public class IzmeniAccountActivity extends AppCompatActivity implements AdapterV
                 }else{
                     HideWithReason(2);
                 }
+            }
+        });
+
+        odbaciPromene = findViewById(R.id.odustani);
+        odbaciPromene.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
