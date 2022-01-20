@@ -110,6 +110,12 @@ public class pregledJednogOglasa extends AppCompatActivity {
                 saveOglasButton.setVisibility(View.VISIBLE);
                 checkForSaved();
             }
+        }else{
+            deleteOglasButton.setVisibility(View.GONE);
+            editOglasButton.setVisibility(View.GONE);
+            sendMessage.setVisibility(View.VISIBLE);
+            viewDodajOcenu.setVisibility(View.GONE);
+            saveOglasButton.setVisibility(View.GONE);
         }
 
         if(haveName){
