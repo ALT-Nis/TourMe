@@ -147,7 +147,7 @@ public class IzmeniAccountActivity extends AppCompatActivity implements AdapterV
                     opisText.setText(user.getOpis());
 
                     if (user.getImageurl().equals("default"))
-                        profileImage.setImageResource(R.mipmap.ic_launcher);
+                        profileImage.setImageResource(R.drawable.ic_profp);
                     else
                         Glide.with(getApplicationContext()).load(user.getImageurl()).into(profileImage);
                 }

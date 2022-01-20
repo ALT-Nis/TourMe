@@ -2,11 +2,11 @@
     <!-- Base application theme. -->
     <style name="Theme.TourMe" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#11d48a</item>
+        <item name="colorPrimary">#11d452</item>
         <item name="colorPrimaryVariant">#cccccc</item>
-        <item name="colorOnPrimary">#d9f2e9</item>
+        <item name="colorOnPrimary">#d9f2e0</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#11d48a</item>
+        <item name="colorSecondary">#11d452</item>
         <item name="colorSecondaryVariant">#f2f2f2</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
@@ -15,6 +15,11 @@
         <item name="android:textColor">#1a1a1a</item>
         <item name="colorOnBackground">#212121</item>
         <item name="colorControlNormal">@color/black</item>
+    </style>
+    <style name="ThemeOverlay.AppCompat.navTheme">
+        <!-- Color when SELECTED in DRAWER -->
+        <item name="colorPrimary">#1a1a1a</item>
+        <item name="colorSurface">#4dcb77</item>
     </style>
     <style name="Theme.TourMe.NoActionBar">
         <item name="windowActionBar">false</item>

@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:backgroundTint="#FF4141"
+                android:backgroundTint="@color/red"
                 android:text="Izbrišite"
                 android:textColor="@color/white" />
 
