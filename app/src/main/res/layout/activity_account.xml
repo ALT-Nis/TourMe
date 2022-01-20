@@ -59,8 +59,9 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/ukupan_broj"
             android:layout_toEndOf="@id/vertikalni"
+            android:layout_marginBottom="-3dp"
             android:text="dra"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <TextView

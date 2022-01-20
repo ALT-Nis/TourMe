@@ -66,8 +66,8 @@
                     android:layout_alignStart="@id/izmeni"
                     android:layout_alignParentEnd="true"
                     android:text="Izbrišite"
-                    android:textColor="#FF4141"
-                    app:strokeColor="#FF4141" />
+                    android:textColor="@color/red"
+                    app:strokeColor="@color/red" />
 
             </RelativeLayout>
 
@@ -219,8 +219,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="15dp"
                 android:text="Odbacite promene"
-                android:textColor="#FF4141"
-                app:strokeColor="#FF4141" />
+                android:textColor="@color/red"
+                app:strokeColor="@color/red" />
 
         </RelativeLayout>
 

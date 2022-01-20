@@ -131,8 +131,8 @@
             android:layout_alignEnd="@id/editOglas"
             android:layout_marginTop="10dp"
             android:text="Odbacite promene"
-            android:textColor="#FF4141"
-            app:strokeColor="#FF4141" />
+            android:textColor="@color/red"
+            app:strokeColor="@color/red" />
 
     </RelativeLayout>
 
