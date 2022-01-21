@@ -325,7 +325,7 @@ public class IzmeniAccountActivity extends AppCompatActivity implements AdapterV
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Neuspešno", Toast.LENGTH_LONG).show();
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override

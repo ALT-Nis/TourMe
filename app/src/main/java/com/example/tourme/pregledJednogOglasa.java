@@ -217,7 +217,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
 
                     newRatingBar.setRating(0.0F);
                     textForNewRating.setText("");
-                    Toast.makeText(pregledJednogOglasa.this, "Ocena je uspesno dodata", Toast.LENGTH_LONG).show();
+                    Toast.makeText(pregledJednogOglasa.this, "Ocena je dodata", Toast.LENGTH_LONG).show();
                 }
             });
         }else{
@@ -252,7 +252,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
                             sendNotification1(oglas.getUserId());
                             sendNotification(oglas.getUserId());
                         }else{
-                            Toast.makeText(pregledJednogOglasa.this, "ne postoji ovakav oglas", Toast.LENGTH_LONG).show();
+                            Toast.makeText(pregledJednogOglasa.this, "Ne postoji ovakav oglas", Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -538,12 +538,12 @@ public class pregledJednogOglasa extends AppCompatActivity {
                     if(!isSaved) {
                         FirebaseAuth fAuth = FirebaseAuth.getInstance();
                         FirebaseDatabase.getInstance().getReference().child("users").child(fAuth.getUid()).child("sacuvaniOglasi").child(IDOglasa).setValue(IDOglasa);
-                        Toast.makeText(pregledJednogOglasa.this, "Uspešno ste sačuvali ovaj oglas", Toast.LENGTH_LONG).show();
+                        Toast.makeText(pregledJednogOglasa.this, "Oglas je sačuvan", Toast.LENGTH_LONG).show();
                         saveOglasButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_star);
                     }else{
                         FirebaseAuth fAuth = FirebaseAuth.getInstance();
                         FirebaseDatabase.getInstance().getReference().child("users").child(fAuth.getUid()).child("sacuvaniOglasi").child(IDOglasa).removeValue();
-                        Toast.makeText(pregledJednogOglasa.this, "Uspešno ste uklonili oglas sa vaše liste", Toast.LENGTH_LONG).show();
+                        Toast.makeText(pregledJednogOglasa.this, "Oglas je uklonjen sa liste", Toast.LENGTH_LONG).show();
                         saveOglasButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_star_outline);
                     }
                     isSaved = !isSaved;

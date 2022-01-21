@@ -131,7 +131,7 @@ public class Login extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        Toast.makeText(Login.this,"Uspesno",Toast.LENGTH_LONG).show();
+                        Toast.makeText(Login.this,"Uspešna prijava",Toast.LENGTH_LONG).show();
 //                        Intent i = new Intent(Login.this, dodajOglas.class);
 //                        startActivity(i);
                         finish();

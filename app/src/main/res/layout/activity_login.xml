@@ -18,9 +18,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:text="Prijavljivanje na nalog"
-            android:textSize="20sp"
+            android:textSize="23sp"
             android:textStyle="bold" />
 
         <RelativeLayout
@@ -36,6 +36,7 @@
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:text="Korisničko ime ili e-mail" />
 
             <EditText
@@ -60,6 +61,7 @@
                 android:id="@+id/password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:text="Šifra" />
 
             <EditText
@@ -109,6 +111,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:text="Zaboravili ste sifru?"/>
 
             <TextView
@@ -118,6 +121,7 @@
                 android:clickable="true"
                 android:text="Obnovite je ovde."
                 android:layout_marginStart="5dp"
+                android:textSize="15sp"
                 android:textStyle="bold"/>
 
         </LinearLayout>
@@ -133,6 +137,7 @@
                 android:id="@+id/bezNaloga"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:text="Nemate nalog?"/>
 
             <TextView
@@ -142,6 +147,7 @@
                 android:clickable="true"
                 android:text="Registrujte se ovde."
                 android:layout_marginStart="5dp"
+                android:textSize="15sp"
                 android:textStyle="bold"/>
 
         </LinearLayout>

@@ -151,7 +151,7 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
                             mDatabase.child("oglasi").child(idOglasa).setValue(oglas);
                             mDatabase.child("users").child(userId).child("brojOglasa").setValue(newNumberForOglas);
                             mDatabase.child("users").child(userId).child("oglas").child(cityText).setValue(idOglasa);
-                            createToast("Uspesno ste kreirali oglas");
+                            createToast("Uspešno ste postavili oglas");
                             finish();
                         }else
                             HideWithReason(2);
@@ -174,7 +174,7 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
                         if(existsOglas.equals("null"))
                             finishAddingOglas(userId, imageurl, username);
                         else
-                            createToast("vec postoji oglas sa ovim gradom");
+                            createToast("Već postoji oglas za ovaj grad");
                     }
                 }
             });
@@ -198,7 +198,7 @@ public class dodajOglas extends AppCompatActivity implements AdapterView.OnItemS
                             String username = user.getUsername();
                             continueAddingOglas(userId, imageurl, username);
                         }else
-                            createToast("ne postoji ovakav nalog");
+                            createToast("Ne postoji ovakav nalog");
                     }
                 }
             });
