@@ -380,7 +380,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
 
                                 opis.setText(opisString);
                                 grad.setText(gradString);
-                                cena.setText(cenaString + "RSD");
+                                cena.setText(cenaString);
 
                                 String nekiGrad = "@drawable/slika_" + oglas.getGrad().toLowerCase().replace(" ", "_")
                                         .replace("š", "s").replace("č", "c")

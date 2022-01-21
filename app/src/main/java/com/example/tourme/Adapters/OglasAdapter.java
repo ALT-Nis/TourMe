@@ -66,7 +66,7 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
 
                 User user = snapshot.getValue(User.class);
                 //holder.username.setText(oglas.getUsername());
-                holder.cena.setText(oglas.getCenaOglasa()+" rsd");
+                holder.cena.setText(oglas.getCenaOglasa()+"");
                 if(user.getIme().equals("") || user.getPrezime().equals("")){
                     holder.username.setVisibility(View.VISIBLE);
                     holder.username.setText(user.getUsername());
