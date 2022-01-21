@@ -21,7 +21,7 @@
             android:layout_height="40dp"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="65dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="15dp"
             android:background="?attr/colorPrimaryVariant" />
@@ -50,7 +50,7 @@
             android:layout_alignBottom="@id/vertikalni"
             android:layout_marginStart="10dp"
             android:layout_toStartOf="@id/vertikalni"
-            android:text="4,5"
+            android:text=""
             android:textSize="35sp" />
 
         <TextView
@@ -59,8 +59,9 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/ukupan_broj"
             android:layout_toEndOf="@id/vertikalni"
-            android:text="dra"
-            android:textSize="20sp"
+            android:layout_marginBottom="-3dp"
+            android:text=""
+            android:textSize="23sp"
             android:textStyle="bold" />
 
         <TextView
@@ -69,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/prosecna_occena"
             android:layout_toEndOf="@id/vertikalni"
+            android:textSize="15sp"
             android:text="Ukupan broj ocena" />
 
         <View
@@ -88,6 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/horiz1"
             android:layout_margin="10dp"
+            android:textSize="15sp"
             android:text="Moji oglasi" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -122,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@id/profile_image"
-            android:text="Korisničko ime"
+            android:text=""
             android:textSize="18sp" />
 
         <TextView
@@ -130,7 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Ime"
+            android:text=""
             android:textSize="23sp"
             android:layout_alignEnd="@id/username"
             android:layout_below="@id/username"
@@ -142,7 +145,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ime"
             android:layout_alignEnd="@id/username"
-            android:text="Prezime"
+            android:text=""
             android:textSize="23sp"
             android:textStyle="bold" />
 
@@ -153,7 +156,7 @@
             android:layout_below="@id/prezime"
             android:layout_alignEnd="@id/prezime"
             android:layout_marginTop="5dp"
-            android:text="21"
+            android:text=""
             android:textSize="23sp" />
 
         <TextView
@@ -162,7 +165,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/profile_image"
             android:layout_marginTop="15dp"
-            android:text="Kratak opis vodiča" />
+            android:textSize="15sp"
+            android:text="" />
 
         <Button
             android:id="@+id/izmeni"

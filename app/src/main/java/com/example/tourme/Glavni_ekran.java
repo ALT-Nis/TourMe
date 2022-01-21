@@ -185,7 +185,7 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
                     if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
                         status("offline");
                         FirebaseAuth.getInstance().signOut();
-                        Toast.makeText(Glavni_ekran.this, "Logged out", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Glavni_ekran.this, "Uspešna odjava", Toast.LENGTH_LONG).show();
                         i = new Intent(Glavni_ekran.this, Login.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

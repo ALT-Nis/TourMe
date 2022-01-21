@@ -23,7 +23,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/profile_image"
-        android:text="Ime"
+        android:text=""
         android:textSize="18sp" />
 
     <TextView
@@ -32,14 +32,14 @@
         android:id="@+id/prezime"
         android:layout_toEndOf="@id/ime"
         android:layout_marginStart="5dp"
-        android:text="Prezime"
+        android:text=""
         android:layout_centerVertical="true"
         android:textSize="18sp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ime korisnika"
+        android:text=""
         android:id="@+id/username"
         android:layout_toEndOf="@id/profile_image"
         android:layout_marginStart="10dp"

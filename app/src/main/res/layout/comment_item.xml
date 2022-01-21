@@ -29,9 +29,9 @@
         android:layout_marginStart="10dp"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:textSize="16sp"
+        android:textSize="15sp"
         android:textStyle="bold"
-        android:text="Ime korisnika"
+        android:text=""
         android:visibility="gone"/>
 
     <TextView
@@ -43,27 +43,27 @@
         android:layout_marginStart="10dp"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:textSize="16sp"
+        android:textSize="15sp"
         android:textStyle="bold"
-        android:text="Ime"/>
+        android:text="milosav"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Prezime"
+        android:text="gvozdencic"
         android:id="@+id/prezime"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@id/ime"
         android:layout_alignBottom="@id/ime"
-        android:textSize="16sp"
+        android:textSize="15sp"
         android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/deskripcija"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Komentar"
-        android:textSize="16sp"
+        android:text="cisto sranje bajo moj"
+        android:textSize="15sp"
         android:layout_alignStart="@id/ime"
         android:layout_below="@id/ime"/>
 

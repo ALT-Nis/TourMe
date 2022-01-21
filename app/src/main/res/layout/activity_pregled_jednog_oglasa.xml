@@ -62,7 +62,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_toEndOf="@id/profile_image"
-                    android:text="Ime"
+                    android:text=""
                     android:textSize="18sp"
                     android:visibility="visible" />
 
@@ -73,7 +73,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_toEndOf="@id/profile_image"
-                    android:text="Username"
+                    android:text=""
                     android:textSize="18sp"
                     android:visibility="gone" />
 
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ime"
                     android:layout_alignStart="@id/ime"
-                    android:text="Prezime"
+                    android:text=""
                     android:textSize="18sp"
                     android:visibility="visible" />
 
@@ -94,8 +94,8 @@
                     android:layout_below="@id/prezime"
                     android:layout_alignStart="@id/ime"
                     android:layout_marginTop="5dp"
-                    android:text="Grad"
-                    android:textSize="20sp"
+                    android:text=""
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:visibility="visible" />
 
@@ -103,10 +103,20 @@
                     android:id="@+id/cena2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/rsd"
+                    android:layout_alignBaseline="@id/rsd"
+                    android:textSize="18sp"
+                    android:text="650"/>
+
+                <TextView
+                    android:id="@+id/rsd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text="RSD"
+                    android:textSize="13sp"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignBottom="@id/grad"
-                    android:textSize="20sp"
-                    android:text="300 rsd" />
+                    android:layout_alignBottom="@id/grad"/>
 
                 <TextView
                     android:id="@+id/opis"
@@ -114,7 +124,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/profile_image"
                     android:layout_marginTop="10dp"
-                    android:text="Opis oglasa" />
+                    android:textSize="15sp"
+                    android:text="" />
 
                 <Button
                     android:id="@+id/sendMessage"
@@ -170,7 +181,7 @@
                 android:layout_below="@id/user_details"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginBottom="15dp"
                 android:background="?attr/colorPrimaryVariant"
@@ -200,7 +211,7 @@
                 android:layout_alignBottom="@id/vertikalni"
                 android:layout_marginStart="10dp"
                 android:layout_toStartOf="@id/vertikalni"
-                android:text="4,5"
+                android:text=""
                 android:textSize="35sp" />
 
             <TextView
@@ -209,8 +220,9 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/ukupan_broj"
                 android:layout_toEndOf="@id/vertikalni"
-                android:text="dra"
-                android:textSize="20sp"
+                android:layout_marginBottom="-3dp"
+                android:text=""
+                android:textSize="23sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -219,6 +231,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/prosecna_occena"
                 android:layout_toEndOf="@id/vertikalni"
+                android:textSize="15sp"
                 android:text="Ukupan broj ocena" />
 
             <View

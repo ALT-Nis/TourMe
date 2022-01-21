@@ -20,7 +20,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:text="Postavljanje novog oglasa"
-            android:textSize="20sp"
+            android:textSize="23sp"
             android:textStyle="bold" />
 
         <RelativeLayout
@@ -36,6 +36,7 @@
                 android:id="@+id/grad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:text="Grad" />
 
             <Spinner
@@ -59,6 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Opis"
+                android:textSize="15sp"
                 android:id="@+id/opis_oglasa"/>
 
             <EditText
@@ -87,6 +89,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:text="Cena"/>
 
             <EditText

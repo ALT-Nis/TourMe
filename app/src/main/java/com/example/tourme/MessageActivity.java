@@ -269,7 +269,7 @@ public class MessageActivity extends AppCompatActivity {
                         sendMessage(fUser.getUid(), userid, msg);
                         sendNotification1(fUser.getUid(), userid);
                     }else{
-                        Toast.makeText(MessageActivity.this, "Prazana poruka", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MessageActivity.this, "Ne možete da pošaljete praznu poruku", Toast.LENGTH_LONG).show();
                     }
 
                     text_send.setText("");

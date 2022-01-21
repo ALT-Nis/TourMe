@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="Izmena oglasa"
-        android:textSize="20sp"
+        android:textSize="23sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,6 +44,7 @@
                 android:id="@+id/grad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:text="Grad" />
 
             <TextView
@@ -68,6 +69,7 @@
                 android:id="@+id/opis_oglasa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:text="Opis" />
 
             <EditText
@@ -96,6 +98,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:text="Cena" />
 
             <EditText

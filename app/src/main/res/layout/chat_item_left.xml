@@ -9,8 +9,8 @@
         android:id="@+id/profile_image"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:src="@drawable/ic_profp"
-        android:layout_alignBottom="@id/show_message"/>
+        android:layout_alignBottom="@id/show_message"
+        android:src="@drawable/ic_profp" />
 
     <TextView
         android:id="@+id/show_message"
@@ -19,7 +19,7 @@
         android:layout_toEndOf="@+id/profile_image"
         android:background="@drawable/background_left"
         android:padding="10dp"
-        android:textSize="16sp"
+        android:textSize="15sp"
         android:text="test"
         android:layout_marginStart="5dp"
         android:layout_marginBottom="1dp"
