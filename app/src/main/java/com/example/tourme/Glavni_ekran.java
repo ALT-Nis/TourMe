@@ -22,12 +22,17 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.tourme.Fragments.Obavestenja;
 import com.example.tourme.Fragments.Pocetni;
 import com.example.tourme.Fragments.Poruke;
 import com.example.tourme.Model.StaticVars;
+import com.example.tourme.Model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,17 +49,41 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Set;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class Glavni_ekran extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
     BottomNavigationView bottomNavigationView;
     NavigationView navigationView;
     String fragment;
+    View headerView;
+    CircleImageView profileImage;
+    TextView profileUsername;
+    boolean firstTimeDataChange = false;
+
+    FirebaseAuth fAuth;
 
     Boolean IsConnectedToInternet(){
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         return connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+    }
+
+    public void updateUser(){
+        fAuth = FirebaseAuth.getInstance();
+        String userId = fAuth.getCurrentUser().getUid();
+        FirebaseDatabase.getInstance().getReference().child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                User user = task.getResult().getValue(User.class);
+                profileUsername.setText(user.getUsername());
+                if (user.getImageurl().equals("default"))
+                    profileImage.setImageResource(R.drawable.ic_profp);
+                else
+                    Glide.with(Glavni_ekran.this).load(user.getImageurl()).into(profileImage);
+            }
+        });
     }
 
     @Override
@@ -68,6 +97,11 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        headerView = navigationView.getHeaderView(0);
+        profileImage = headerView.findViewById(R.id.profile_image);
+        profileUsername = headerView.findViewById(R.id.profile_username);
+
+
         fragment = getIntent().getStringExtra("fragment");
 
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -80,6 +114,17 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
                         navigationView.getMenu().findItem(R.id.logInOut).setTitle("Odjavite se");
                 }else{
                     navigationView.getMenu().findItem(R.id.logInOut).setTitle("Prijavite se");
+                }
+
+                if(IsConnectedToInternet()){
+                    if(FirebaseAuth.getInstance().getCurrentUser()==null)
+                        headerView.setVisibility(View.GONE);
+                    else {
+                        headerView.setVisibility(View.VISIBLE);
+                        updateUser();
+                    }
+                }else{
+                    headerView.setVisibility(View.GONE);
                 }
             }
 
@@ -115,20 +160,26 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
         }else{
             navigationView.getMenu().findItem(R.id.logInOut).setTitle("Prijavite se");
         }
+
+        if(IsConnectedToInternet()){
+            if(FirebaseAuth.getInstance().getCurrentUser()==null)
+                headerView.setVisibility(View.GONE);
+            else
+                headerView.setVisibility(View.VISIBLE);
+        }else{
+            headerView.setVisibility(View.GONE);
+        }
     }
 
     public boolean isDrawerOpen(){
-        Log.e(String.valueOf(drawerLayout.isDrawerOpen(Gravity.RIGHT)),"dsa");
         return drawerLayout.isDrawerOpen(Gravity.RIGHT);
     }
 
     @Override
     public void onBackPressed() {
-        Log.e("doso", "ovde");
         if(!isDrawerOpen()) {
             super.onBackPressed();
         }else{
-            Log.e("doso", "sad ovde");
             drawerLayout.closeDrawer(Gravity.RIGHT);
         }
     }
@@ -242,6 +293,17 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
                 item.setTitle("Odjavite se");
         }else {
             item.setTitle("Prijavite se");
+        }
+
+        if(IsConnectedToInternet()){
+            if(FirebaseAuth.getInstance().getCurrentUser()==null)
+                headerView.setVisibility(View.GONE);
+            else {
+                headerView.setVisibility(View.VISIBLE);
+                updateUser();
+            }
+        }else{
+            headerView.setVisibility(View.GONE);
         }
     }
 
