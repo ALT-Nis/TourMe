@@ -2,9 +2,7 @@ package com.example.tourme;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -14,7 +12,6 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -228,7 +224,7 @@ public class Register extends AppCompatActivity {
             public void onClick(View view) {
                 if(isPasswordHidden){
                     mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    buttonShowHidePassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_eye_cross);
+                    buttonShowHidePassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_eye_crossed);
                 }else{
                     mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     buttonShowHidePassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_eye);
@@ -244,7 +240,7 @@ public class Register extends AppCompatActivity {
             public void onClick(View view) {
                 if(isConfirmPasswordHidden){
                     mConfirmPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    buttonShowHideConfirmPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_eye_cross);
+                    buttonShowHideConfirmPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_eye_crossed);
                 }else{
                     mConfirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     buttonShowHideConfirmPassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_eye);

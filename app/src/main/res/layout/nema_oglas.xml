@@ -9,7 +9,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_nema_gradova"/>
+        android:src="@drawable/ic_no_ads"/>
 
     <TextView
         android:layout_width="wrap_content"

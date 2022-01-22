@@ -9,7 +9,7 @@
         android:layout_width="130dp"
         android:layout_height="100dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/ic_nema_internet"
+        android:src="@drawable/ic_no_net"
         android:id="@+id/ico_ni"/>
 
     <TextView

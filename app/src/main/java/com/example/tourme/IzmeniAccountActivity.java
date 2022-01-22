@@ -12,7 +12,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,11 +24,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.tourme.Adapters.OglasAdapter;
-import com.example.tourme.Fragments.Pocetni;
-import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -45,8 +40,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class IzmeniAccountActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -147,7 +140,7 @@ public class IzmeniAccountActivity extends AppCompatActivity implements AdapterV
                     opisText.setText(user.getOpis());
 
                     if (user.getImageurl().equals("default"))
-                        profileImage.setImageResource(R.drawable.ic_profp);
+                        profileImage.setImageResource(R.drawable.default_image);
                     else
                         Glide.with(getApplicationContext()).load(user.getImageurl()).into(profileImage);
                 }

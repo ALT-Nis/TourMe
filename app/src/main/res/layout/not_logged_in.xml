@@ -20,7 +20,7 @@
         android:id="@+id/not_logged"
         android:layout_below="@id/pic"
         android:layout_centerHorizontal="true"
-        android:text="Niste prijavljeni. Prijavite se da bi ste nastavili."
+        android:text="Niste prijavljeni. Prijavite se da biste nastavili."
         android:textSize="18sp"
         android:gravity="center"/>
 

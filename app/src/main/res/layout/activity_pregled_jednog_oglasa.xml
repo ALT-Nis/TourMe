@@ -24,7 +24,7 @@
                 android:layout_height="250dp"
                 android:scaleType="centerCrop"
                 android:id="@+id/slikaGrada"
-                android:src="@drawable/slika_nis" />
+                android:src="@drawable/ph_nis" />
 
             <RelativeLayout
                 android:id="@+id/user_details"
@@ -43,7 +43,7 @@
                     android:id="@+id/profile_image"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/ic_profp" />
+                    android:src="@drawable/default_image" />
 
                 <Button
                     android:id="@+id/saveOglasButton"
@@ -135,7 +135,7 @@
                     android:layout_marginStart="40dp"
                     android:layout_marginEnd="40dp"
                     android:layout_marginTop="10dp"
-                    android:text="Posaljite poruku"
+                    android:text="Pošaljite poruku"
                     android:textColor="@color/white"
                     android:visibility="visible" />
 
@@ -150,24 +150,24 @@
 
                     <Button
                         android:id="@+id/editButton"
-                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:text="Izmenite"
-                        android:textColor="?attr/colorPrimary"
-                        android:visibility="gone"
-                        app:strokeColor="?attr/colorPrimary" />
+                        android:textColor="@color/white"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/deleteThisButton"
+                        style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_weight="1"
                         android:text="izbrišite"
-                        android:textColor="@color/white"
+                        android:textColor="@color/red"
+                        app:strokeColor="@color/red"
                         android:visibility="gone" />
 
                 </LinearLayout>
@@ -180,10 +180,7 @@
                 android:layout_height="40dp"
                 android:layout_below="@id/user_details"
                 android:layout_centerHorizontal="true"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_margin="15dp"
                 android:background="?attr/colorPrimaryVariant"
                 android:visibility="visible" />
 

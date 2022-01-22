@@ -117,7 +117,7 @@
             android:layout_height="120dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/ic_profp" />
+            android:src="@drawable/default_image" />
 
         <TextView
             android:id="@+id/username"

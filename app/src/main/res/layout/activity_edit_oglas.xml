@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/form_bg"
+            android:background="@drawable/bg_form"
             android:padding="10dp">
 
             <TextView
@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/zagrad"
-            android:background="@drawable/form_bg"
+            android:background="@drawable/bg_form"
             android:padding="10dp">
 
             <TextView
@@ -92,7 +92,7 @@
             android:layout_below="@id/describe_Oglas"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:background="@drawable/form_bg"
+            android:background="@drawable/bg_form"
             android:padding="10dp">
 
             <TextView
@@ -123,7 +123,7 @@
             android:layout_alignEnd="@id/cena"
             android:layout_marginTop="40dp"
             android:backgroundTint="?attr/colorPrimary"
-            android:text="Sačuvaj izmene"
+            android:text="Sačuvajte"
             android:textColor="@color/white" />
 
         <Button
@@ -135,7 +135,7 @@
             android:layout_alignStart="@id/editOglas"
             android:layout_alignEnd="@id/editOglas"
             android:layout_marginTop="10dp"
-            android:text="Odbacite promene"
+            android:text="Odbacite izmene"
             android:textColor="@color/red"
             app:strokeColor="@color/red" />
 

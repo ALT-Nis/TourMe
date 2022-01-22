@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.tourme.Account;
-import com.example.tourme.Model.Chat;
 import com.example.tourme.Model.Comment;
 import com.example.tourme.Model.User;
 import com.example.tourme.R;
@@ -25,8 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder>{
 
@@ -108,7 +105,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                     });
                 }
                 if (user.getImageurl().equals("default")){
-                    holder.comment_image.setImageResource(R.drawable.ic_profp);
+                    holder.comment_image.setImageResource(R.drawable.default_image);
                 } else {
                     if(isValidContextForGlide(mContext))
                         Glide.with(mContext).load(user.getImageurl()).into(holder.comment_image);

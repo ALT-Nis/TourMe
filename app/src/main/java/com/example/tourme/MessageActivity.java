@@ -11,7 +11,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,9 +25,7 @@ import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.example.tourme.Adapters.MessageAdapter;
-import com.example.tourme.Fragments.Poruke;
 import com.example.tourme.Model.Chat;
-import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
 import com.example.tourme.Notifications.APIService;
@@ -152,7 +149,7 @@ public class MessageActivity extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 username.setText(user.getUsername());
                 if (user.getImageurl().equals("default")) {
-                    profile_image.setImageResource(R.drawable.ic_profp);
+                    profile_image.setImageResource(R.drawable.default_image);
                 } else {
                     Glide.with(getApplicationContext()).load(user.getImageurl()).into(profile_image);
                 }
@@ -408,7 +405,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Token token = dataSnapshot.getValue(Token.class);
-                    Data data = new Data(fUser.getUid(), R.drawable.ic_logo,username + " ti je poslao poruku", "Nova poruka", userid);
+                    Data data = new Data(fUser.getUid(), R.drawable.logo,username + " ti je poslao poruku", "Nova poruka", userid);
 
                     Sender sender = new Sender(data, token.getToken());
 

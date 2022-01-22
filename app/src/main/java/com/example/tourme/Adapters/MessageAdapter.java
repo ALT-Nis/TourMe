@@ -1,29 +1,20 @@
 package com.example.tourme.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.tourme.MessageActivity;
 import com.example.tourme.Model.Chat;
-import com.example.tourme.Model.User;
 import com.example.tourme.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -64,7 +55,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         holder.show_message.setText(chat.getMessage());
 
         if(imageurl.equals("default")){
-            holder.profile_image.setImageResource(R.drawable.ic_profp);
+            holder.profile_image.setImageResource(R.drawable.default_image);
         }else{
             Glide.with(mContext).load(imageurl).into(holder.profile_image);
         }

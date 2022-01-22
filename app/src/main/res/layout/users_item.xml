@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/okvir"
     android:padding="10dp"
-    android:background="@drawable/oglas_bg"
+    android:background="@drawable/bg3"
     android:layout_marginTop="10dp"
     android:layout_marginEnd="10dp"
     android:layout_marginStart="10dp">
@@ -14,7 +14,7 @@
         android:id="@+id/profile_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_profp" />
+        android:src="@drawable/default_image" />
 
     <TextView
         android:id="@+id/ime"
@@ -54,7 +54,6 @@
         app:civ_border_color="#05df29"
         android:id="@+id/img_on"
         android:visibility="gone"
-        android:src="@mipmap/ic_launcher"
         android:layout_below="@+id/profile_image"
         android:layout_toEndOf="@id/profile_image"
         android:layout_marginStart="-10dp"
@@ -68,7 +67,6 @@
         app:civ_border_color="#bfbfbf"
         android:id="@+id/img_off"
         android:visibility="visible"
-        android:src="@mipmap/ic_launcher"
         android:layout_below="@+id/profile_image"
         android:layout_toEndOf="@id/profile_image"
         android:layout_marginStart="-10dp"
