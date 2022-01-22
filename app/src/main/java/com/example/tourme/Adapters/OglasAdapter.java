@@ -3,7 +3,6 @@ package com.example.tourme.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +80,7 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
                 holder.grad.setText(oglas.getGrad());
 
                 if(user.getImageurl().equals("default")){
-                    holder.oglas_image.setImageResource(R.drawable.ic_profp);
+                    holder.oglas_image.setImageResource(R.drawable.default_image);
                 }else{
                     if(isValidContextForGlide(mContext))
                         Glide.with(mContext).load(user.getImageurl()).into(holder.oglas_image);

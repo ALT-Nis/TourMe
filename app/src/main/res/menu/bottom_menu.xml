@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/pocetni"
-        android:title="Pocetni"
+        android:title="Početni"
         android:icon="@drawable/ic_home" />
     <item
         android:id="@+id/poruke"
@@ -11,7 +11,7 @@
         android:icon="@drawable/ic_message"/>
     <item
         android:id="@+id/obavestenja"
-        android:title="Obavestenja"
+        android:title="Obaveštenja"
         android:icon="@drawable/ic_notifications"/>
     <item
         android:id="@+id/podesavanja"
