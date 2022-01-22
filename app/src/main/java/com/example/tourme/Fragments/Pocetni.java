@@ -37,6 +37,7 @@ import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
+import com.example.tourme.Notifications.Token;
 import com.example.tourme.R;
 import com.example.tourme.mapaGradovi;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,6 +50,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -73,7 +75,6 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
     ProgressBar progressBar;
     Button tryAgainButton;
     Spinner spinnerForSorting;
-    Button prikazi_mapu;
     ProgressBar loadingBar;
 
     //Firebase
@@ -221,6 +222,20 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
     }
 
     public void setupFirebase(){
+
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+            FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                @Override
+                public void onComplete(@NonNull Task<String> task) {
+                    if (task.isSuccessful()) {
+                        String token = task.getResult().toString();
+                        Log.d("Token", "token:" + token);
+                        updateToken(token);
+                    }
+                }
+            });
+        }
+
         reference = FirebaseDatabase.getInstance().getReference();
         reference.child("oglasi").addValueEventListener(new ValueEventListener() {
             @Override
@@ -327,14 +342,12 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
             }
         });
 
-        prikazi_mapu = view.findViewById(R.id.prikazi_mapu);
-        prikazi_mapu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext(), mapaGradovi.class);
-                startActivity(i);
-            }
-        });
+    }
+
+    private void updateToken(String token){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token token1 = new Token(token);
+        reference.child(FirebaseAuth.getInstance().getUid()).setValue(token1);
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -56,7 +57,9 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-       if(StaticVars.isObavestenja) {
+        SharedPreferences prefs = getSharedPreferences("Settings", MODE_PRIVATE);
+        Boolean isObavestenja = prefs.getBoolean("isObavestenja",true);
+       if(isObavestenja) {
             if (firebaseUser != null && sented.equals(firebaseUser.getUid()) && title.equals("Nova ocena")) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     sendOreoNotificationRating(remoteMessage);

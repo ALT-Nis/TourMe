@@ -11,7 +11,6 @@ public class StaticVars {
     public static List<Integer> listOfFragments = new ArrayList<>();
 
     public static boolean isPoruke = false;
-    public static boolean isObavestenja = true;
 
     public static String convertMonth(String m){
         switch (m){

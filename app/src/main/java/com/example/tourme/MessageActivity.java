@@ -266,7 +266,7 @@ public class MessageActivity extends AppCompatActivity {
                     notify = true;
                     String msg = text_send.getText().toString();
                     if(!msg.equals("")){
-                        sendMessage(fUser.getUid(), userid, msg);
+                        sendMessage(fUser.getUid(), userid, msg.trim());
                         sendNotification1(fUser.getUid(), userid);
                     }else{
                         Toast.makeText(MessageActivity.this, "Ne možete da pošaljete praznu poruku", Toast.LENGTH_LONG).show();

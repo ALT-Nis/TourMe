@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.tourme.Adapters.NotificationAdapter;
 import com.example.tourme.Adapters.UserAdapater;
@@ -30,6 +31,7 @@ import com.example.tourme.Model.User;
 import com.example.tourme.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -57,6 +59,7 @@ public class Obavestenja extends Fragment {
     Button tryAgainButton, goToLoginButton;
     private RecyclerView recyclerView;
     private NotificationAdapter notificationAdapter;
+    FloatingActionButton deleteNotifications;
 
     //Firebase
 
@@ -241,7 +244,39 @@ public class Obavestenja extends Fragment {
             }
         });
 
+        deleteNotifications = view.findViewById(R.id.deleteNotifications);
+        deleteNotifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteAllNotifications();
+            }
+        });
         tryToStart();
+    }
+
+    public void deleteAllNotifications(){
+            if(IsConnectedToInternet()){
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("notifications");
+                    reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            DataSnapshot snapshot = task.getResult();
+                            List<Notification> mNotification = new ArrayList<>();
+                            for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                Notification notification = dataSnapshot.getValue(Notification.class);
+
+                                if(notification.getTo().equals(FirebaseAuth.getInstance().getUid())){
+                                    dataSnapshot.getRef().removeValue();
+                                    Toast.makeText(getContext(), "Obavestenja su izbrisana", Toast.LENGTH_LONG).show();
+                                }
+
+                            }
+                        }
+                    });
+
+                }
+            }
     }
 
     @Override
