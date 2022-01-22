@@ -191,8 +191,8 @@
                 android:id="@+id/prosecna_occena"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/ocena"
-                android:layout_toStartOf="@id/ocena"
+                android:layout_alignBottom="@id/vertikalni"
+                android:layout_toStartOf="@id/vertikalni"
                 android:text="Prosečna ocena"
                 android:textSize="15sp" />
 
@@ -202,17 +202,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/vertikalni"
-                android:layout_alignEnd="@id/prosecna_occena" />
+                android:layout_toStartOf="@id/ocena" />
 
             <TextView
                 android:id="@+id/ocena"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/vertikalni"
+                android:layout_above="@id/prosecna_occena"
                 android:layout_marginStart="10dp"
+                android:layout_marginBottom="-3dp"
                 android:layout_toStartOf="@id/vertikalni"
                 android:text=""
-                android:textSize="35sp" />
+                android:textStyle="bold"
+                android:textSize="23sp" />
 
             <TextView
                 android:id="@+id/ukupanBrojOcena"
@@ -287,7 +289,8 @@
                     android:gravity="bottom"
                     android:hint="Napišite komentar"
                     android:inputType="text|textMultiLine|textCapSentences"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:textSize="15sp"/>
 
                 <Button
                     android:id="@+id/addRatingButton"

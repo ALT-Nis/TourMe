@@ -10,8 +10,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/oglas_image"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/ic_profp" />
 
         <RatingBar
@@ -19,8 +19,8 @@
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/oglas_image"
-            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@id/ime"
             android:numStars="5"
             android:rating="0" />
 
@@ -30,7 +30,6 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/oglas_image"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_toEndOf="@id/oglas_image"
             android:text=""
@@ -44,15 +43,13 @@
             android:layout_alignTop="@id/oglas_image"
             android:layout_toEndOf="@id/oglas_image"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
             android:textSize="18sp"
-            android:text="milosav"/>
+            android:text=""/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="gvozdenovic"
+            android:text=""
             android:id="@+id/prezime"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@id/ime"
@@ -63,9 +60,9 @@
             android:id="@+id/grad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ime"
+            android:layout_alignBottom="@id/oglas_image"
             android:layout_alignStart="@id/ime"
-            android:text="svilajnac"
+            android:text=""
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -85,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/rsd"
             android:layout_toStartOf="@id/rsd"
-            android:text="1389"
+            android:text=""
             android:textSize="18sp" />
 
 </RelativeLayout>
