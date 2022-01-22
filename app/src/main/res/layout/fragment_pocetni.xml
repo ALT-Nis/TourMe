@@ -19,11 +19,12 @@
             android:id="@+id/searchBar"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="70dp"
+            android:layout_marginStart="10dp"
+            android:layout_toStartOf="@id/searchButton"
             android:background="@drawable/bg"
             android:completionThreshold="1"
             android:hint="Odaberite grad"
+            android:textSize="15sp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp" />
 
@@ -31,9 +32,10 @@
             android:id="@+id/searchButton"
             android:layout_width="40dp"
             android:layout_height="45dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="15dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
             android:backgroundTint="?attr/colorOnSecondary"
+            android:layout_toStartOf="@id/prikazi_mapu"
             android:drawableBottom="@drawable/ic_search" />
 
         <TextView
@@ -59,10 +61,10 @@
         <Button
             android:id="@+id/prikazi_mapu"
             style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_below="@id/searchButton"
-            android:layout_alignEnd="@id/searchButton"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
             android:text="Mapa"
             android:textColor="?attr/colorPrimary"
             app:strokeColor="?attr/colorPrimary" />
@@ -71,7 +73,8 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/prikazi_mapu"
+            android:layout_below="@id/sortType"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="3dp">
 
         </androidx.recyclerview.widget.RecyclerView>

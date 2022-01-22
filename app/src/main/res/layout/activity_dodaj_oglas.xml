@@ -71,6 +71,7 @@
                 android:maxLength="250"
                 android:backgroundTint="#00000000"
                 android:gravity="bottom"
+                android:textSize="15sp"
                 android:inputType="text|textMultiLine|textCapSentences" />
 
         </RelativeLayout>
@@ -99,6 +100,7 @@
                 android:layout_below="@id/textView"
                 android:maxLength="5"
                 android:backgroundTint="#00000000"
+                android:textSize="15sp"
                 android:inputType="number" />
 
         </RelativeLayout>

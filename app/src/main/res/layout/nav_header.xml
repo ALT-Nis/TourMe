@@ -3,7 +3,7 @@
     android:id="@+id/header_profile"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorOnSecondary"
+    android:background="@drawable/bg_nav_header"
     android:padding="20dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -11,7 +11,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         android:src="@drawable/ic_profp" />
 
     <TextView

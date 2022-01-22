@@ -7,9 +7,10 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignBottom="@id/show_message"
+        android:layout_marginBottom="3dp"
         android:src="@drawable/ic_profp" />
 
     <TextView

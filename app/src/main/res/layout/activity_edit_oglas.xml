@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/grad"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
         </RelativeLayout>
 
@@ -79,6 +79,7 @@
                 android:layout_below="@id/opis_oglasa"
                 android:backgroundTint="#00000000"
                 android:gravity="bottom"
+                android:textSize="15sp"
                 android:inputType="text|textMultiLine|textCapSentences"
                 android:maxLength="250" />
 
@@ -108,6 +109,7 @@
                 android:layout_below="@id/textView"
                 android:backgroundTint="#00000000"
                 android:inputType="number"
+                android:textSize="15sp"
                 android:maxLength="5" />
 
         </RelativeLayout>
