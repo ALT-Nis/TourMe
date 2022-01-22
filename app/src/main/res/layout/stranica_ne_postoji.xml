@@ -8,7 +8,7 @@
     <ImageView
         android:layout_width="130dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_nema_stranice"
+        android:src="@drawable/ic_no_page"
         android:layout_marginBottom="15dp"
         android:id="@+id/ico_ns"
         android:layout_centerInParent="true"/>

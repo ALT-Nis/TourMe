@@ -11,14 +11,14 @@
         android:layout_height="30dp"
         android:layout_alignBottom="@id/show_message"
         android:layout_marginBottom="3dp"
-        android:src="@drawable/ic_profp" />
+        android:src="@drawable/default_image" />
 
     <TextView
         android:id="@+id/show_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/profile_image"
-        android:background="@drawable/background_left"
+        android:background="@drawable/bg_left"
         android:padding="10dp"
         android:textSize="15sp"
         android:text="test"

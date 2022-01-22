@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tourme.Model.Gradovi;
 import com.example.tourme.Model.StaticVars;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,8 +30,6 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 
@@ -274,7 +270,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 if(isPasswordHidden){
                     mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    buttonShowHidePassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_eye_cross);
+                    buttonShowHidePassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_eye_crossed);
                 }else{
                     mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     buttonShowHidePassword.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, R.drawable.ic_eye);

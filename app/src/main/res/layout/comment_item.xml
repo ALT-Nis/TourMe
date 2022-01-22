@@ -18,7 +18,7 @@
         android:id="@+id/comment_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_profp" />
+        android:src="@drawable/default_image" />
 
     <TextView
         android:id="@+id/username"

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,7 +54,7 @@ public class UserAdapater extends RecyclerView.Adapter<UserAdapater.ViewHolder> 
         }
 
         if (user.getImageurl().equals("default")){
-            holder.profile_image.setImageResource(R.drawable.ic_profp);
+            holder.profile_image.setImageResource(R.drawable.default_image);
         } else {
             Glide.with(mContext).load(user.getImageurl()).into(holder.profile_image);
         }
