@@ -445,8 +445,9 @@ public class pregledJednogOglasa extends AppCompatActivity {
                             mDatabase.child("users").child(IDUser).child("brojOglasa").setValue(newNumberForOglas);
                             FirebaseDatabase.getInstance().getReference().child("oglasi").child(IDOglasa).removeValue();
                             FirebaseDatabase.getInstance().getReference().child("users").child(IDUser).child("oglas").child(nazivGrada).removeValue();
-                            finish();
+                            Toast.makeText(pregledJednogOglasa.this,"Uspešno ste izbrisali oglas",Toast.LENGTH_LONG).show();
 
+                            finish();
                         }else {
                             viewConfirmDelete.setVisibility(View.GONE);
                             HideWithReason(2);

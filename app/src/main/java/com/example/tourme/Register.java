@@ -143,7 +143,7 @@ public class Register extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        Toast.makeText(Register.this,"Uspesno ste kreirali nalog",Toast.LENGTH_LONG).show();
+                        Toast.makeText(Register.this,"Uspešno ste kreirali nalog",Toast.LENGTH_LONG).show();
 
                         String userId = fAuth.getCurrentUser().getUid();
                         User user = new User(userId, AccountEmail, username, "default", "0", "offline", "", "", "", "01", "Januar", "1900", 0, 0.0);

@@ -128,8 +128,6 @@ public class Login extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
                         Toast.makeText(Login.this,"Uspešna prijava",Toast.LENGTH_LONG).show();
-//                        Intent i = new Intent(Login.this, dodajOglas.class);
-//                        startActivity(i);
                         finish();
                     } else{
                         String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();

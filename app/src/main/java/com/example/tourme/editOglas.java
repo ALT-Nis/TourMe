@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -124,6 +125,7 @@ public class editOglas extends AppCompatActivity {
                         int cenaInt = Integer.parseInt(priceText);
                         FirebaseDatabase.getInstance().getReference().child("oglasi").child(IDOglasa).child("opis").setValue(describeText);
                         FirebaseDatabase.getInstance().getReference().child("oglasi").child(IDOglasa).child("cenaOglasa").setValue(cenaInt);
+                        Toast.makeText(editOglas.this,"Uspešno ste izmenili podatke vašeg oglasa",Toast.LENGTH_LONG).show();
                         finish();
                     }else{
                         HideEverything();
