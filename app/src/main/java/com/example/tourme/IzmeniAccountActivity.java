@@ -247,9 +247,9 @@ public class IzmeniAccountActivity extends AppCompatActivity implements AdapterV
                     FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("mesec").setValue(mesecString);
                     FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("godina").setValue(godinaString);
 
-                    Toast.makeText(IzmeniAccountActivity.this,"Uspešno ste izmenili podatke vašeg naloga",Toast.LENGTH_LONG).show();
+                    Toast.makeText(IzmeniAccountActivity.this,"Uspešno sačuvano",Toast.LENGTH_LONG).show();
 
-                    Intent i = new Intent(IzmeniAccountActivity.this, Glavni_ekran.class);
+                    Intent i = new Intent(IzmeniAccountActivity.this, MyAccount.class);
                     startActivity(i);
                 }else{
                     HideWithReason(2);
