@@ -262,15 +262,18 @@ public class Obavestenja extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
                             DataSnapshot snapshot = task.getResult();
-                            List<Notification> mNotification = new ArrayList<>();
+                            boolean brisano = false;
                             for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                                 Notification notification = dataSnapshot.getValue(Notification.class);
 
                                 if(notification.getTo().equals(FirebaseAuth.getInstance().getUid())){
                                     dataSnapshot.getRef().removeValue();
-                                    Toast.makeText(getContext(), "Obaveštenja su izbrisana", Toast.LENGTH_LONG).show();
+                                    brisano = true;
                                 }
 
+                            }
+                            if(brisano) {
+                                Toast.makeText(getContext(), "Obaveštenja su izbrisana", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
