@@ -289,7 +289,7 @@ public class Pocetni extends Fragment implements AdapterView.OnItemSelectedListe
 
         spinnerForSorting = view.findViewById(R.id.sortType);
         adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sortingType, R.layout.item_spinner);
-        adapter.setDropDownViewResource(R.layout.item_spinner);
+        adapter.setDropDownViewResource(R.layout.item_spinner_drop);
         spinnerForSorting.setAdapter(adapter);
         spinnerForSorting.setOnItemSelectedListener(this);
 

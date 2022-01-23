@@ -17,6 +17,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.tourme.MessageActivity;
 import com.example.tourme.Model.StaticVars;
+import com.example.tourme.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -111,7 +112,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
         Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder  = new NotificationCompat.Builder(this)
-                .setSmallIcon(Integer.parseInt(icon))
+                .setSmallIcon(R.drawable.ph_nis)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)
@@ -173,7 +174,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
         Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder  = new NotificationCompat.Builder(this)
-                .setSmallIcon(Integer.parseInt(icon))
+                .setSmallIcon(R.drawable.ph_nis)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)

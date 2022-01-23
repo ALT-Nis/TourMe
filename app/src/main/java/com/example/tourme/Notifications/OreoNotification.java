@@ -10,6 +10,8 @@ import android.content.ContextWrapper;
 import android.net.Uri;
 import android.os.Build;
 
+import com.example.tourme.R;
+
 public class OreoNotification extends ContextWrapper {
 
     private static final String CHANNEL_ID = "com.example.tourme";
@@ -52,7 +54,7 @@ public class OreoNotification extends ContextWrapper {
                 .setContentIntent(pendingIntent)
                 .setContentTitle(title)
                 .setContentText(body)
-                .setSmallIcon(Integer.parseInt(icon))
+                .setSmallIcon(R.drawable.ph_nis)
                 .setSound(soundUri)
                 .setAutoCancel(true);
     }
@@ -63,7 +65,7 @@ public class OreoNotification extends ContextWrapper {
         return new Notification.Builder(getApplicationContext(), CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(body)
-                .setSmallIcon(Integer.parseInt(icon))
+                .setSmallIcon(R.drawable.ph_nis)
                 .setSound(soundUri)
                 .setAutoCancel(true);
     }
