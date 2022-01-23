@@ -54,7 +54,7 @@ public class OreoNotification extends ContextWrapper {
                 .setContentIntent(pendingIntent)
                 .setContentTitle(title)
                 .setContentText(body)
-                .setSmallIcon(R.drawable.ph_nis)
+                .setSmallIcon(R.drawable.ic_logo_notification)
                 .setSound(soundUri)
                 .setAutoCancel(true);
     }
@@ -65,7 +65,7 @@ public class OreoNotification extends ContextWrapper {
         return new Notification.Builder(getApplicationContext(), CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(body)
-                .setSmallIcon(R.drawable.ph_nis)
+                .setSmallIcon(R.drawable.ic_logo_notification)
                 .setSound(soundUri)
                 .setAutoCancel(true);
     }
