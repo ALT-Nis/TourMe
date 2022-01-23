@@ -268,7 +268,7 @@ public class Obavestenja extends Fragment {
 
                                 if(notification.getTo().equals(FirebaseAuth.getInstance().getUid())){
                                     dataSnapshot.getRef().removeValue();
-                                    Toast.makeText(getContext(), "Obavestenja su izbrisana", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getContext(), "Obaveštenja su izbrisana", Toast.LENGTH_LONG).show();
                                 }
 
                             }
