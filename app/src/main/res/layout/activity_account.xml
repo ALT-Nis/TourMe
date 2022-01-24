@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/ocena"
             android:layout_toStartOf="@id/ocena"
-            android:textSize="15sp"
+            android:textSize="15dp"
             android:text="Prosečna ocena" />
 
         <RatingBar
@@ -51,7 +51,7 @@
             android:layout_marginStart="10dp"
             android:layout_toStartOf="@id/vertikalni"
             android:text=""
-            android:textSize="35sp" />
+            android:textSize="35dp" />
 
         <TextView
             android:id="@+id/ukupanBrojOcena"
@@ -61,7 +61,7 @@
             android:layout_toEndOf="@id/vertikalni"
             android:layout_marginBottom="-3dp"
             android:text=""
-            android:textSize="23sp"
+            android:textSize="23dp"
             android:textStyle="bold" />
 
         <TextView
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/prosecna_occena"
             android:layout_toEndOf="@id/vertikalni"
-            android:textSize="15sp"
+            android:textSize="15dp"
             android:text="Ukupan broj ocena" />
 
         <View
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/vertikalni"
             android:layout_margin="10dp"
-            android:textSize="15sp"
+            android:textSize="15dp"
             android:text="Svi oglasi korisnika" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -121,18 +121,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/profile_image"
+            android:layout_toEndOf="@id/profile_image"
+            android:layout_marginStart="15dp"
             android:layout_alignParentEnd="true"
             android:text=""
-            android:textSize="18sp" />
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/ime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/username"
+            android:layout_toEndOf="@id/profile_image"
+            android:layout_marginStart="15dp"
             android:layout_alignEnd="@id/username"
             android:text=""
-            android:textSize="23sp"
+            android:textSize="23dp"
             android:textStyle="bold" />
 
         <TextView
@@ -141,9 +145,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ime"
             android:layout_alignEnd="@id/username"
+            android:layout_toEndOf="@id/profile_image"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="-7dp"
             android:text=""
-            android:textSize="23sp"
+            android:textSize="23dp"
             android:textStyle="bold" />
 
         <TextView
@@ -153,16 +159,16 @@
             android:layout_below="@id/prezime"
             android:layout_alignEnd="@id/prezime"
             android:text=""
-            android:textSize="23sp" />
+            android:textSize="23dp" />
 
         <TextView
             android:id="@+id/kratakOpis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_below="@id/profile_image"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/godine"
             android:layout_alignStart="@id/profile_image"
-            android:textSize="15sp"
+            android:textSize="15dp"
             android:text="" />
 
     </RelativeLayout>

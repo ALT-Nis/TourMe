@@ -59,11 +59,14 @@
                     android:id="@+id/ime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/cena2"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_toEndOf="@id/profile_image"
                     android:text=""
-                    android:textSize="18sp"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
                     android:visibility="visible" />
 
                 <TextView
@@ -71,9 +74,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ime"
+                    android:layout_toStartOf="@id/cena2"
+                    android:layout_marginEnd="10dp"
                     android:layout_alignStart="@id/ime"
                     android:text=""
-                    android:textSize="18sp"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
                     android:visibility="gone" />
 
                 <TextView
@@ -81,9 +87,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ime"
+                    android:layout_toStartOf="@id/cena2"
+                    android:layout_marginEnd="10dp"
                     android:layout_alignStart="@id/ime"
                     android:text=""
-                    android:textSize="18sp"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
                     android:visibility="visible" />
 
                 <TextView
@@ -92,10 +101,11 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/prezime"
                     android:layout_alignStart="@id/ime"
+                    android:layout_toStartOf="@id/cena2"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginTop="5dp"
                     android:text=""
-                    android:textSize="18sp"
-                    android:textStyle="bold"
+                    android:textSize="18dp"
                     android:visibility="visible" />
 
                 <TextView
@@ -104,8 +114,8 @@
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@id/rsd"
                     android:layout_alignBaseline="@id/rsd"
-                    android:textSize="18sp"
-                    android:text="650"/>
+                    android:textSize="18dp"
+                    android:text=""/>
 
                 <TextView
                     android:id="@+id/rsd"
@@ -113,7 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="3dp"
                     android:text="RSD"
-                    android:textSize="13sp"
+                    android:textSize="13dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignBottom="@id/grad"/>
 
@@ -121,9 +131,9 @@
                     android:id="@+id/opis"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/profile_image"
-                    android:layout_marginTop="10dp"
-                    android:textSize="15sp"
+                    android:layout_below="@id/grad"
+                    android:layout_marginTop="30dp"
+                    android:textSize="15dp"
                     android:text="" />
 
                 <Button
@@ -135,6 +145,7 @@
                     android:layout_marginEnd="40dp"
                     android:layout_marginTop="10dp"
                     android:text="Pošaljite poruku"
+                    android:textSize="14dp"
                     android:textColor="@color/white"
                     android:visibility="visible" />
 
@@ -190,7 +201,7 @@
                 android:layout_alignBottom="@id/vertikalni"
                 android:layout_toStartOf="@id/vertikalni"
                 android:text="Prosečna ocena"
-                android:textSize="15sp" />
+                android:textSize="15dp" />
 
             <RatingBar
                 android:id="@+id/ocena_bar"
@@ -210,7 +221,7 @@
                 android:layout_toStartOf="@id/vertikalni"
                 android:text=""
                 android:textStyle="bold"
-                android:textSize="23sp" />
+                android:textSize="23dp" />
 
             <TextView
                 android:id="@+id/ukupanBrojOcena"
@@ -220,7 +231,7 @@
                 android:layout_toEndOf="@id/vertikalni"
                 android:layout_marginBottom="-3dp"
                 android:text=""
-                android:textSize="23sp"
+                android:textSize="23dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -229,7 +240,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/prosecna_occena"
                 android:layout_toEndOf="@id/vertikalni"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:text="Ukupan broj ocena" />
 
             <View
@@ -257,7 +268,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginBottom="10dp"
                     android:text="Ocenite korisnika:"
-                    android:textSize="15sp" />
+                    android:textSize="15dp" />
 
                 <RatingBar
                     android:id="@+id/ratingForOglas"
@@ -286,7 +297,7 @@
                     android:hint="Napišite komentar"
                     android:inputType="text|textMultiLine|textCapSentences"
                     android:padding="10dp"
-                    android:textSize="15sp"/>
+                    android:textSize="15dp"/>
 
                 <Button
                     android:id="@+id/addRatingButton"
@@ -296,6 +307,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="20dp"
                     android:text="dodajte ocenu"
+                    android:textSize="14dp"
                     android:textColor="@color/white" />
 
                 <View
@@ -315,7 +327,7 @@
                 android:layout_below="@id/dodaj_ocenu"
                 android:layout_marginStart="15dp"
                 android:text="Ocene drugih:"
-                android:textSize="15sp" />
+                android:textSize="15dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"

@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Stranica ne postoji."
-        android:textSize="18sp"
+        android:textSize="18dp"
         android:gravity="center"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/ico_ns"
@@ -32,6 +32,7 @@
         android:layout_marginTop="40dp"
         android:backgroundTint="?attr/colorPrimary"
         android:text="Nazad"
+        android:textSize="14dp"
         android:textColor="@color/white"
         android:visibility="visible"/>
 

@@ -19,7 +19,7 @@
         android:text="Nešto nije u redu."
         android:layout_below="@id/ico_ni"
         android:layout_centerHorizontal="true"
-        android:textSize="18sp"
+        android:textSize="18dp"
         android:gravity="center"
         android:id="@+id/problem"/>
 
@@ -32,6 +32,7 @@
         android:layout_marginTop="40dp"
         android:backgroundTint="?attr/colorPrimary"
         android:text="Pokušajte ponovo"
+        android:textSize="14dp"
         android:textColor="@color/white"
         android:visibility="visible"/>
 
