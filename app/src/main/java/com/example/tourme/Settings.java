@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.example.tourme.Model.StaticVars;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,6 +18,7 @@ public class Settings extends AppCompatActivity {
 
     Switch obavestenja;
     Button izmeniNalog;
+    TextView privatnost;
 
     SharedPreferences sharedPreferences;
 
@@ -52,5 +54,14 @@ public class Settings extends AppCompatActivity {
             else{
                 izmeniNalog.setVisibility(View.GONE);
             }
+
+            privatnost = findViewById(R.id.uslovi);
+            privatnost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Settings.this, termsAndConditions.class);
+                    startActivity(i);
+                }
+            });
     }
 }

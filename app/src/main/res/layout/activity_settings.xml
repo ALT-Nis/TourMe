@@ -76,13 +76,14 @@
             android:id="@+id/privatnost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Politika privatnosti"
             android:layout_below="@id/switchObavestenja"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"/>
+            android:text="Politika privatnosti"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/uslovi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
