@@ -74,21 +74,15 @@
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <TextView
-            android:id="@+id/uslovi"
+            android:id="@+id/privatnost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
-=======
-            android:textStyle="bold"
-            android:text="Politika privatnosti. Pravila i uslovi korišćenja."
->>>>>>> 964a671cf04ef886cb02027bbbf782c2cf483991
             android:layout_below="@id/switchObavestenja"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:text="Politika privatnosti"
             android:textStyle="bold" />
 
-<<<<<<< HEAD
         <TextView
             android:id="@+id/uslovi"
             android:layout_width="wrap_content"
@@ -98,8 +92,6 @@
             android:layout_below="@id/privatnost"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"/>
-=======
->>>>>>> 964a671cf04ef886cb02027bbbf782c2cf483991
 
     </RelativeLayout>
 
