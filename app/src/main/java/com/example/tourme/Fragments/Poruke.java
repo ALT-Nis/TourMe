@@ -39,6 +39,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -150,6 +154,8 @@ public class  Poruke extends Fragment {
     }
 
     List<String> usersList;
+    HashMap<String, Integer> usersListHM;
+    int numberOfUsers = 0;
 
     public boolean tryToStart(){
         if(IsConnectedToInternet()){
@@ -160,14 +166,27 @@ public class  Poruke extends Fragment {
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        usersListHM.clear();
+                        numberOfUsers = 0;
+                        List<Chat> chatsReversed = new ArrayList<>();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             Chat chat = dataSnapshot.getValue(Chat.class);
+                            chatsReversed.add(chat);
+                        }
 
+                        Collections.reverse(chatsReversed);
+                        for(Chat chat : chatsReversed){
                             if (chat.getSender().equals(firebaseUser.getUid())) {
-                                usersList.add(chat.getReceiver());
+                                if(!usersListHM.containsKey(chat.getReceiver())){
+                                    usersListHM.put(chat.getReceiver(),numberOfUsers);
+                                    numberOfUsers++;
+                                }
                             }
                             if (chat.getReceiver().equals(firebaseUser.getUid())) {
-                                usersList.add(chat.getSender());
+                                if(!usersListHM.containsKey(chat.getSender())){
+                                    usersListHM.put(chat.getSender(),numberOfUsers);
+                                    numberOfUsers++;
+                                }
                             }
                         }
 
@@ -223,6 +242,7 @@ public class  Poruke extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         usersList = new ArrayList<>();
+        usersListHM = new HashMap<String, Integer>();
 
         viewThis = view.findViewById(R.id.porukeFragment);
         viewNoInternet = (View) view.findViewById(R.id.nemaInternet);
@@ -273,15 +293,17 @@ public class  Poruke extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<User> mUsers = new ArrayList<>();
+                User[] helperUsers = new User[numberOfUsers];
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     User user = dataSnapshot.getValue(User.class);
 
-                    if(usersList.contains(user.getId())){
-                        mUsers.add(user);
+                    if(usersListHM.containsKey(user.getId())){
+                        helperUsers[usersListHM.get(user.getId())] = user;
                     }
-
                 }
+
+                List<User> mUsers = new ArrayList<>(Arrays.asList(helperUsers).subList(0, numberOfUsers));
+
                 manageNoMessages(mUsers.size());
                 userAdapater = new UserAdapater(getContext(), mUsers, true);
                 recyclerView.setAdapter(userAdapater);

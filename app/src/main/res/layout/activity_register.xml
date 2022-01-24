@@ -167,24 +167,25 @@
         </RelativeLayout>
 
         <CheckBox
-            android:id="@+id/uslovi"
+            android:id="@+id/usloviButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/zapotsifru"
             android:layout_marginTop="10dp"
+            android:backgroundTint="@color/white"
             android:text="Slažem se sa"
-            android:textSize="14dp"
-            android:backgroundTint="@color/white"/>
+            android:textSize="14dp" />
 
         <TextView
+            android:id="@+id/goToUsloviText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="uslovima i pravilima korišćenja."
-            android:layout_toEndOf="@id/uslovi"
-            android:layout_alignBaseline="@id/uslovi"
+            android:layout_alignBaseline="@id/usloviButton"
             android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/usloviButton"
+            android:text="uslovima i pravilima korišćenja."
             android:textSize="14dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/register_dugme"
@@ -194,7 +195,7 @@
             android:textSize="14dp"
             android:layout_alignStart="@id/zasifru"
             android:layout_alignEnd="@id/zasifru"
-            android:layout_below="@id/uslovi"
+            android:layout_below="@id/usloviButton"
             android:backgroundTint="?attr/colorPrimary"
             android:textColor="@color/white"
             android:layout_marginTop="30dp"/>

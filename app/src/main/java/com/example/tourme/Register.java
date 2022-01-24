@@ -15,6 +15,8 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,10 +41,11 @@ public class Register extends AppCompatActivity {
     //View
     EditText mEmail, mUserName, mPassword, mConfirmPassword;
     Button registerButton, buttonShowHidePassword, buttonShowHideConfirmPassword, tryAgainButton;
-    TextView loginButton;
+    TextView loginButton, goToUsloviButton;
     FirebaseAuth fAuth;
     View viewNoInternet, viewThis;
     ProgressBar progressBar;
+    CheckBox checkBox;
 
     //FireBase
     private DatabaseReference mDatabase;
@@ -218,6 +221,26 @@ public class Register extends AppCompatActivity {
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
         progressBar = viewNoInternet.findViewById(R.id.progressBar);
 
+        checkBox = (CheckBox) findViewById(R.id.usloviButton);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                    registerButton.setClickable(true);
+                else
+                    registerButton.setClickable(false);
+            }
+        });
+
+        goToUsloviButton = findViewById(R.id.goToUsloviText);
+        goToUsloviButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Register.this, termsAndConditions.class);
+                startActivity(i);
+            }
+        });
+
         buttonShowHidePassword = findViewById(R.id.buttonForShowingPassword);
         buttonShowHidePassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -339,8 +362,11 @@ public class Register extends AppCompatActivity {
             }
         });
 
+        registerButton.setClickable(false);
+
         tryToStart();
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -84,14 +84,14 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/uslovi"
+            android:id="@+id/usloviButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Pravila i uslovi korišćenja"
             android:layout_below="@id/privatnost"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="5dp"
+            android:text="Pravila i uslovi korišćenja"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

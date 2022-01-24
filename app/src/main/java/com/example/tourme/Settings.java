@@ -11,7 +11,6 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.example.tourme.Model.StaticVars;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Settings extends AppCompatActivity {
@@ -55,7 +54,7 @@ public class Settings extends AppCompatActivity {
                 izmeniNalog.setVisibility(View.GONE);
             }
 
-            privatnost = findViewById(R.id.uslovi);
+            privatnost = findViewById(R.id.usloviButton);
             privatnost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
