@@ -69,12 +69,10 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
                 if(user.getIme().equals("") || user.getPrezime().equals("")){
                     holder.username.setVisibility(View.VISIBLE);
                     holder.username.setText(user.getUsername());
-                    holder.ime.setVisibility(View.INVISIBLE);
-                    holder.prezime.setVisibility(View.INVISIBLE);
+                    holder.ime_prezime.setVisibility(View.INVISIBLE);
                 }
                 else{
-                    holder.ime.setText(user.getIme());
-                    holder.prezime.setText(user.getPrezime());
+                    holder.ime_prezime.setText(user.getIme() + " " + user.getPrezime());
                     holder.username.setVisibility(View.GONE);
                 }
                 holder.grad.setText(oglas.getGrad());
@@ -123,8 +121,7 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
         public ImageView oglas_image;
         public TextView cena;
 
-        public TextView ime;
-        public TextView prezime;
+        public TextView ime_prezime;
         public TextView grad;
         public RatingBar ratingStars;
 
@@ -137,8 +134,7 @@ public class OglasAdapter extends RecyclerView.Adapter<OglasAdapter.ViewHolder> 
 
             this.setIsRecyclable(false);
 
-            ime = itemView.findViewById(R.id.ime);
-            prezime = itemView.findViewById(R.id.prezime);
+            ime_prezime = itemView.findViewById(R.id.ime_prezime);
             grad = itemView.findViewById(R.id.grad);
             ratingStars = itemView.findViewById(R.id.ratingStars);
 

@@ -74,31 +74,18 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                             }
                         }
                     });
-                    holder.ime.setVisibility(View.INVISIBLE);
-                    holder.prezime.setVisibility(View.INVISIBLE);
+                    holder.ime_prezime.setVisibility(View.INVISIBLE);
                 }
                 else{
-                    holder.ime.setText(user.getIme());
-                    holder.prezime.setText(user.getPrezime());
+                    holder.ime_prezime.setText(user.getIme() + " " + user.getPrezime());
                     holder.username.setVisibility(View.GONE);
-                    holder.ime.setOnClickListener(new View.OnClickListener() {
+                    holder.ime_prezime.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if(isValidContextForGlide(mContext)){
                                 Intent intent = new Intent(mContext, Account.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.putExtra("userid",user.getId());
-                                mContext.startActivity(intent);
-                            }
-                        }
-                    });
-                    holder.prezime.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(isValidContextForGlide(mContext)) {
-                                Intent intent = new Intent(mContext, Account.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("userid", user.getId());
                                 mContext.startActivity(intent);
                             }
                         }
@@ -144,8 +131,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         public ImageView comment_image;
         public TextView deskripcija;
         public RatingBar ratingStars;
-        public TextView ime;
-        public TextView prezime;
+        public TextView ime_prezime;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -156,8 +142,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             comment_image = itemView.findViewById(R.id.comment_image);
             deskripcija = itemView.findViewById(R.id.deskripcija);
             ratingStars = itemView.findViewById(R.id.ratingStars);
-            ime = itemView.findViewById(R.id.ime);
-            prezime = itemView.findViewById(R.id.prezime);
+            ime_prezime = itemView.findViewById(R.id.ime_prezime);
         }
 
     }

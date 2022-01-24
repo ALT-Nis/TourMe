@@ -20,14 +20,16 @@
             android:text="Registracija"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:textSize="23sp"
+            android:textSize="23dp"
             android:textStyle="bold"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_form"
-            android:padding="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
             android:layout_above="@id/zaemail"
             android:layout_marginBottom="10dp">
 
@@ -35,7 +37,7 @@
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:text="Korisničko ime" />
 
             <EditText
@@ -45,7 +47,7 @@
                 android:layout_below="@id/textView8"
                 android:maxLength="20"
                 android:backgroundTint="#00000000"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:inputType="textPersonName" />
 
         </RelativeLayout>
@@ -55,7 +57,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_form"
-            android:padding="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
             android:layout_above="@id/zasifru"
             android:layout_marginBottom="10dp">
 
@@ -63,7 +67,7 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:text="E-mail"/>
 
             <EditText
@@ -72,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:backgroundTint="#00000000"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:layout_below="@id/textView4"/>
 
         </RelativeLayout>
@@ -82,12 +86,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_form"
-            android:padding="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
             android:layout_centerInParent="true">
 
             <TextView
                 android:id="@+id/textView9"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Šifra"/>
@@ -99,7 +105,7 @@
                 android:backgroundTint="#00000000"
                 android:layout_below="@id/textView9"
                 android:layout_alignParentStart="true"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:layout_toStartOf="@id/buttonForShowingPassword"
                 android:inputType="textPassword"/>
 
@@ -110,6 +116,7 @@
                 android:layout_alignBottom="@id/password"
                 android:layout_marginLeft="5dp"
                 android:layout_alignParentEnd="true"
+                android:layout_marginBottom="10dp"
                 android:paddingBottom="7dp"
                 android:drawableBottom="@drawable/ic_eye"
                 android:backgroundTint="?attr/colorOnSecondary" />
@@ -121,7 +128,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_form"
-            android:padding="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
             android:layout_below="@id/zasifru"
             android:layout_marginTop="10dp">
 
@@ -129,7 +138,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:text="Potvrdite sifru"/>
 
             <EditText
@@ -139,7 +148,7 @@
                 android:backgroundTint="#00000000"
                 android:layout_below="@id/textView10"
                 android:layout_alignParentStart="true"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:layout_toStartOf="@id/buttonForShowingConfirmPassword"
                 android:inputType="textPassword"/>
 
@@ -149,6 +158,7 @@
                 android:layout_height="45dp"
                 android:layout_alignBottom="@id/confirm_password"
                 android:layout_marginLeft="5dp"
+                android:layout_marginBottom="10dp"
                 android:layout_alignParentEnd="true"
                 android:paddingBottom="7dp"
                 android:drawableBottom="@drawable/ic_eye"
@@ -156,17 +166,38 @@
 
         </RelativeLayout>
 
+        <CheckBox
+            android:id="@+id/uslovi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/zapotsifru"
+            android:layout_marginTop="10dp"
+            android:text="Slažem se sa"
+            android:textSize="14dp"
+            android:backgroundTint="@color/white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="uslovima i pravilima korišćenja."
+            android:layout_toEndOf="@id/uslovi"
+            android:layout_alignBaseline="@id/uslovi"
+            android:layout_marginStart="5dp"
+            android:textSize="14dp"
+            android:textStyle="bold"/>
+
         <Button
             android:id="@+id/register_dugme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Registrujte se"
+            android:textSize="14dp"
             android:layout_alignStart="@id/zasifru"
             android:layout_alignEnd="@id/zasifru"
-            android:layout_below="@id/zapotsifru"
+            android:layout_below="@id/uslovi"
             android:backgroundTint="?attr/colorPrimary"
             android:textColor="@color/white"
-            android:layout_marginTop="50dp"/>
+            android:layout_marginTop="30dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -180,7 +211,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Već imate nalog?"
-                android:textSize="15sp"/>
+                android:textSize="15dp"/>
 
             <TextView
                 android:id="@+id/goToSignIn"
@@ -189,7 +220,7 @@
                 android:clickable="true"
                 android:text="Prijavite se ovde."
                 android:layout_marginStart="5dp"
-                android:textSize="15sp"
+                android:textSize="15dp"
                 android:textStyle="bold"/>
 
         </LinearLayout>

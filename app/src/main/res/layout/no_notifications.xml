@@ -16,6 +16,6 @@
         android:layout_height="wrap_content"
         android:text="Nemate obaveštenja."
         android:layout_below="@id/icon"
-        android:textSize="18sp"/>
+        android:textSize="18dp"/>
 
 </RelativeLayout>

@@ -39,7 +39,8 @@
                 android:text=""
                 android:id="@+id/username"
                 android:layout_marginStart="10dp"
-                android:textSize="20sp"
+                android:layout_marginEnd="15dp"
+                android:textSize="20dp"
                 android:focusable="true"
                 android:clickable="true"/>
 
@@ -72,7 +73,7 @@
             android:maxLength="250"
             android:background="@drawable/bg"
             android:hint="Unesite poruku..."
-            android:textSize="15sp"
+            android:textSize="15dp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp" />
 

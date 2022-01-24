@@ -25,11 +25,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/comment_image"
+        android:layout_toStartOf="@id/ratingStars"
+        android:layout_marginEnd="10dp"
         android:layout_toEndOf="@id/comment_image"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:textSize="15sp"
+        android:textSize="15dp"
         android:textStyle="bold"
         android:text=""
         android:visibility="gone"/>
@@ -37,24 +39,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ime"
+        android:id="@+id/ime_prezime"
+        android:text=""
         android:layout_alignTop="@id/comment_image"
         android:layout_toEndOf="@id/comment_image"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:text=""/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/prezime"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@id/ime"
-        android:layout_alignBottom="@id/ime"
-        android:textSize="15sp"
+        android:layout_toStartOf="@id/ratingStars"
+        android:layout_marginEnd="10dp"
+        android:textSize="15dp"
         android:textStyle="bold"/>
 
     <TextView
@@ -62,9 +54,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textSize="15sp"
-        android:layout_alignStart="@id/ime"
-        android:layout_below="@id/ime"/>
+        android:textSize="15dp"
+        android:layout_alignStart="@id/ime_prezime"
+        android:layout_below="@id/ime_prezime"/>
 
     <RatingBar
         android:id="@+id/ratingStars"
@@ -72,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@id/prezime"
+        android:layout_alignBottom="@id/ime_prezime"
         android:numStars="5"
         android:rating="0"/>
 
