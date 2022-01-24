@@ -20,7 +20,7 @@
         android:layout_toEndOf="@+id/profile_image"
         android:background="@drawable/bg_left"
         android:padding="10dp"
-        android:textSize="15sp"
+        android:textSize="15dp"
         android:text="test"
         android:layout_marginStart="5dp"
         android:layout_marginBottom="1dp"

@@ -41,17 +41,9 @@ public class UserAdapater extends RecyclerView.Adapter<UserAdapater.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         final User user = mUsers.get(position);
-        if(user.getIme().equals("") || user.getPrezime().equals("")){
-            holder.username.setVisibility(View.VISIBLE);
-            holder.username.setText(user.getUsername());
-            holder.ime.setVisibility(View.INVISIBLE);
-            holder.prezime.setVisibility(View.INVISIBLE);
-        }
-        else{
-            holder.ime.setText(user.getIme());
-            holder.prezime.setText(user.getPrezime());
-            holder.username.setVisibility(View.GONE);
-        }
+
+        holder.username.setVisibility(View.VISIBLE);
+        holder.username.setText(user.getUsername());
 
         if (user.getImageurl().equals("default")){
             holder.profile_image.setImageResource(R.drawable.default_image);
@@ -98,8 +90,6 @@ public class UserAdapater extends RecyclerView.Adapter<UserAdapater.ViewHolder> 
         private  ImageView img_on;
         private  ImageView img_off;
 
-        public TextView ime;
-        public TextView prezime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -108,8 +98,6 @@ public class UserAdapater extends RecyclerView.Adapter<UserAdapater.ViewHolder> 
             profile_image = itemView.findViewById(R.id.profile_image);
             img_on = itemView.findViewById(R.id.img_on);
             img_off = itemView.findViewById(R.id.img_off);
-            ime = itemView.findViewById(R.id.ime);
-            prezime = itemView.findViewById(R.id.prezime);
 
             this.setIsRecyclable(false);
         }

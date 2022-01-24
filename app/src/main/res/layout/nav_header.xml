@@ -21,7 +21,7 @@
         android:layout_below="@id/profile_image"
         android:layout_alignEnd="@id/profile_image"
         android:text=""
-        android:textSize="18sp"
+        android:textSize="18dp"
         android:textStyle="bold" />
 
 </RelativeLayout>
