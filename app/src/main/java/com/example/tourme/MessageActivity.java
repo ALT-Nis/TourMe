@@ -311,9 +311,8 @@ public class MessageActivity extends AppCompatActivity {
                     recyclerView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
-                            //moze i smoothScroll nzm sta lepse izgleda
-                            //za sad je ostavljeno scroll
+                            if(recyclerView.getAdapter() != null)
+                                recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
                         }
                     }, 0);
                 }
