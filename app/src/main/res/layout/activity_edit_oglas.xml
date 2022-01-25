@@ -127,7 +127,7 @@
             android:layout_alignEnd="@id/cena"
             android:layout_marginTop="40dp"
             android:backgroundTint="?attr/colorPrimary"
-            android:text="Sačuvajte"
+            android:text="Sačuvajte izmene"
             android:textSize="14dp"
             android:textColor="@color/white" />
 
@@ -140,7 +140,7 @@
             android:layout_alignStart="@id/editOglas"
             android:layout_alignEnd="@id/editOglas"
             android:layout_marginTop="10dp"
-            android:text="Odbacite izmene"
+            android:text="Odustanite"
             android:textColor="@color/red"
             android:textSize="14dp"
             app:strokeColor="@color/red" />

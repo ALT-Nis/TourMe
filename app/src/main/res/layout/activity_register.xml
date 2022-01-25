@@ -183,6 +183,7 @@
             android:layout_alignBaseline="@id/usloviButton"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@id/usloviButton"
+            android:textColor="#0B0080"
             android:text="uslovima i pravilima korišćenja."
             android:textSize="14dp"
             android:textStyle="bold" />

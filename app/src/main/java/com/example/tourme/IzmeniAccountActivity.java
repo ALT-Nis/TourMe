@@ -292,7 +292,7 @@ public class IzmeniAccountActivity extends AppCompatActivity implements AdapterV
     private void uploadImage(){
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Uploading...");
+        progressDialog.setTitle("Učitavanje...");
         progressDialog.show();
 
         final String randomKey = UUID.randomUUID().toString();

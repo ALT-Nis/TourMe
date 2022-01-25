@@ -12,7 +12,7 @@
         android:layout_height="1dp"
         android:background="?attr/colorPrimaryVariant"
         android:layout_below="@id/deskripcija"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="15dp"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/comment_image"
