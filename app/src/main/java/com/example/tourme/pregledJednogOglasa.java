@@ -77,6 +77,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
     String newRatingText;
     String IDOglasa, nazivGrada, IDUser;
     String opisString, gradString, cenaString;
+    String startedfrom;
     Handler h = new Handler();
     RecyclerView recyclerView;
     CommentAdapter commentAdapter;
@@ -242,7 +243,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
                             mDatabase.child("oglasi").child(IDOglasa).child("oceneOglasa").child(brojOcena.toString()).setValue(comment);
                             updateUser();
                             sendNotification1(oglas.getUserId());
-                            sendNotification(oglas.getUserId());
+                            sendNotification(oglas);
                         }else{
                             Toast.makeText(pregledJednogOglasa.this, "Ne postoji ovakav oglas", Toast.LENGTH_LONG).show();
                         }
@@ -256,15 +257,15 @@ public class pregledJednogOglasa extends AppCompatActivity {
 
     }
     
-    private void sendNotification(String receiver){
+    private void sendNotification(Oglas oglas){
         DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
-        Query query = tokens.orderByKey().equalTo(receiver);
+        Query query = tokens.orderByKey().equalTo(oglas.getUserId());
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Token token = dataSnapshot.getValue(Token.class);
-                    Data data = new Data(FirebaseAuth.getInstance().getUid(), R.drawable.logo, "Dobili ste novu ocenu", "Nova ocena", receiver);
+                    Data data = new Data(FirebaseAuth.getInstance().getUid(), R.drawable.logo, "Dobili ste novu ocenu", "Nova ocena", oglas.getUserId(), oglas.getIdOglasa(), oglas.getGrad(), oglas.getUserId());
 
                     Sender sender = new Sender(data, token.getToken());
 
@@ -273,8 +274,6 @@ public class pregledJednogOglasa extends AppCompatActivity {
                         public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
                             if (response.code() == 200) {
                                 if (response.body().success == 1) {
-                                    //Toast.makeText(MessageActivity.this, "Failed", Toast.LENGTH_LONG).show();
-                                    //Log.e("Test",response.message());
                                 }
                             }
                         }
@@ -514,6 +513,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
         IDOglasa = getIntent().getStringExtra("IDOglasa");
         nazivGrada = getIntent().getStringExtra("NazivGrada");
         IDUser = getIntent().getStringExtra("IDUser");
+        startedfrom = getIntent().getStringExtra("startedfrom");
 
         viewThis = findViewById(R.id.PregledJednogOglasaActivity);
         viewNoInternet = (View) findViewById(R.id.nemaInternet);
@@ -667,6 +667,18 @@ public class pregledJednogOglasa extends AppCompatActivity {
         });
 
         tryToStart();
+    }
+
+    public void onBackPressed(){
+        if(startedfrom == null){
+            finish();
+        }
+        else{
+            Intent i = new Intent(pregledJednogOglasa.this, Glavni_ekran.class);
+            i.putExtra("fragment","pocetni");
+            startActivity(i);
+            startedfrom = null;
+        }
     }
 
     @Override

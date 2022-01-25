@@ -59,16 +59,6 @@ public class OreoNotification extends ContextWrapper {
                 .setAutoCancel(true);
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
-    public Notification.Builder getOreoNotificationRating(String title, String body, Uri soundUri, String icon){
-
-        return new Notification.Builder(getApplicationContext(), CHANNEL_ID)
-                .setContentTitle(title)
-                .setContentText(body)
-                .setSmallIcon(R.drawable.ic_logo_notification)
-                .setSound(soundUri)
-                .setAutoCancel(true);
-    }
 
 
 }

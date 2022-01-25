@@ -134,6 +134,10 @@ public class Glavni_ekran extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView3, new Poruke()).commit();
                 drawerLayout.closeDrawer(Gravity.RIGHT);
             }
+            else if(fragment.equals("pocetni")){
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView3, new Pocetni()).commit();
+                drawerLayout.closeDrawer(Gravity.RIGHT);
+            }
         }
 
         if(IsConnectedToInternet()){

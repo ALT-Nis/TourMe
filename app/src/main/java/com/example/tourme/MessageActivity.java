@@ -286,6 +286,7 @@ public class MessageActivity extends AppCompatActivity {
                     Intent i = new Intent(MessageActivity.this, Glavni_ekran.class);
                     i.putExtra("fragment","poruke");
                     startActivity(i);
+                    startedfrom = "nesto";
                 }
             }
         });
@@ -320,6 +321,19 @@ public class MessageActivity extends AppCompatActivity {
         });
 
         tryToStart();
+    }
+
+    @Override
+    public void onBackPressed(){
+        if(startedfrom != null){
+            finish();
+        }
+        else{
+            Intent i = new Intent(MessageActivity.this, Glavni_ekran.class);
+            i.putExtra("fragment","poruke");
+            startActivity(i);
+            startedfrom = "nesto";
+        }
     }
 
     @Override

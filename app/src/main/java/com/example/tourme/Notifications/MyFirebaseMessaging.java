@@ -16,8 +16,10 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.example.tourme.MessageActivity;
+import com.example.tourme.Model.Oglas;
 import com.example.tourme.Model.StaticVars;
 import com.example.tourme.R;
+import com.example.tourme.pregledJednogOglasa;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -86,12 +88,25 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         String title = remoteMessage.getData().get("title");
         String body = remoteMessage.getData().get("body");
 
+        String IDOglasa = remoteMessage.getData().get("IDOglasa");
+        String NazivGrada = remoteMessage.getData().get("NazivGrada");
+        String IDUser = remoteMessage.getData().get("IDUser");
+
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         int j = Integer.parseInt(user.replaceAll("[\\D]",""));
+        Intent intent = new Intent(this, pregledJednogOglasa.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("IDOglasa",IDOglasa);
+        bundle.putString("NazivGrada", NazivGrada);
+        bundle.putString("IDUser", IDUser);
+        bundle.putString("startedfrom", "notification");
+        intent.putExtras(bundle);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, j, intent, PendingIntent.FLAG_ONE_SHOT);
         Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         OreoNotification oreoNotification = new OreoNotification(this);
-        Notification.Builder builder = oreoNotification.getOreoNotificationRating(title, body, defaultSound, icon);
+        Notification.Builder builder = oreoNotification.getOreoNotification(title, body, pendingIntent, defaultSound, icon);
 
         int i=0;
         if(j>0){
@@ -107,8 +122,21 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         String title = remoteMessage.getData().get("title");
         String body = remoteMessage.getData().get("body");
 
+        String IDOglasa = remoteMessage.getData().get("IDOglasa");
+        String NazivGrada = remoteMessage.getData().get("NazivGrada");
+        String IDUser = remoteMessage.getData().get("IDUser");
+
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         int j = Integer.parseInt(user.replaceAll("[\\D]",""));
+        Intent intent = new Intent(this, pregledJednogOglasa.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("IDOglasa",IDOglasa);
+        bundle.putString("NazivGrada", NazivGrada);
+        bundle.putString("IDUser", IDUser);
+        intent.putExtras(bundle);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, j, intent, PendingIntent.FLAG_ONE_SHOT);
+
 
         Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder  = new NotificationCompat.Builder(this)
@@ -116,7 +144,8 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)
-                .setSound(defaultSound);
+                .setSound(defaultSound)
+                .setContentIntent(pendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         int i=0;
