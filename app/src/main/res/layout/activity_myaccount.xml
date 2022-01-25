@@ -30,8 +30,8 @@
             android:id="@+id/prosecna_occena"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/ocena"
-            android:layout_toStartOf="@id/ocena"
+            android:layout_alignBottom="@id/vertikalni"
+            android:layout_toStartOf="@id/vertikalni"
             android:text="Prosečna ocena"
             android:textSize="15dp" />
 
@@ -41,17 +41,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/vertikalni"
-            android:layout_alignEnd="@id/prosecna_occena" />
+            android:layout_toStartOf="@id/ocena" />
 
         <TextView
             android:id="@+id/ocena"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/vertikalni"
+            android:layout_above="@id/prosecna_occena"
             android:layout_marginStart="10dp"
+            android:layout_marginBottom="-3dp"
             android:layout_toStartOf="@id/vertikalni"
             android:text=""
-            android:textSize="35dp" />
+            android:textStyle="bold"
+            android:textSize="23dp" />
 
         <TextView
             android:id="@+id/ukupanBrojOcena"
@@ -127,6 +129,7 @@
             android:layout_marginStart="15dp"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@id/profile_image"
+            android:gravity="right"
             android:text=""
             android:textSize="18dp" />
 
@@ -137,6 +140,7 @@
             android:layout_marginTop="5dp"
             android:text=""
             android:textSize="23dp"
+            android:gravity="right"
             android:layout_toEndOf="@id/profile_image"
             android:layout_marginStart="15dp"
             android:layout_alignEnd="@id/username"
@@ -151,6 +155,7 @@
             android:layout_alignEnd="@id/username"
             android:layout_toEndOf="@id/profile_image"
             android:layout_marginStart="15dp"
+            android:gravity="right"
             android:text=""
             android:textSize="23dp"
             android:textStyle="bold" />
