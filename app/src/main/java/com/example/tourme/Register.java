@@ -154,6 +154,7 @@ public class Register extends AppCompatActivity {
                         mDatabase.child("usersID").child(username).setValue(userId);
                         Intent i = new Intent(Register.this, IzmeniAccountActivity.class);
                         startActivity(i);
+                        finish();
                     }
                     else{
                         String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();

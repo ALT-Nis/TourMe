@@ -251,6 +251,7 @@ public class IzmeniAccountActivity extends AppCompatActivity implements AdapterV
 
                     Intent i = new Intent(IzmeniAccountActivity.this, MyAccount.class);
                     startActivity(i);
+                    finish();
                 }else{
                     HideWithReason(2);
                 }
