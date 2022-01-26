@@ -116,7 +116,7 @@ public class Obavestenja extends Fragment {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet && v1 != viewNotLoggedIn && v1 != viewNoNotifications)
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn)
                     HideEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.GONE);
@@ -141,7 +141,7 @@ public class Obavestenja extends Fragment {
         for (int i = 0 ;i < viewgroup.getChildCount(); i++) {
             View v1 = viewgroup.getChildAt(i);
             if (v1 instanceof ViewGroup){
-                if(v1 != viewNoInternet && v1 != viewNotLoggedIn && v1 != viewNoNotifications)
+                if(v1 != viewNoInternet && v1 != viewNotLoggedIn)
                     ShowEverythingRecursion(v1);
             }else
                 v1.setVisibility(View.VISIBLE);
@@ -151,6 +151,8 @@ public class Obavestenja extends Fragment {
     void ShowEverything(){
         ShowEverythingRecursion(viewThis);
         viewNoInternet.setVisibility(View.GONE);
+//        if(recyclerView.getAdapter() != null)
+//            shiftViewNoNotifications(recyclerView.getAdapter().getItemCount());
     }
 
     Boolean IsConnectedToInternet(){
@@ -279,6 +281,8 @@ public class Obavestenja extends Fragment {
                     });
 
                 }
+            }else{
+                HideWithReason(2);
             }
     }
 
