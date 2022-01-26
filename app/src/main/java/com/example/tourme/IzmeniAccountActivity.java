@@ -24,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.tourme.Model.StaticVars;
 import com.example.tourme.Model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,6 +41,9 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 public class IzmeniAccountActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -238,20 +242,31 @@ public class IzmeniAccountActivity extends AppCompatActivity implements AdapterV
             @Override
             public void onClick(View view) {
                 if(IsConnectedToInternet()){
-                    String userId = fAuth.getCurrentUser().getUid();
-                    FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("ime").setValue(imeText.getText().toString().trim());
-                    FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("prezime").setValue(prezimeText.getText().toString().trim());
-                    FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("opis").setValue(opisText.getText().toString().trim());
+                    String d1 = danString;
+                    String m1 = mesecString;
+                    String g1 = godinaString;
+                    String d2 = new SimpleDateFormat("dd", Locale.getDefault()).format(new Date());
+                    String m2 = new SimpleDateFormat("MM", Locale.getDefault()).format(new Date());
+                    String g2 = new SimpleDateFormat("yyyy", Locale.getDefault()).format(new Date());
 
-                    FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("dan").setValue(danString);
-                    FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("mesec").setValue(mesecString);
-                    FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("godina").setValue(godinaString);
+                    if(StaticVars.numberOfYears(d1, StaticVars.convertMonth(m1), g1, d2, m2, g2) >= 18) {
+                        String userId = fAuth.getCurrentUser().getUid();
+                        FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("ime").setValue(imeText.getText().toString().trim());
+                        FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("prezime").setValue(prezimeText.getText().toString().trim());
+                        FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("opis").setValue(opisText.getText().toString().trim());
 
-                    Toast.makeText(IzmeniAccountActivity.this,"Uspešno sačuvano",Toast.LENGTH_LONG).show();
+                        FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("dan").setValue(danString);
+                        FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("mesec").setValue(mesecString);
+                        FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("godina").setValue(godinaString);
 
-                    Intent i = new Intent(IzmeniAccountActivity.this, MyAccount.class);
-                    startActivity(i);
-                    finish();
+                        Toast.makeText(IzmeniAccountActivity.this, "Uspešno sačuvano", Toast.LENGTH_LONG).show();
+
+                        Intent i = new Intent(IzmeniAccountActivity.this, MyAccount.class);
+                        startActivity(i);
+                        finish();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Morate imati najmanje 18 godina", Toast.LENGTH_LONG).show();
+                    }
                 }else{
                     HideWithReason(2);
                 }
