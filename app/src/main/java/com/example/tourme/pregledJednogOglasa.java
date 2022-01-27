@@ -375,7 +375,8 @@ public class pregledJednogOglasa extends AppCompatActivity {
 
                                 String nekiGrad = "@drawable/ph_" + oglas.getGrad().toLowerCase().replace(" ", "_")
                                         .replace("š", "s").replace("č", "c")
-                                        .replace("ž", "z").replace("š", "s");
+                                        .replace("ž", "z").replace("š", "s")
+                                        .replace("ć","c");
                                 String uri = nekiGrad;
                                 int imageResource = getResources().getIdentifier(uri, null, getPackageName());
                                 Drawable res = getResources().getDrawable(imageResource);
@@ -670,15 +671,7 @@ public class pregledJednogOglasa extends AppCompatActivity {
     }
 
     public void onBackPressed(){
-        if(startedfrom == null){
-            finish();
-        }
-        else{
-            Intent i = new Intent(pregledJednogOglasa.this, Glavni_ekran.class);
-            i.putExtra("fragment","pocetni");
-            startActivity(i);
-            startedfrom = null;
-        }
+        finish();
     }
 
     @Override

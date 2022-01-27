@@ -60,14 +60,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             Glide.with(mContext).load(imageurl).into(holder.profile_image);
         }
 
-        /*
-        Log.e("Tip2", ""+position);
-        Log.e("Tip1", ""+mChat.size());
-        boolean t =  position<(mChat.size()-1);
-        Log.e("Tip1", ""+t);
-        */
-
-
         if(position<(mChat.size()-1)){
             if(getItemViewType(position) == getItemViewType(position+1)){
                 holder.profile_image.setVisibility(View.INVISIBLE);
