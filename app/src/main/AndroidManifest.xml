@@ -20,7 +20,10 @@
         android:theme="@style/Theme.TourMe">
         <activity
             android:name=".termsAndConditions"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
         <activity
             android:name=".sacuvaniOglasi"
             android:exported="false"
